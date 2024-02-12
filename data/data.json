@@ -1,632 +1,515 @@
 [
   {
-    "Block": 828515,
-    "Time": "02/02/2024 8:39",
-    "Amount": "+0.00011588 BTC (5 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17897025 BTC",
-    "USD @ Price": "$2",
-    "Profit": 994
+    "Block": 827628,
+    "Time": "2024-01-27 14:44:00",
+    "Amount": "+0.00000546 BTC (0.23 USD)",
+    "Balance": 19,
+    "Balance__1": "678.8313391 BTC",
+    "USD_Price": "$821",
+    "Profit": 893
   },
   {
-    "Block": 827270,
-    "Time": "25/01/2024 8:05",
-    "Amount": "+0.00000546 BTC (0.22 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17885437 BTC",
-    "USD @ Price": "$2",
-    "Profit": 776
-  },
-  {
-    "Block": 798520,
-    "Time": "13/07/2023 14:36",
-    "Amount": "+0.00000966 BTC (0.29 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17884891 BTC",
-    "USD @ Price": "$2",
-    "Profit": 118
-  },
-  {
-    "Block": 791370,
-    "Time": "25/05/2023 21:21",
-    "Amount": "+0.00000666 BTC (0.18 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17883925 BTC",
-    "USD @ Price": "$1",
-    "Profit": 833
-  },
-  {
-    "Block": 789833,
-    "Time": "15/05/2023 12:39",
-    "Amount": "+0.00000546 BTC (0.15 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17883259 BTC",
-    "USD @ Price": "$1",
-    "Profit": 899
-  },
-  {
-    "Block": 787137,
-    "Time": "27/04/2023 2:04",
-    "Amount": "+0.00000666 BTC (0.19 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17882713 BTC",
-    "USD @ Price": "$1",
-    "Profit": 975
-  },
-  {
-    "Block": 786706,
-    "Time": "23/04/2023 20:50",
-    "Amount": "+0.00000666 BTC (0.18 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17882047 BTC",
-    "USD @ Price": "$1",
-    "Profit": 906
-  },
-  {
-    "Block": 786665,
-    "Time": "23/04/2023 13:04",
-    "Amount": "+0.00000546 BTC (0.15 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17881381 BTC",
-    "USD @ Price": "$1",
-    "Profit": 914
-  },
-  {
-    "Block": 784081,
-    "Time": "05/04/2023 21:45",
-    "Amount": "+0.00000666 BTC (0.19 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17880835 BTC",
-    "USD @ Price": "$1",
-    "Profit": 951
-  },
-  {
-    "Block": 783431,
-    "Time": "01/04/2023 11:51",
-    "Amount": "+0.00012345 BTC (3.51 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17880169 BTC",
-    "USD @ Price": "$1",
-    "Profit": 973
-  },
-  {
-    "Block": 778959,
-    "Time": "02/03/2023 13:02",
-    "Amount": "+0.00000808 BTC (0.19 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17867824 BTC",
-    "USD @ Price": "$1",
-    "Profit": 622
-  },
-  {
-    "Block": 776806,
-    "Time": "16/02/2023 11:33",
-    "Amount": "+0.00000547 BTC (0.13 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17867016 BTC",
-    "USD @ Price": "$1",
-    "Profit": 708
-  },
-  {
-    "Block": 776373,
-    "Time": "13/02/2023 19:33",
-    "Amount": "+0.00000547 BTC (0.12 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17866469 BTC",
-    "USD @ Price": "$1",
-    "Profit": 494
-  },
-  {
-    "Block": 776069,
-    "Time": "11/02/2023 20:35",
-    "Amount": "+0.00000547 BTC (0.12 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17865922 BTC",
-    "USD @ Price": "$1",
-    "Profit": 502
-  },
-  {
-    "Block": 775933,
-    "Time": "10/02/2023 23:58",
-    "Amount": "+0.00000777 BTC (0.17 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17865375 BTC",
-    "USD @ Price": "$1",
-    "Profit": 496
-  },
-  {
-    "Block": 763679,
-    "Time": "18/11/2022 11:21",
-    "Amount": "+0.00003261 BTC (0.55 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17864598 BTC",
-    "USD @ Price": "$1",
-    "Profit": 163
-  },
-  {
-    "Block": 763579,
-    "Time": "17/11/2022 15:33",
-    "Amount": "+0.00015563 BTC (2.57 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17861337 BTC",
-    "USD @ Price": "$1",
-    "Profit": 144
-  },
-  {
-    "Block": 763511,
-    "Time": "17/11/2022 4:28",
-    "Amount": "+0.00001279 BTC (0.21 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17845774 BTC",
-    "USD @ Price": "$1",
-    "Profit": 151
-  },
-  {
-    "Block": 762430,
-    "Time": "09/11/2022 16:13",
-    "Amount": "+0.0000478 BTC (0.84 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17844495 BTC",
-    "USD @ Price": "$1",
-    "Profit": 219
-  },
-  {
-    "Block": 761838,
-    "Time": "05/11/2022 15:48",
-    "Amount": "+0.0016 BTC (34.05 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17839715 BTC",
-    "USD @ Price": "$1",
-    "Profit": 476
-  },
-  {
-    "Block": 760031,
-    "Time": "24/10/2022 2:48",
-    "Amount": "+0.00001554 BTC (0.3 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17679715 BTC",
-    "USD @ Price": "$1",
-    "Profit": 357
-  },
-  {
-    "Block": 759870,
-    "Time": "23/10/2022 1:48",
-    "Amount": "+0.00000546 BTC (0.1 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17678161 BTC",
-    "USD @ Price": "$1",
-    "Profit": 331
-  },
-  {
-    "Block": 755897,
-    "Time": "27/09/2022 12:10",
-    "Amount": "+0.00015741 BTC (3.18 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17677615 BTC",
-    "USD @ Price": "$1",
-    "Profit": 402
-  },
-  {
-    "Block": 741100,
-    "Time": "17/06/2022 1:52",
-    "Amount": "+0.000006 BTC (0.12 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17661874 BTC",
-    "USD @ Price": "$1",
-    "Profit": 408
-  },
-  {
-    "Block": 732304,
-    "Time": "17/04/2022 19:53",
-    "Amount": "+0.00000619 BTC (0.25 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17661274 BTC",
-    "USD @ Price": "$2",
-    "Profit": 791
-  },
-  {
-    "Block": 729943,
-    "Time": "01/04/2022 9:02",
-    "Amount": "+0.0000333 BTC (1.49 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17660655 BTC",
-    "USD @ Price": "$3",
-    "Profit": 100
-  },
-  {
-    "Block": 726431,
-    "Time": "08/03/2022 17:56",
-    "Amount": "+0.00000777 BTC (0.3 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17657325 BTC",
-    "USD @ Price": "$2",
-    "Profit": 668
-  },
-  {
-    "Block": 725590,
-    "Time": "02/03/2022 14:58",
-    "Amount": "+0.0001 BTC (4.37 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17656548 BTC",
-    "USD @ Price": "$3",
-    "Profit": "033"
-  },
-  {
-    "Block": 724426,
-    "Time": "22/02/2022 10:12",
-    "Amount": "+0.000507 BTC (18.83 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17646548 BTC",
-    "USD @ Price": "$2",
-    "Profit": 576
-  },
-  {
-    "Block": 720665,
-    "Time": "28/01/2022 1:56",
-    "Amount": "+0.00010546 BTC (3.93 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17595848 BTC",
-    "USD @ Price": "$2",
-    "Profit": 581
-  },
-  {
-    "Block": 710941,
-    "Time": "23/11/2021 9:37",
-    "Amount": "+0.00021006 BTC (11.76 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17585302 BTC",
-    "USD @ Price": "$3",
-    "Profit": 883
-  },
-  {
-    "Block": 708722,
-    "Time": "08/11/2021 4:18",
-    "Amount": "+0.0000032 BTC (0.21 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17564296 BTC",
-    "USD @ Price": "$4",
-    "Profit": 515
-  },
-  {
-    "Block": 708704,
-    "Time": "08/11/2021 1:53",
-    "Amount": "+0.0000032 BTC (0.21 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17563976 BTC",
-    "USD @ Price": "$4",
-    "Profit": 450
-  },
-  {
-    "Block": 708489,
-    "Time": "06/11/2021 16:44",
-    "Amount": "+0.00007146 BTC (4.34 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17563656 BTC",
-    "USD @ Price": "$4",
-    "Profit": 209
-  },
-  {
-    "Block": 708484,
-    "Time": "06/11/2021 15:27",
-    "Amount": "+0.00002455 BTC (1.49 USD)",
-    "Balance": 69,
-    "Balance__1": "370.1755651 BTC",
-    "USD @ Price": "$4",
-    "Profit": 197
-  },
-  {
-    "Block": 706719,
-    "Time": "26/10/2021 4:34",
-    "Amount": "+0.00009774 BTC (6.14 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17554055 BTC",
-    "USD @ Price": "$4",
-    "Profit": 354
-  },
-  {
-    "Block": 705623,
-    "Time": "19/10/2021 4:11",
-    "Amount": "+0.00004498 BTC (2.78 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17544281 BTC",
-    "USD @ Price": "$4",
-    "Profit": 288
-  },
-  {
-    "Block": 705613,
-    "Time": "19/10/2021 2:03",
-    "Amount": "+0.00006734 BTC (4.17 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17539783 BTC",
-    "USD @ Price": "$4",
-    "Profit": 299
-  },
-  {
-    "Block": 693889,
-    "Time": "02/08/2021 21:18",
-    "Amount": "+0.00146753 BTC (57.99 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17533049 BTC",
-    "USD @ Price": "$2",
-    "Profit": 741
-  },
-  {
-    "Block": 693648,
-    "Time": "01/08/2021 5:21",
-    "Amount": "+0.00007448 BTC (3.13 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17386296 BTC",
-    "USD @ Price": "$2",
-    "Profit": 916
-  },
-  {
-    "Block": 690007,
-    "Time": "07/07/2021 11:51",
-    "Amount": "+0.00000547 BTC (0.19 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17378848 BTC",
-    "USD @ Price": "$2",
-    "Profit": 411
-  },
-  {
-    "Block": 681486,
-    "Time": "02/05/2021 10:38",
-    "Amount": "+0.00000547 BTC (0.31 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17378301 BTC",
-    "USD @ Price": "$3",
-    "Profit": 918
-  },
-  {
-    "Block": 678567,
-    "Time": "10/04/2021 8:11",
-    "Amount": "+0.00000547 BTC (0.33 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17377754 BTC",
-    "USD @ Price": "$4",
-    "Profit": 211
-  },
-  {
-    "Block": 675260,
-    "Time": "19/03/2021 5:59",
-    "Amount": "+0.00000547 BTC (0.32 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17377207 BTC",
-    "USD @ Price": "$4",
-    "Profit": "016"
-  },
-  {
-    "Block": 673005,
-    "Time": "03/03/2021 18:04",
-    "Amount": "+0.00000547 BTC (0.28 USD)",
-    "Balance": 69,
-    "Balance__1": "370.1737666 BTC",
-    "USD @ Price": "$3",
-    "Profit": 542
-  },
-  {
-    "Block": 671553,
-    "Time": "21/02/2021 13:39",
-    "Amount": "+0.00000547 BTC (0.31 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17376113 BTC",
-    "USD @ Price": "$3",
-    "Profit": 969
-  },
-  {
-    "Block": 668319,
-    "Time": "30/01/2021 8:59",
-    "Amount": "+0.00000547 BTC (0.18 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17375566 BTC",
-    "USD @ Price": "$2",
-    "Profit": 336
-  },
-  {
-    "Block": 666381,
-    "Time": "16/01/2021 23:12",
-    "Amount": "+0.000182 BTC (6.52 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17375019 BTC",
-    "USD @ Price": "$2",
-    "Profit": 484
-  },
-  {
-    "Block": 665071,
-    "Time": "08/01/2021 5:56",
-    "Amount": "+0.00000547 BTC (0.21 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17356819 BTC",
-    "USD @ Price": "$2",
-    "Profit": 676
-  },
-  {
-    "Block": 662464,
-    "Time": "22/12/2020 9:14",
-    "Amount": "+0.00000547 BTC (0.12 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17356272 BTC",
-    "USD @ Price": "$1",
-    "Profit": 565
-  },
-  {
-    "Block": 660107,
-    "Time": "05/12/2020 22:51",
-    "Amount": "+0.00002615 BTC (0.5 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17355725 BTC",
-    "USD @ Price": "$1",
-    "Profit": 322
-  },
-  {
-    "Block": 658862,
-    "Time": "27/11/2020 7:04",
-    "Amount": "+0.00000547 BTC (0.09 USD)",
-    "Balance": 69,
-    "Balance__1": "370.1735311 BTC",
-    "USD @ Price": "$1",
-    "Profit": 193
-  },
-  {
-    "Block": 658004,
-    "Time": "21/11/2020 17:06",
-    "Amount": "+0.00010629 BTC (1.99 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17352563 BTC",
-    "USD @ Price": "$1",
-    "Profit": 300
-  },
-  {
-    "Block": 656087,
-    "Time": "09/11/2020 8:35",
-    "Amount": "+0.00036005 BTC (5.55 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17341934 BTC",
-    "USD @ Price": "$1",
+    "Block": 826333,
+    "Time": "2024-01-19 01:52:26",
+    "Amount": "+0.00000546 BTC (0.23 USD)",
+    "Balance": 19,
+    "Balance__1": "678.83133364 BTC",
+    "USD_Price": "$812",
     "Profit": "068"
   },
   {
-    "Block": 655926,
-    "Time": "08/11/2020 6:49",
-    "Amount": "+0.00000546 BTC (0.08 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17305929 BTC",
-    "USD @ Price": "$1",
-    "Profit": "041"
+    "Block": 825486,
+    "Time": "2024-01-12 18:57:42",
+    "Amount": "+0.00000546 BTC (0.24 USD)",
+    "Balance": 19,
+    "Balance__1": "678.83132818 BTC",
+    "USD_Price": "$857",
+    "Profit": 320
   },
   {
-    "Block": 655777,
-    "Time": "07/11/2020 5:07",
-    "Amount": "+0.00000911 BTC (0.14 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17305383 BTC",
-    "USD @ Price": "$1",
-    "Profit": "079"
+    "Block": 825371,
+    "Time": "2024-01-12 00:58:43",
+    "Amount": "+0.00000546 BTC (0.25 USD)",
+    "Balance": 19,
+    "Balance__1": "678.83132272 BTC",
+    "USD_Price": "$912",
+    "Profit": 344
   },
   {
-    "Block": 655755,
-    "Time": "07/11/2020 2:10",
-    "Amount": "+0.00000666 BTC (0.1 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17304472 BTC",
-    "USD @ Price": "$1",
-    "Profit": "085"
+    "Block": 817663,
+    "Time": "2023-11-20 16:42:58",
+    "Amount": "+0.00000885 BTC (0.33 USD)",
+    "Balance": 19,
+    "Balance__1": "678.83131726 BTC",
+    "USD_Price": "$733",
+    "Profit": 930
   },
   {
-    "Block": 655630,
-    "Time": "06/11/2020 6:24",
-    "Amount": "+0.000012 BTC (0.19 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17303806 BTC",
-    "USD @ Price": "$1",
-    "Profit": "081"
+    "Block": 810264,
+    "Time": "2023-10-02 09:15:34",
+    "Amount": "+0.000006 BTC (0.17 USD)",
+    "Balance": 19,
+    "Balance__1": "678.83130841 BTC",
+    "USD_Price": "$553",
+    "Profit": 829
   },
   {
-    "Block": 655522,
-    "Time": "05/11/2020 13:45",
-    "Amount": "+0.00003333 BTC (0.49 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17302606 BTC",
-    "USD @ Price": "$1",
-    "Profit": "021"
+    "Block": 802529,
+    "Time": "2023-08-10 19:06:13",
+    "Amount": "+0.00037679 BTC (11.1 USD)",
+    "Balance": 19,
+    "Balance__1": "678.83130241 BTC",
+    "USD_Price": "$579",
+    "Profit": 781
   },
   {
-    "Block": 655470,
-    "Time": "05/11/2020 4:55",
-    "Amount": "+0.00000547 BTC (0.08 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17299273 BTC",
-    "USD @ Price": "$991",
-    "Profit": 598
+    "Block": 796993,
+    "Time": "2023-07-03 13:04:30",
+    "Amount": "+1",
+    "Balance": "500 BTC (45",
+    "Balance__1": 940,
+    "USD_Price": "040.95 USD)",
+    "Profit": 19
   },
   {
-    "Block": 655434,
-    "Time": "04/11/2020 23:26",
-    "Amount": "+0.0001 BTC (1.41 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17298726 BTC",
-    "USD @ Price": "$977",
-    "Profit": 501
+    "Block": 796561,
+    "Time": "2023-06-30 16:01:39",
+    "Amount": "+1",
+    "Balance": "000 BTC (30",
+    "Balance__1": 877,
+    "USD_Price": "503.56 USD)",
+    "Profit": 18
   },
   {
-    "Block": 655414,
-    "Time": "04/11/2020 20:29",
-    "Amount": "+0.00000546 BTC (0.08 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17288726 BTC",
-    "USD @ Price": "$978",
-    "Profit": 862
+    "Block": 796391,
+    "Time": "2023-06-29 14:44:12",
+    "Amount": "+1",
+    "Balance": "000 BTC (30",
+    "Balance__1": 658,
+    "USD_Price": "278.98 USD)",
+    "Profit": 17
   },
   {
-    "Block": 655304,
-    "Time": "04/11/2020 4:12",
-    "Amount": "+0.00036588 BTC (5.06 USD)",
-    "Balance": 69,
-    "Balance__1": "370.1728818 BTC",
-    "USD @ Price": "$959",
-    "Profit": 945
+    "Block": 796390,
+    "Time": "2023-06-29 14:29:58",
+    "Amount": "+800 BTC (24",
+    "Balance": 526,
+    "Balance__1": "623.19 USD)",
+    "USD_Price": 16,
+    "Profit": "178.83092562 BTC"
   },
   {
-    "Block": 655300,
-    "Time": "04/11/2020 3:58",
-    "Amount": "+0.00000546 BTC (0.08 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17251592 BTC",
-    "USD @ Price": "$958",
-    "Profit": 505
+    "Block": 796389,
+    "Time": "2023-06-29 14:26:30",
+    "Amount": "+500 BTC (15",
+    "Balance": 329,
+    "Balance__1": "139.49 USD)",
+    "USD_Price": 15,
+    "Profit": "378.83092562 BTC"
   },
   {
-    "Block": 655294,
-    "Time": "04/11/2020 2:16",
-    "Amount": "+0.00493702 BTC (68.27 USD)",
-    "Balance": 69,
-    "Balance__1": "370.17251046 BTC",
-    "USD @ Price": "$959",
-    "Profit": 313
+    "Block": 796283,
+    "Time": "2023-06-28 16:27:36",
+    "Amount": "+368.54 BTC (11",
+    "Balance": 155,
+    "Balance__1": "502.96 USD)",
+    "USD_Price": 14,
+    "Profit": "878.83092562 BTC"
   },
   {
-    "Block": 655292,
-    "Time": "04/11/2020 1:59",
-    "Amount": "+0.00022179 BTC (3.1 USD)",
-    "Balance": 69,
-    "Balance__1": "370.16757344 BTC",
-    "USD @ Price": "$970",
-    "Profit": 976
+    "Block": 779756,
+    "Time": "2023-03-07 17:41:05",
+    "Amount": "-0.0102628 BTC (228.94 USD)",
+    "Balance": 14,
+    "Balance__1": "510.29092562 BTC",
+    "USD_Price": "$323",
+    "Profit": 697
   },
   {
-    "Block": 655291,
-    "Time": "04/11/2020 1:47",
-    "Amount": "+0.00007145 BTC (1 USD)",
-    "Balance": 69,
-    "Balance__1": "370.16735165 BTC",
-    "USD @ Price": "$970",
-    "Profit": 976
+    "Block": 779724,
+    "Time": "2023-03-07 13:38:25",
+    "Amount": "+0.01 BTC (223.78 USD)",
+    "Balance": 14,
+    "Balance__1": "510.30118842 BTC",
+    "USD_Price": "$324",
+    "Profit": 713
   },
   {
-    "Block": 655289,
-    "Time": "04/11/2020 1:11",
-    "Amount": "+0.001 BTC (14 USD)",
-    "Balance": 69,
-    "Balance__1": "370.1672802 BTC",
-    "USD @ Price": "$970",
-    "Profit": 976
+    "Block": 778815,
+    "Time": "2023-03-01 16:20:03",
+    "Amount": "-0.0102628 BTC (243.22 USD)",
+    "Balance": 14,
+    "Balance__1": "510.29118842 BTC",
+    "USD_Price": "$343",
+    "Profit": 886
   },
   {
-    "Block": 655283,
-    "Time": "03/11/2020 23:36",
-    "Amount": "+69",
-    "Balance": "369.1662802 BTC (954",
-    "Balance__1": 582,
-    "USD @ Price": "837.29 USD)",
-    "Profit": 69
+    "Block": 778649,
+    "Time": "2023-02-28 12:58:26",
+    "Amount": "+0.01 BTC (233.72 USD)",
+    "Balance": 14,
+    "Balance__1": "510.30145122 BTC",
+    "USD_Price": "$339",
+    "Profit": 138
   },
   {
-    "Block": 655282,
-    "Time": "03/11/2020 23:31",
-    "Amount": "+1 BTC (13",
-    "Balance": "760.91 USD)",
-    "Balance__1": "1 BTC",
-    "USD @ Price": "$13",
-    "Profit": "761 @ $13"
+    "Block": 728655,
+    "Time": "2022-03-23 15:25:01",
+    "Amount": "-0.00034394 BTC (14.51 USD)",
+    "Balance": 14,
+    "Balance__1": "510.29145122 BTC",
+    "USD_Price": "$611",
+    "Profit": 994
+  },
+  {
+    "Block": 726442,
+    "Time": "2022-03-08 19:56:58",
+    "Amount": "+0.000333 BTC (13 USD)",
+    "Balance": 14,
+    "Balance__1": "510.29179516 BTC",
+    "USD_Price": "$566",
+    "Profit": 368
+  },
+  {
+    "Block": 721189,
+    "Time": "2022-01-31 15:42:59",
+    "Amount": "+0.0006506 BTC (24.28 USD)",
+    "Balance": 14,
+    "Balance__1": "510.29146216 BTC",
+    "USD_Price": "$541",
+    "Profit": 611
+  },
+  {
+    "Block": 713242,
+    "Time": "2021-12-08 18:55:14",
+    "Amount": "+311 BTC (15",
+    "Balance": 677,
+    "Balance__1": "490.28 USD)",
+    "USD_Price": 14,
+    "Profit": "510.29081156 BTC"
+  },
+  {
+    "Block": 689528,
+    "Time": "2021-07-03 20:27:31",
+    "Amount": "+0.00000547 BTC (0.19 USD)",
+    "Balance": 14,
+    "Balance__1": "199.29081156 BTC",
+    "USD_Price": "$492",
+    "Profit": 627
+  },
+  {
+    "Block": 686809,
+    "Time": "2021-06-08 17:21:28",
+    "Amount": "+765 BTC (24",
+    "Balance": 112,
+    "Balance__1": "951.52 USD)",
+    "USD_Price": 14,
+    "Profit": "199.29080609 BTC"
+  },
+  {
+    "Block": 684973,
+    "Time": "2021-05-26 06:32:34",
+    "Amount": "+0.00000547 BTC (0.22 USD)",
+    "Balance": 13,
+    "Balance__1": "434.29080609 BTC",
+    "USD_Price": "$528",
+    "Profit": "052"
+  },
+  {
+    "Block": 684333,
+    "Time": "2021-05-20 20:24:47",
+    "Amount": "-599.87588848 BTC (23",
+    "Balance": 831,
+    "Balance__1": "231.27 USD)",
+    "USD_Price": 13,
+    "Profit": "434.29080062 BTC"
+  },
+  {
+    "Block": 682158,
+    "Time": "2021-05-06 06:48:40",
+    "Amount": "+0.00000547 BTC (0.31 USD)",
+    "Balance": 14,
+    "Balance__1": "034.1666891 BTC",
+    "USD_Price": "$802",
+    "Profit": 389
+  },
+  {
+    "Block": 680679,
+    "Time": "2021-04-26 12:41:42",
+    "Amount": "+900 BTC (48",
+    "Balance": "059",
+    "Balance__1": "314.82 USD)",
+    "USD_Price": 14,
+    "Profit": "034.16668363 BTC"
+  },
+  {
+    "Block": 679881,
+    "Time": "2021-04-20 11:50:59",
+    "Amount": "+0.00000547 BTC (0.3 USD)",
+    "Balance": 13,
+    "Balance__1": "134.16668363 BTC",
+    "USD_Price": "$724",
+    "Profit": 561
+  },
+  {
+    "Block": 677247,
+    "Time": "2021-04-01 06:48:01",
+    "Amount": "+0.00000547 BTC (0.32 USD)",
+    "Balance": 13,
+    "Balance__1": "134.16667816 BTC",
+    "USD_Price": "$776",
+    "Profit": 127
+  },
+  {
+    "Block": 676845,
+    "Time": "2021-03-29 15:18:08",
+    "Amount": "+4",
+    "Balance": "000 BTC (232",
+    "Balance__1": "098",
+    "USD_Price": "019.51 USD)",
+    "Profit": 13
+  },
+  {
+    "Block": 676842,
+    "Time": "2021-03-29 14:51:08",
+    "Amount": "+0.5 BTC (29",
+    "Balance": "039.38 USD)",
+    "Balance__1": 9,
+    "USD_Price": "134.16667269 BTC",
+    "Profit": "$530"
+  },
+  {
+    "Block": 674908,
+    "Time": "2021-03-16 18:58:42",
+    "Amount": "+0.00000547 BTC (0.3 USD)",
+    "Balance": 9,
+    "Balance__1": "133.66667269 BTC",
+    "USD_Price": "$506",
+    "Profit": 712
+  },
+  {
+    "Block": 672685,
+    "Time": "2021-03-01 13:09:08",
+    "Amount": "+0.00000547 BTC (0.26 USD)",
+    "Balance": 9,
+    "Balance__1": "133.66666722 BTC",
+    "USD_Price": "$436",
+    "Profit": 428
+  },
+  {
+    "Block": 671297,
+    "Time": "2021-02-19 19:09:12",
+    "Amount": "+0.1 BTC (5",
+    "Balance": "449.06 USD)",
+    "Balance__1": 9,
+    "USD_Price": "133.66666175 BTC",
+    "Profit": "$497"
+  },
+  {
+    "Block": 670347,
+    "Time": "2021-02-13 04:04:17",
+    "Amount": "+0.00000547 BTC (0.26 USD)",
+    "Balance": 9,
+    "Balance__1": "133.56666175 BTC",
+    "USD_Price": "$436",
+    "Profit": 114
+  },
+  {
+    "Block": 666972,
+    "Time": "2021-01-21 05:43:38",
+    "Amount": "+0.00000547 BTC (0.19 USD)",
+    "Balance": 9,
+    "Balance__1": "133.56665628 BTC",
+    "USD_Price": "$317",
+    "Profit": "032"
+  },
+  {
+    "Block": 662002,
+    "Time": "2020-12-19 07:06:54",
+    "Amount": "+0.00000547 BTC (0.13 USD)",
+    "Balance": 9,
+    "Balance__1": "133.56665081 BTC",
+    "USD_Price": "$210",
+    "Profit": 322
+  },
+  {
+    "Block": 658045,
+    "Time": "2020-11-21 23:39:14",
+    "Amount": "+0.00000547 BTC (0.1 USD)",
+    "Balance": 9,
+    "Balance__1": "133.56664534 BTC",
+    "USD_Price": "$170",
+    "Profit": "042"
+  },
+  {
+    "Block": 654942,
+    "Time": "2020-11-01 04:01:58",
+    "Amount": "+0.00000547 BTC (0.08 USD)",
+    "Balance": 9,
+    "Balance__1": "133.56663987 BTC",
+    "USD_Price": "$125",
+    "Profit": 276
+  },
+  {
+    "Block": 652246,
+    "Time": "2020-10-11 16:16:42",
+    "Amount": "+0.00000547 BTC (0.06 USD)",
+    "Balance": 9,
+    "Balance__1": "133.5666344 BTC",
+    "USD_Price": "$104",
+    "Profit": "004"
+  },
+  {
+    "Block": 648923,
+    "Time": "2020-09-18 15:24:29",
+    "Amount": "+0.00000547 BTC (0.06 USD)",
+    "Balance": 9,
+    "Balance__1": "133.56662893 BTC",
+    "USD_Price": "$100",
+    "Profit": 411
+  },
+  {
+    "Block": 645564,
+    "Time": "2020-08-27 18:39:22",
+    "Amount": "+1",
+    "Balance": "250 BTC (14",
+    "Balance__1": 169,
+    "USD_Price": "910.87 USD)",
+    "Profit": 9
+  },
+  {
+    "Block": 645551,
+    "Time": "2020-08-27 15:52:55",
+    "Amount": "+1",
+    "Balance": "250 BTC (14",
+    "Balance__1": 329,
+    "USD_Price": "457.55 USD)",
+    "Profit": 7
+  },
+  {
+    "Block": 645550,
+    "Time": "2020-08-27 15:46:47",
+    "Amount": "+1",
+    "Balance": "500 BTC (17",
+    "Balance__1": 195,
+    "USD_Price": "349.06 USD)",
+    "Profit": 6
+  },
+  {
+    "Block": 645509,
+    "Time": "2020-08-27 07:18:50",
+    "Amount": "+0.0000111 BTC (0.13 USD)",
+    "Balance": 5,
+    "Balance__1": "133.56662346 BTC",
+    "USD_Price": "$58",
+    "Profit": 393
+  },
+  {
+    "Block": 645343,
+    "Time": "2020-08-26 02:46:44",
+    "Amount": "+805.62793 BTC (9",
+    "Balance": 112,
+    "Balance__1": "623.56 USD)",
+    "USD_Price": 5,
+    "Profit": "133.56661236 BTC"
+  },
+  {
+    "Block": 644238,
+    "Time": "2020-08-18 09:34:18",
+    "Amount": "+0.00000547 BTC (0.07 USD)",
+    "Balance": 4,
+    "Balance__1": "327.93868236 BTC",
+    "USD_Price": "$53",
+    "Profit": "045"
+  },
+  {
+    "Block": 644018,
+    "Time": "2020-08-16 18:16:09",
+    "Amount": "-0.15055195 BTC (1",
+    "Balance": "787.87 USD)",
+    "Balance__1": 4,
+    "USD_Price": "327.93867689 BTC",
+    "Profit": "$51"
+  },
+  {
+    "Block": 644008,
+    "Time": "2020-08-16 17:27:14",
+    "Amount": "+2",
+    "Balance": "057.443 BTC (24",
+    "Balance__1": 334,
+    "USD_Price": "224.1 USD)",
+    "Profit": 4
+  },
+  {
+    "Block": 644007,
+    "Time": "2020-08-16 17:01:03",
+    "Amount": "+503.71 BTC (5",
+    "Balance": 951,
+    "Balance__1": "757.21 USD)",
+    "USD_Price": 2,
+    "Profit": "270.64622884 BTC"
+  },
+  {
+    "Block": 644006,
+    "Time": "2020-08-16 16:38:38",
+    "Amount": "+526.76 BTC (6",
+    "Balance": 224,
+    "Balance__1": "112.35 USD)",
+    "USD_Price": 1,
+    "Profit": "766.93622884 BTC"
+  },
+  {
+    "Block": 644004,
+    "Time": "2020-08-16 16:34:43",
+    "Amount": "+864.94 BTC (10",
+    "Balance": 219,
+    "Balance__1": "993.42 USD)",
+    "USD_Price": 1,
+    "Profit": "240.17622884 BTC"
+  },
+  {
+    "Block": 644002,
+    "Time": "2020-08-16 16:13:55",
+    "Amount": "+374.74 BTC (4",
+    "Balance": 427,
+    "Balance__1": "868.21 USD)",
+    "USD_Price": "375.23622884 BTC",
+    "Profit": "$4"
+  },
+  {
+    "Block": 643999,
+    "Time": "2020-08-16 15:53:45",
+    "Amount": "-0.0070418 BTC (83.06 USD)",
+    "Balance": "0.49622884 BTC",
+    "Balance__1": "$5",
+    "USD_Price": "853 @ $11",
+    "Profit": 795.06
+  },
+  {
+    "Block": 643986,
+    "Time": "2020-08-16 13:41:36",
+    "Amount": "+0.5 BTC (5",
+    "Balance": "890.74 USD)",
+    "Balance__1": "0.50327064 BTC",
+    "USD_Price": "$5",
+    "Profit": "929 @ $11"
+  },
+  {
+    "Block": 643871,
+    "Time": "2020-08-15 19:55:25",
+    "Amount": "-0.00255075 BTC (30.3 USD)",
+    "Balance": "0.00327064 BTC",
+    "Balance__1": "$39 @ $11",
+    "USD_Price": 880.48,
+    "Profit": "$49"
+  },
+  {
+    "Block": 561082,
+    "Time": "2019-02-01 17:46:33",
+    "Amount": "+0.00582139 BTC (20.12 USD)",
+    "Balance": "0.00582139 BTC",
+    "Balance__1": "$20 @ $3",
+    "USD_Price": 455.8,
+    "Profit": "$0"
   }
 ]
