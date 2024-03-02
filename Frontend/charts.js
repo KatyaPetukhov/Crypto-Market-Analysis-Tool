@@ -3,13 +3,35 @@ fetch('http://localhost:3001/get-bitcoin-history')
   .then((json) => createChart(json))
   .catch((err) => console.log(err))
 
+let chart = null;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const updateButton = document.getElementById('updateDatesBtn');
+    const fromDateInput = document.getElementById('fromDateInput');
+    const untilDateInput = document.getElementById('untilDateInput');
+    updateButton.onclick = () => {
+      const fromDate = new Date(fromDateInput.value);
+      const untilDate = new Date(untilDateInput.value);
+      const fromTimestamp = fromDate.getTime();
+      const untilTimestamp = untilDate.getTime();
+      fetch(`http://localhost:3001/get-bitcoin-history?from=${fromTimestamp}&until=${untilTimestamp}`)
+        .then((response) => response.json())
+        .then((json) => createChart(json))
+        .catch((err) => console.log(err))
+    }
+  });
+
+  
 
 const createChart = (data) => {
-  // console.log(data);
   const dataInfo = data.map((row) => parseFloat(row[4].replace(',', ''))).reverse();
-  // console.log(dataInfo);
   data.reverse();
-  let chart = new Chart(document.getElementById("chart"), {
+  if(chart !== null)
+  {
+    chart.destroy();
+    chart = null;
+  } 
+  chart = new Chart(document.getElementById("chart"), {
     type: "bar",
     options: {
       animation: false,
@@ -53,5 +75,5 @@ const createChart = (data) => {
       }
     }
   });
-  return chart;
+  
 };

@@ -27,8 +27,18 @@ app.use(cors());
 app.get('/get-wallet-data', (req, res) => {
   res.send(crawledWalletData);
 });
-app.get('/get-bitcoin-history', (req, res) => {
-  res.send(crawledBitcoinHistory);
+app.get('/get-bitcoin-history', async (req, res) => {
+  // get the from and until query parameters
+  const from = req.query.from;
+  const until = req.query.until;
+  // if both are present, filter the data
+  if(from && until)
+  {
+    crawlBitcoinHistory(from, until)
+    .then((data) => {res.send(data); return;}).catch((err) => {res.send("ERROR"); return;})
+  }
+  else
+    res.send(crawledBitcoinHistory);
 });
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
