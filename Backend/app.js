@@ -6,30 +6,44 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const { crawledData, crawlBitcoinTables } = require('./crawl');
+const { crawledWalletData, crawlBitcoinWallets, crawledBitcoinHistory, crawlBitcoinHistory, clearData } = require('./crawl');
 
-var expressApp = express();
-crawlBitcoinTables();
+var app = express();
 // view engine setup
-expressApp.set('views', path.join(__dirname, 'views'));
-expressApp.set('view engine', 'jade');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 
-expressApp.use(logger('dev'));
-expressApp.use(express.json());
-expressApp.use(express.urlencoded({ extended: false }));
-expressApp.use(cookieParser());
-expressApp.use(express.static(path.join(__dirname, 'public')));
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
-expressApp.use('/', indexRouter);
-expressApp.use('/users', usersRouter);
+// app.use('/', indexRouter);
+// app.use('/users', usersRouter);
+const cors = require('cors');
+app.use(cors());
 
+app.get('/get-wallet-data', (req, res) => {
+  res.send(crawledWalletData);
+});
+app.get('/get-bitcoin-history', (req, res) => {
+  res.send(crawledBitcoinHistory);
+});
 // catch 404 and forward to error handler
-expressApp.use(function(req, res, next) {
+app.use(function(req, res, next) {
   next(createError(404));
 });
 
+
+crawlBitcoinWallets();
+crawlBitcoinHistory();
+setInterval(() => {clearData(); crawlBitcoinWallets();}, 15 * 60 * 1000);
+setInterval(() => {clearData(); crawlBitcoinHistory();}, 15 * 60 * 1000);
+
+
 // error handler
-expressApp.use(function(err, req, res, next) {
+app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -38,7 +52,10 @@ expressApp.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-expressApp.get('/crawl', (req, res) => {
-  res.send(crawledData);
+
+
+app.listen(3001, () => {
+  console.log('Server is running on port 3001');
 });
-module.exports = expressApp;
+
+module.exports = app;

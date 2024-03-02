@@ -1,9 +1,45 @@
 const Crawler = require('crawler');
-const urls = ['https://bitinfocharts.com/bitcoin/address/3EMVdMehEq5SFipQ5UfbsfMsH223sSz9A9',];
-    // 'https://bitinfocharts.com/bitcoin/address/19D5J8c59P2bAkWKvxSYw8scD3KUNWoZ1C',]
-const crawledData = [];
+const walletURLs = ['https://bitinfocharts.com/bitcoin/address/3EMVdMehEq5SFipQ5UfbsfMsH223sSz9A9',];
+// 'https://bitinfocharts.com/bitcoin/address/19D5J8c59P2bAkWKvxSYw8scD3KUNWoZ1C',]
+const bitcoinInfoURL = ['https://finance.yahoo.com/quote/BTC-USD/history/'];
+let crawledWalletData = [];
+let crawledBitcoinHistory = [];
 
-const crawlBitcoinTables = () => {
+const crawlBitcoinWallets = () => {
+    console.log('Crawling...');
+    const crawler = new Crawler({
+        maxConnections: 10,
+        // This will be called for each crawled page
+        callback: (error, res, done) => {
+            if (error) {
+                console.log(error);
+            } else {                
+                const $ = res.$;
+                $('tr.trb').each(function() {
+                    const tdData = [];
+                    let isFirst = true;
+                    $(this).find('td').each(function() {
+                        if(isFirst) {
+                            tdData.push($(this).text().split(' ')[0]);
+                        } else {
+                            tdData.push($(this).text());
+                        }
+                        isFirst = false;
+                    });
+                    crawledWalletData.push(tdData);
+                    console.log(crawlBitcoinHistory)
+                });        
+            }
+            done();
+        }
+    });
+
+    walletURLs.forEach(url => {
+        crawler.queue(url);
+    });
+}
+
+const crawlBitcoinHistory = () => {
     const crawler = new Crawler({
         maxConnections: 10,
         // This will be called for each crawled page
@@ -12,35 +48,26 @@ const crawlBitcoinTables = () => {
                 console.log(error);
             } else {
                 const $ = res.$;
-                // console.log(res);
-                // console.log($('table').eq(2).html());
-                $('tr.trb').each(function() {
+                $('tr.BdT').each(function() {
+                    const tdData = [];
                     $(this).find('td').each(function() {
                         console.log($(this).text());
+                        tdData.push($(this).text());
                     });
-                    console.log('')
+                    crawledBitcoinHistory.push(tdData);
                 });
-                // const elements = $('tr.trb');
-                // for (const key in elements) {
-                //     console.log(key)
-                // }
-                // elements.for(element => {
-                //     element.children.forEach(child => {
-                //         console.log(child.innerHTML)
-                //     });
-                // });
-                // console.log(elements)
-                // $ is Cheerio by default
-                //a lean implementation of core jQuery designed specifically for the server
-                console.log($('title').text());
+                crawledBitcoinHistory.pop();         
+
             }
             done();
         }
-    });
-
-    urls.forEach(url => {
-        crawler.queue(url);
-    });
+    });  
+    crawler.queue(bitcoinInfoURL);
 }
 
-module.exports = {crawledData, crawlBitcoinTables};
+const clearData = () => {
+    crawledWalletData = [];
+    crawledBitcoinHistory = [];
+}
+
+module.exports = { crawledWalletData, crawlBitcoinWallets, crawledBitcoinHistory, crawlBitcoinHistory, clearData };
