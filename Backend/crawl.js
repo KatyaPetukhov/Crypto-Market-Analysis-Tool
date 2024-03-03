@@ -1,8 +1,11 @@
 const Crawler = require('crawler');
 const puppeteer = require("puppeteer");
 
-const walletURLs = ['https://bitinfocharts.com/bitcoin/address/3EMVdMehEq5SFipQ5UfbsfMsH223sSz9A9',];
-// 'https://bitinfocharts.com/bitcoin/address/19D5J8c59P2bAkWKvxSYw8scD3KUNWoZ1C',]
+const walletURLs = ['https://bitinfocharts.com/bitcoin/address/3EMVdMehEq5SFipQ5UfbsfMsH223sSz9A9',
+                    'https://bitinfocharts.com/bitcoin/address/1ucXXZQSEf4zny2HRwAQKtVpkLPTUKRtt',
+                    'https://bitinfocharts.com/bitcoin/address/19D5J8c59P2bAkWKvxSYw8scD3KUNWoZ1C',
+                ]
+
 const bitcoinInfoURL = 'https://finance.yahoo.com/quote/BTC-USD/history';
 let crawledWalletData = [];
 let crawledBitcoinHistory = [];
@@ -17,6 +20,7 @@ const crawlBitcoinWallets = () => {
                 console.log(error);
             } else {                
                 const $ = res.$;
+                const walletData = []
                 $('tr.trb').each(function() {
                     const tdData = [];
                     let isFirst = true;
@@ -28,8 +32,11 @@ const crawlBitcoinWallets = () => {
                         }
                         isFirst = false;
                     });
-                    crawledWalletData.push(tdData);
+                    walletData.push(tdData);
                 });        
+                const link = res.request.uri.href;
+                const names = link.split('/');
+                crawledWalletData.push({link: link, name: names[names.length - 1], data: walletData});
             }
             done();
         }

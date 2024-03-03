@@ -1,10 +1,31 @@
 // import data from "./data/data.json" assert {type: 'json'};
 // console.log(data);
+let currentIndex = 0;
+let wallets = [];
 
-
-const createTable = (data) => {
+document.addEventListener('DOMContentLoaded', () => {
+  const walletSelect = document.getElementById('walletSelect');
+  const walletLink = document.getElementById('walletLink');
+  walletLink.href = "https://bitinfocharts.com/bitcoin/address/3EMVdMehEq5SFipQ5UfbsfMsH223sSz9A9";
+  walletSelect.onchange = () => {
+    currentIndex = walletSelect.value;
+    walletLink.href = wallets[currentIndex].link;
     const div = document.getElementById("data_table");
-    // console.log(data);
+    div.innerHTML = "";
+    createTable();
+  };
+});
+const setData = (data) => {
+  wallets = data;
+  walletLink.href = wallets[0].link;
+  for (let i = 0; i < wallets.length; i++) {
+    walletSelect.appendChild(new Option(`Wallet ${i + 1}: ${wallets[i].name}`, i));
+  }
+  createTable();
+}
+const createTable = () => {
+    const div = document.getElementById("data_table");
+    console.log(wallets);
     
      let table = `<table><tr class = "text-left">`;
      table += `
@@ -16,7 +37,7 @@ const createTable = (data) => {
      <th class= "p-2">Profit</th>
      `;
      table += `</tr>`;
-       data.forEach((element,i) => {
+       wallets[currentIndex].data.forEach((element,i) => {
         // console.log(element);
          table += row(element, i);
        });
@@ -38,6 +59,6 @@ const createTable = (data) => {
 // fetch('./data/data.json')
 fetch('http://localhost:3001/get-wallet-data')
   .then((response) => response.json())
-  .then((json) => createTable(json))
+  .then((json) => setData(json))
   .catch((err) => console.log(err))
 
