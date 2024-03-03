@@ -39,7 +39,7 @@ app.get('/get-bitcoin-history', async (req, res) => {
   }
   else{
     console.log("Sending bitcoin history")
-    console.log(defaultBitcoinHistory)
+    // console.log(defaultBitcoinHistory)
     res.send(defaultBitcoinHistory);
   }
 });
