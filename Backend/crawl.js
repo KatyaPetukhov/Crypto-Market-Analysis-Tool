@@ -61,7 +61,9 @@ const crawlBitcoinHistory = async (from, until) => {
     } else if (!isSpecificPeriod || value > 8035200) {
         interval = "1wk";
     }
-    url = isSpecificPeriod ? `${bitcoinInfoURL}?period1=${from}&period2=${until}&interval=${interval}&filter=history&frequency=${interval}&includeAdjustedClose=true` : bitcoinInfoURL;
+    url = isSpecificPeriod 
+    ? `${bitcoinInfoURL}?period1=${from}&period2=${until}&interval=${interval}&filter=history&frequency=${interval}&includeAdjustedClose=true` 
+    : `${bitcoinInfoURL}?interval=${interval}&filter=history&frequency=${interval}&includeAdjustedClose=true`;
     console.log('Interval: ' + interval);
     console.log(url)
     const browser = await puppeteer.launch({ headless: true });
