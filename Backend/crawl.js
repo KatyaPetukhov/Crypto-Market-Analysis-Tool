@@ -59,7 +59,7 @@ const crawlBitcoinHistory = async (from, until) => {
     if (value > 63158400) {
         interval = "1mo";
     } else if (!isSpecificPeriod || value > 8035200) {
-        interval = "1w";
+        interval = "1wk";
     }
     url = isSpecificPeriod ? `${bitcoinInfoURL}?period1=${from}&period2=${until}&interval=${interval}&filter=history&frequency=${interval}&includeAdjustedClose=true` : bitcoinInfoURL;
     console.log('Interval: ' + interval);
