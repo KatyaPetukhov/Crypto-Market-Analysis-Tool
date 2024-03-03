@@ -53,7 +53,17 @@ const crawlBitcoinHistory = async (from, until) => {
     const retryAmount = isSpecificPeriod
       ? Math.max(((value - minimum) * (700 - 100)) / (maximum - minimum), 0) + 100
       : 100;
-    url = isSpecificPeriod ? `${bitcoinInfoURL}?period1=${from}&period2=${until}&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true` : bitcoinInfoURL;
+    
+    let interval = "1d";
+    // Calculate the interval such that the if the value is greater than 2 years, the interval is 1 month, if it is greater than 3 months the interval is 1 week, otherwise the interval is 1 day
+    if (value > 63158400) {
+        interval = "1mo";
+    } else if (!isSpecificPeriod || value > 8035200) {
+        interval = "1w";
+    }
+    url = isSpecificPeriod ? `${bitcoinInfoURL}?period1=${from}&period2=${until}&interval=${interval}&filter=history&frequency=${interval}&includeAdjustedClose=true` : bitcoinInfoURL;
+    console.log('Interval: ' + interval);
+    console.log(url)
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     let retries = 0;
@@ -79,7 +89,7 @@ const crawlBitcoinHistory = async (from, until) => {
   
     data.pop();
     crawledBitcoinHistory = data;
-    console.log(crawledBitcoinHistory)
+    // console.log(crawledBitcoinHistory)
     await browser.close();
   
     return data;
