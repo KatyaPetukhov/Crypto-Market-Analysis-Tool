@@ -18,7 +18,42 @@ let chart = null;
         .then((response) => response.json())
         .then((json) => createChart(json))
         .catch((err) => console.log(err))
-    }
+    };
+    fromDateInput.onchange = () => {
+      console.log(fromDateInput.value);
+      let fromDate = new Date(fromDateInput.value);
+      let untilDate = new Date(untilDateInput.value);
+      let now = new Date();
+      let minDate = new Date('2014-09-17');
+  
+      if (fromDate > untilDate) {
+          untilDateInput.value = fromDateInput.value;
+      }
+      else if (fromDate > now) {
+          fromDateInput.value = now.toISOString().split('T')[0];
+      }
+      else if (fromDate < minDate) {
+          fromDateInput.value = minDate.toISOString().split('T')[0];
+      }
+  };
+  
+  untilDateInput.onchange = () => {
+      console.log(untilDateInput.value);
+      let fromDate = new Date(fromDateInput.value);
+      let untilDate = new Date(untilDateInput.value);
+      let now = new Date();
+      let minDate = new Date('2014-09-17');
+  
+      if (untilDate < fromDate) {
+          untilDateInput.value = fromDateInput.value;
+      }
+      else if (untilDate > now) {
+          untilDateInput.value = now.toISOString().split('T')[0];
+      }
+      else if (untilDate < minDate) {
+          untilDateInput.value = minDate.toISOString().split('T')[0];
+      }
+  };
   });
 
   
