@@ -12,8 +12,8 @@ let chart = null;
     updateButton.onclick = () => {
       const fromDate = new Date(fromDateInput.value);
       const untilDate = new Date(untilDateInput.value);
-      const fromTimestamp = fromDate.getTime();
-      const untilTimestamp = untilDate.getTime();
+      const fromTimestamp = Math.floor(fromDate.getTime() / 1000);
+      const untilTimestamp = Math.floor(untilDate.getTime() / 1000);
       fetch(`http://localhost:3001/get-bitcoin-history?from=${fromTimestamp}&until=${untilTimestamp}`)
         .then((response) => response.json())
         .then((json) => createChart(json))
@@ -25,6 +25,7 @@ let chart = null;
 
 const createChart = (data) => {
   const dataInfo = data.map((row) => parseFloat(row[4].replace(',', ''))).reverse();
+  console.log(data.toReversed());
   data.reverse();
   if(chart !== null)
   {
