@@ -4,10 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-const { crawledWalletData, crawlBitcoinWallets, crawledBitcoinHistory, crawlBitcoinHistory, clearData } = require('./crawl');
-
+const { crawledWalletData, crawlBitcoinWallets,
+  crawledBitcoinHistory, crawlBitcoinHistory,
+  clearWalletData, clearBitcoinData } = require('./crawl');
+let defaultBitcoinHistory;
 var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,8 +19,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
 const cors = require('cors');
 app.use(cors());
 
@@ -28,28 +26,32 @@ app.get('/get-wallet-data', (req, res) => {
   res.send(crawledWalletData);
 });
 app.get('/get-bitcoin-history', async (req, res) => {
-  // get the from and until query parameters
   const from = req.query.from;
   const until = req.query.until;
-  // if both are present, filter the data
   if(from && until)
   {
+    console.log(until - from)
+    console.log("Crawling bitcoin history")
+    clearBitcoinData();
     crawlBitcoinHistory(from, until)
-    .then((data) => {res.send(data); return;}).catch((err) => {res.send("ERROR"); return;})
+      .then((data) => {res.send(data); return;})
+      .catch((err) => { console.log(err); res.send("ERROR"); return; })
   }
-  else
-    res.send(crawledBitcoinHistory);
+  else{
+    console.log("Sending bitcoin history")
+    console.log(defaultBitcoinHistory)
+    res.send(defaultBitcoinHistory);
+  }
 });
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-
 crawlBitcoinWallets();
-crawlBitcoinHistory();
-setInterval(() => {clearData(); crawlBitcoinWallets();}, 15 * 60 * 1000);
-setInterval(() => {clearData(); crawlBitcoinHistory();}, 15 * 60 * 1000);
+crawlBitcoinHistory().then((data) => { defaultBitcoinHistory = data; });
+setInterval(() => { clearWalletData(); crawlBitcoinWallets(); }, 15 * 60 * 1000);
+setInterval(() => { clearBitcoinData(); crawlBitcoinHistory().then((data) => { defaultBitcoinHistory = data; }); }, 15 * 60 * 1000);
 
 
 // error handler

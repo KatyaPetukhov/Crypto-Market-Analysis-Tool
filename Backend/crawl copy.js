@@ -1,6 +1,4 @@
 const Crawler = require('crawler');
-const puppeteer = require("puppeteer");
-
 const walletURLs = ['https://bitinfocharts.com/bitcoin/address/3EMVdMehEq5SFipQ5UfbsfMsH223sSz9A9',];
 // 'https://bitinfocharts.com/bitcoin/address/19D5J8c59P2bAkWKvxSYw8scD3KUNWoZ1C',]
 const bitcoinInfoURL = 'https://finance.yahoo.com/quote/BTC-USD/history';
@@ -40,49 +38,44 @@ const crawlBitcoinWallets = () => {
     });
 }
 
-const crawlBitcoinHistory = async (from, until) => {
-    let isSpecificPeriod = false;
-    if (from && until) {
-      isSpecificPeriod = true;
-    }
-    // minimum - month: 2678400
-    // maximum - all time: 298512000
-    const minimum = 2678400;
-    const maximum = 298512000;
-    const value = isSpecificPeriod ? until - from : minimum;
-    const retryAmount = isSpecificPeriod
-      ? Math.max(((value - minimum) * (700 - 100)) / (maximum - minimum), 0) + 100
-      : 100;
-    url = isSpecificPeriod ? `${bitcoinInfoURL}?period1=${from}&period2=${until}&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true` : bitcoinInfoURL;
-    const browser = await puppeteer.launch({ headless: true });
-    const page = await browser.newPage();
-    let retries = 0;
-  
-    await page.goto(url);
-  
-    await page.waitForSelector("table");
-  
-    while (retries < retryAmount) {
-      await page.keyboard.press("PageDown");
-  
-      await new Promise((resolve) => setTimeout(resolve, 1));   
-      retries++;
-    }
-  
-    const data = await page.evaluate(() => {
-      const tableRows = Array.from(document.querySelectorAll("tr.BdT"));
-      return tableRows.map((row) => {
-        const cells = Array.from(row.querySelectorAll("td"));
-        return cells.map((cell) => cell.innerText);
-      });
-    });
-  
-    data.pop();
-    crawledBitcoinHistory = data;
-    console.log(crawledBitcoinHistory)
-    await browser.close();
-  
-    return data;
+const crawlBitcoinHistory = (from, until) => {
+    return new Promise((resolve, reject) => {
+        const crawler = new Crawler({
+            maxConnections: 10,
+            // This will be called for each crawled page
+            callback: (error, res, done) => {
+                if (error) {
+                    // console.log(error);
+                    reject(error);
+                } else {
+                    const $ = res.$;
+                    $('tr.BdT').each(function() {
+                        const tdData = [];
+                        $(this).find('td').each(function() {
+                            // console.log($(this).text());
+                            tdData.push($(this).text());
+                        });
+                        crawledBitcoinHistory.push(tdData);
+                    });
+                    crawledBitcoinHistory.pop();         
+                    resolve(crawledBitcoinHistory);
+                }
+                done();
+            }
+        }); 
+        if(from && until) {
+            let url = `${bitcoinInfoURL}?period1=${from}&period2=${until}&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true`;
+            console.log(url);
+            crawler.queue(url);
+            // crawler.queue(`${bitcoinInfoURL}?from=${from}&until=${until}`);
+        }
+        else{
+            console.log(bitcoinInfoURL)
+            crawler.queue(bitcoinInfoURL);
+            // crawler.queue(bitcoinInfoURL);
+        }
+    })
+    
 }
 
 const clearWalletData = () => {
