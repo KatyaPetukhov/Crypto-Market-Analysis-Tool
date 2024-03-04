@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 const cors = require('cors');
-app.use(cors());
+app.use(cors({origin: '*', allowedHeaders: '*', methods: '*'}));
 
 app.get('/get-wallet-data', (req, res) => {
   res.send(crawledWalletData);

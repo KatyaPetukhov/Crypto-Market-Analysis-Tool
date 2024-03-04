@@ -57,7 +57,7 @@ const createTable = () => {
   }  
 
 // fetch('./data/data.json')
-fetch('http://localhost:3001/get-wallet-data')
+fetch('https://crypto-market-analysis-tool.vercel.app/get-wallet-data')
   .then((response) => response.json())
   .then((json) => setData(json))
   .catch((err) => console.log(err))
