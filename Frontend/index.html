@@ -16,7 +16,7 @@
         <div class="container mx-auto flex items-center">
             <a class="h-14 w-14 mr-4" href="index.html"><img src="img/logo/logo.svg" alt="logo"></a>
             
-            <a class="font-bold text-indigo-800 text-xl" href="index.html">Crypto Market Analysis Tool</a>
+            <a class="hidden md:block font-bold text-indigo-800 text-xl" href="index.html">Crypto Market Analysis Tool</a>
         </div>
         <div class="flex">
             <a class="text-gray-800 hover:text-gray-600 px-3" href="index.html">Home</a>
@@ -29,12 +29,20 @@
 <main class="container mx-auto px-6 py-8 ">
     <section class="mx-auto">
         <h2 class="text-2xl font-bold text-gray-800 my-6">Explore the Crypto World</h2>
-        <div class="mx-auto content-center">
-            From:
-            <input id="fromDateInput" type="date"/>
+        <div class="mx-auto flex flex-wrap items-end gap-6 mb-6">
+            <div>
+                From:
+                <input class="h-10 px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2" id="fromDateInput" type="date"/>
+            </div>
+            
+           <div> 
             Until:
-            <input id="untilDateInput" type="date"/>
-            <button id="updateDatesBtn" class="btn">Update Data</button>
+            <input class="h-10 px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2 " id="untilDateInput" type="date"/>
+        </div>
+            <div>
+                <button id="updateDatesBtn" class="btn h-10 px-5 w-full bg-blue-500 hover:bg-blue-700 text-white block p-2 rounded-lg">Update Data</button>
+
+            </div>
         </div>
         <canvas  id="chart"></canvas >
 
