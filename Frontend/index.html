@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="public/style.css">
+    <title>Crypto Market Analysis Tool</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="rates.js"></script>
+    <script src="charts.js"></script>
+
+</head>
+<body class="bg-gray-100">
+<nav class="bg-white shadow-md">
+    <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+        <div class="container mx-auto flex items-center">
+            <a class="h-14 w-14 mr-4" href="index.html"><img src="img/logo/logo.svg" alt="logo"></a>
+            
+            <a class="hidden md:block font-bold text-indigo-800 text-xl" href="index.html">Crypto Market Analysis Tool</a>
+        </div>
+        <div class="flex">
+            <a class="text-gray-800 hover:text-gray-600 px-3" href="index.html">Home</a>
+            <a class="text-gray-800 hover:text-gray-600 px-3" href="wallets.html">Wallets</a>
+            <a class="text-gray-800 hover:text-gray-600 px-3" href="#">About</a>
+            <!-- <a class="text-gray-800 hover:text-gray-600 px-3" href="#">Contact</a> -->
+        </div>
+    </div>
+</nav>
+<main class="container mx-auto px-6 py-8 ">
+    <section class="mx-auto">
+        <h2 class="text-2xl font-bold text-gray-800 my-6">Explore the Crypto World</h2>
+        <div class="mx-auto flex flex-wrap items-end gap-6 mb-6">
+            <div>
+                From:
+                <input class="h-10 px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2" id="fromDateInput" type="date"/>
+            </div>
+            
+           <div> 
+            Until:
+            <input class="h-10 px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2 " id="untilDateInput" type="date"/>
+        </div>
+            <div>
+                <button id="updateDatesBtn" class="btn h-10 px-5 w-full bg-blue-500 hover:bg-blue-700 text-white block p-2 rounded-lg">Update Data</button>
+
+            </div>
+        </div>
+        <canvas  id="chart"></canvas >
+
+
+
+        
+    </section>
+</main>
+
+<section class="bg-white py-8">
+
+                    <!-- Slider Container -->
+                    <div class="flex flex-col items-center px-8 mt-10 ">
+                      
+                        <!-- Slider Input -->
+                        <div disabled  max="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer "/>
+                    
+                        <!-- Labels -->
+                        
+                        <div id="rate_circles" class="w-full flex justify-between text-xs mx-auto">
+                            <span class="mt-1 text-base w-24 text-center transform -translate-y-3">
+                                <img src="./img/circle-solid.svg" alt="" class="w-6 mx-auto hidden">
+                            </span>
+                            <span class="mt-1 text-base w-24 text-center transform -translate-y-3">
+                                <img src="./img/circle-solid.svg" alt="" class="w-6 mx-auto hidden">
+                            </span>
+                            <span class="mt-1 text-base w-24 text-center transform -translate-y-3 ">
+                                <img src="./img/circle-solid.svg" alt="" class="w-6 mx-auto hidden">
+                            </span>
+                            <span class="mt-1 text-base w-24 text-center transform -translate-y-3 ">
+                                <img src="./img/circle-solid.svg" alt="" class="w-6 mx-auto hidden">
+                            </span>
+                            <span class="mt-1 text-base w-24 text-center transform -translate-y-3">
+                                <img src="./img/circle-solid.svg" alt="" class="w-6 mx-auto hidden">
+                            </span>
+                          </div>
+
+                        <div id="rate_labels" class="w-full flex justify-between text-xs ">
+                            <span class="mt-1 text-base w-24 text-center">Strong Buy</span>
+                            <span class="mt-1 text-base w-24 text-center">Buy</span>
+                            <span class="mt-1 text-base w-24 text-center">Hold</span>
+                            <span class="mt-1 text-base w-24 text-center">Underperform</span>
+                            <span class="mt-1 text-base w-24 text-center">Sell</span>
+                          </div>
+                    </div>
+              
+
+
+
+    <div class="container mx-auto px-6">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mt-28">Stay Updated</h2>
+        <h3 class="text-xl text-center text-gray-600">Subscribe for Latest Updates</h3>
+        <form class="flex flex-col justify-center mt-8 max-w-md mx-auto">
+            <input class="border rounded-md py-2 px-4 w-full" type="text" placeholder="Your Name" aria-label="Name" required>
+            <input class="border rounded-md py-2 px-4 w-full mt-4" type="email" placeholder="Your Email" aria-label="Email" required>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8" type="submit">Subscribe</button>
+        </form>
+    </div>
+</section>
+<footer class="bg-white py-6">
+    <div class="container mx-auto px-6 text-center">
+        <small><a class="text-blue-500 hover:text-blue-700" href="#">Privacy Policy</a> • <a class="text-blue-500 hover:text-blue-700" href="#">Terms of Service</a></small>
+    </footer>
+</body>
+</html>
