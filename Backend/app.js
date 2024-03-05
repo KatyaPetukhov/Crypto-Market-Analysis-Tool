@@ -36,11 +36,13 @@ app.get('/get-bitcoin-history', async (req, res) => {
     crawlBitcoinHistory(from, until)
       .then((data) => {res.send(data); return;})
       .catch((err) => { console.log(err); res.send("ERROR"); return; })
-  }
-  else{
-    console.log("Sending bitcoin history")
+    }
+    else{
+      console.log("Sending bitcoin history")
+      crawlBitcoinWallets().then((data) =>  {res.send(data); return;})
+      .catch((err) => { console.log(err); res.send("ERROR"); return; })
     // console.log(defaultBitcoinHistory)
-    res.send(defaultBitcoinHistory);
+    // res.send(defaultBitcoinHistory);
   }
 });
 // catch 404 and forward to error handler
@@ -48,10 +50,10 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-crawlBitcoinWallets();
-crawlBitcoinHistory().then((data) => { defaultBitcoinHistory = data; });
-setInterval(() => { clearWalletData(); crawlBitcoinWallets(); }, 15 * 60 * 1000);
-setInterval(() => { clearBitcoinData(); crawlBitcoinHistory().then((data) => { defaultBitcoinHistory = data; }); }, 15 * 60 * 1000);
+// crawlBitcoinWallets();
+// crawlBitcoinHistory().then((data) => { defaultBitcoinHistory = data; });
+// setInterval(() => { clearWalletData(); crawlBitcoinWallets(); }, 15 * 60 * 1000);
+// setInterval(() => { clearBitcoinData(); crawlBitcoinHistory().then((data) => { defaultBitcoinHistory = data; }); }, 15 * 60 * 1000);
 
 
 // error handler
