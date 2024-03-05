@@ -43,12 +43,15 @@ app.get('/get-bitcoin-history', async (req, res) => {
       console.log("Sending bitcoin history")
       crawlBitcoinWallets().then((data) =>  {res.send(data); return;})
       .catch((err) => { console.log(err); res.send("ERROR"); return; })
-    // console.log(defaultBitcoinHistory)
-    // res.send(defaultBitcoinHistory);
   }
 });
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", '*');
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
   next(createError(404));
 });
 
@@ -71,7 +74,7 @@ app.use(function(err, req, res, next) {
 
 
 app.listen(process.env.PORT || 3000, () => {
-  console.log('Server is running on port 3001');
+  console.log(`Server is running on port ${process.env.PORT || 3000}`);
 });
 
 module.exports = app;
