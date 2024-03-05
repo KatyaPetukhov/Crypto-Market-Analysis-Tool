@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const cors = require('cors');
 app.use(cors({origin: '*', allowedHeaders: '*', methods: '*'}));
 app.get('/', async (req, res) => {
-  res.send("Hello World");
+  res.send("<h1>Hello World</h1>");
 });
 app.get('/get-wallet-data', (req, res) => {
   res.send(crawledWalletData);
