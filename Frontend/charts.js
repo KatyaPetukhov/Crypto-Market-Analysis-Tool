@@ -1,4 +1,5 @@
-fetch('https://crypto-market-analysis-tool.vercel.app/get-bitcoin-history')
+const BACKEND_URL = 'https://crypto-market-analysis-tool-f12d66bb7184.herokuapp.com'
+fetch(`${BACKEND_URL}/get-bitcoin-history`)
   .then((response) => response.json())
   .then((json) => createChart(json))
   .catch((err) => console.log(err))
@@ -14,7 +15,7 @@ let chart = null;
       const untilDate = new Date(untilDateInput.value);
       const fromTimestamp = Math.floor(fromDate.getTime() / 1000);
       const untilTimestamp = Math.floor(untilDate.getTime() / 1000);
-      fetch(`https://crypto-market-analysis-tool.vercel.app/get-bitcoin-history?from=${fromTimestamp}&until=${untilTimestamp}`)
+      fetch(`${BACKEND_URL}/get-bitcoin-history?from=${fromTimestamp}&until=${untilTimestamp}`)
         .then((response) => response.json())
         .then((json) => createChart(json))
         .catch((err) => console.log(err))

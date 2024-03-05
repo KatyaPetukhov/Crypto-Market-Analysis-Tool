@@ -1,4 +1,4 @@
-// import data from "./data/data.json" assert {type: 'json'};
+const BACKEND_URL = 'https://crypto-market-analysis-tool-f12d66bb7184.herokuapp.com'
 // console.log(data);
 let currentIndex = 0;
 let wallets = [];
@@ -56,8 +56,7 @@ const createTable = () => {
         </tr>`
   }  
 
-// fetch('./data/data.json')
-fetch('https://crypto-market-analysis-tool.vercel.app/get-wallet-data')
+fetch(`${BACKEND_URL}/get-wallet-data`)
   .then((response) => response.json())
   .then((json) => setData(json))
   .catch((err) => console.log(err))
