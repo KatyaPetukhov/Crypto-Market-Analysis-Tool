@@ -73,7 +73,12 @@ const crawlBitcoinHistory = async (from, until) => {
     : `${bitcoinInfoURL}?interval=${interval}&filter=history&frequency=${interval}&includeAdjustedClose=true`;
     console.log('Interval: ' + interval);
     console.log(url)
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({
+        args: ["--no-sandbox", "--disable-setuid-sandbox", "--single-process", "--no-zygote"], 
+        executablePath: process.env.NODE_ENV === 'production' 
+        ? process.env.PUPPETEER_EXECUTABLE_PATH 
+        : puppeteer.executablePath(),
+    });
     const page = await browser.newPage();
     let retries = 0;
   
