@@ -1,12 +1,13 @@
-const BACKEND_URL = 'https://crypto-market-analysis-tool-f12d66bb7184.herokuapp.com'
-fetch(`${BACKEND_URL}/get-bitcoin-history`)
-  .then((response) => response.json())
-  .then((json) => createChart(json))
-  .catch((err) => console.log(err))
 
 let chart = null;
 
-  document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
+    const BACKEND_URL = 'https://crypto-market-analysis-tool-f12d66bb7184.herokuapp.com'
+    fetch(`${BACKEND_URL}/get-bitcoin-history`)
+      .then((response) => response.json())
+      .then((json) => createChart(json))
+      .catch((err) => console.log(err))
+
     const updateButton = document.getElementById('updateDatesBtn');
     const fromDateInput = document.getElementById('fromDateInput');
     const untilDateInput = document.getElementById('untilDateInput');
@@ -20,7 +21,7 @@ let chart = null;
         .then((json) => createChart(json))
         .catch((err) => console.log(err))
     };
-    fromDateInput.onchange = () => {
+    fromDateInput.onblur = () => {
       console.log(fromDateInput.value);
       let fromDate = new Date(fromDateInput.value);
       let untilDate = new Date(untilDateInput.value);
@@ -38,7 +39,7 @@ let chart = null;
       }
   };
   
-  untilDateInput.onchange = () => {
+  untilDateInput.onblur = () => {
       console.log(untilDateInput.value);
       let fromDate = new Date(fromDateInput.value);
       let untilDate = new Date(untilDateInput.value);
