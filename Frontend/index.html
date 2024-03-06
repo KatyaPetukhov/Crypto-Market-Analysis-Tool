@@ -30,24 +30,36 @@
     <section class="mx-auto">
         <h2 class="text-2xl font-bold text-gray-800 my-6">Explore the Crypto World</h2>
         <div class="mx-auto flex flex-wrap items-end gap-6 mb-6">
+            <div class="flex items-center justify-center">
+
+
+                
+            </div>
+            
             <div>
                 From:
                 <input class="h-10 px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2" id="fromDateInput" type="date"/>
             </div>
             
-           <div> 
-            Until:
-            <input class="h-10 px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2 " id="untilDateInput" type="date"/>
-        </div>
+            <div> 
+                Until:
+                <input class="h-10 px-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2 " id="untilDateInput" type="date"/>
+            </div>
             <div>
                 <button id="updateDatesBtn" class="btn h-10 px-5 w-full bg-blue-500 hover:bg-blue-700 text-white block p-2 rounded-lg">Update Data</button>
-
+                
             </div>
         </div>
+
+        <svg id="loading" class="animate-spin h-10 w-10 text-gray-500 text-center invisible" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle  cx="12" cy="12" r="10" stroke="#9b9b9b" stroke-width="3"></circle>
+            <clipPath id="cut-off-bottom">
+                <rect x="0" y="0" width="12" height="12" />
+            </clipPath>
+            <circle  cx="12" cy="12" r="10" stroke="#791bbd" stroke-width="4" clip-path="url(#cut-off-bottom)"></circle>
+        </svg>
+        
         <canvas  id="chart"></canvas >
-
-
-
         
     </section>
 </main>
