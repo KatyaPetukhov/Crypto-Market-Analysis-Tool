@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 const cors = require('cors');
-app.use(cors({origin: '*', allowedHeaders: '*', methods: '*'}));
+app.use(cors({ origin: '*', allowedHeaders: '*', methods: '*' }));
 app.get('/', async (req, res) => {
   res.send("<h1>Hello World</h1>");
 });
@@ -30,29 +30,28 @@ app.get('/get-wallet-data', (req, res) => {
 app.get('/get-bitcoin-history', async (req, res) => {
   const from = req.query.from;
   const until = req.query.until;
-  if(from && until)
-  {
+  if (from && until) {
     console.log(until - from)
     console.log("Crawling bitcoin history")
     clearBitcoinData();
     crawlBitcoinHistory(from, until)
-      .then((data) => {res.send(data); return;})
+      .then((data) => { res.send(data); return; })
       .catch((err) => { console.log(err); res.send("ERROR"); return; })
-    }
-    else{
-      console.log("Sending bitcoin history")
-      clearBitcoinData();
-      crawlBitcoinHistory().then((data) =>  {res.send(data); return;})
+  }
+  else {
+    console.log("Sending bitcoin history")
+    clearBitcoinData();
+    crawlBitcoinHistory().then((data) => { res.send(data); return; })
       .catch((err) => { console.log(err); res.send("ERROR"); return; })
   }
 });
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", '*');
-    res.header("Access-Control-Allow-Credentials", true);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
   next(createError(404));
 });
 
@@ -60,7 +59,7 @@ crawlBitcoinWallets();
 setInterval(() => { clearWalletData(); crawlBitcoinWallets(); }, 15 * 60 * 1000);
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
