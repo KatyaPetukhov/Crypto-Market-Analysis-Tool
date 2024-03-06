@@ -51,7 +51,7 @@ const crawlBitcoinWallets = async () => {
     });
 }
 
-const crawlBitcoinHistory = async (from, until) => {
+const crawlBitcoinHistory = async (from, until, tries) => {
     let isSpecificPeriod = false;
     if (from && until) {
         isSpecificPeriod = true;
@@ -115,7 +115,9 @@ const crawlBitcoinHistory = async (from, until) => {
     } catch (error) {
         console.log('Failed to crawl with puppeteer, trying again...');
         console.log(error);
-        return crawlBitcoinHistory(from, until);
+        if(tries < 5)
+            return crawlBitcoinHistory(from, until, tries ? tries + 1 : 1);
+        return [];
     }
 }
 
