@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const BACKEND_URL = 'https://crypto-market-analysis-tool-f12d66bb7184.herokuapp.com'
     loading = document.getElementById('loading');
     loading.classList.remove('invisible');
-    
+    loading.classList.add('block');
+
     fetch(`${BACKEND_URL}/get-bitcoin-history`)
     .then((response) => response.json())
     .then((json) => createChart(json))
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const fromTimestamp = Math.floor(fromDate.getTime() / 1000);
       const untilTimestamp = Math.floor(untilDate.getTime() / 1000);
       loading.classList.remove('invisible');
+      loading.classList.add('block');
       fetch(`${BACKEND_URL}/get-bitcoin-history?from=${fromTimestamp}&until=${untilTimestamp}`)
       .then((response) => response.json())
       .then((json) => createChart(json))
@@ -91,6 +93,7 @@ const setUpdateButtonDisabled = (btn, isDisabled) => {
 
 const createChart = (data) => {
   loading.classList.add('invisible');
+  loading.classList.remove('block');
   const dataInfo = data.map((row) => parseFloat(row[4].replace(',', ''))).reverse();
   console.log(data.toReversed());
   data.reverse();
