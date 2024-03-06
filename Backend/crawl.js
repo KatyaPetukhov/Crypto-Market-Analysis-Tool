@@ -77,40 +77,46 @@ const crawlBitcoinHistory = async (from, until) => {
         : `${bitcoinInfoURL}?interval=${interval}&filter=history&frequency=${interval}&includeAdjustedClose=true`;
     console.log('Interval: ' + interval);
     console.log(url)
-    const browser = await puppeteer.launch({
-        args: ["--no-sandbox", "--disable-setuid-sandbox"],
-        executablePath: process.env.NODE_ENV === 'production'
-            ? process.env.PUPPETEER_EXECUTABLE_PATH
-            : puppeteer.executablePath(),
-    });
-    const page = await browser.newPage();
-    let retries = 0;
-
-    await page.goto(url);
-
-    await page.waitForSelector("table");
-
-    while (retries < retryAmount) {
-        await page.keyboard.press("PageDown");
-
-        await new Promise((resolve) => setTimeout(resolve, 1));
-        retries++;
-    }
-
-    const data = await page.evaluate(() => {
-        const tableRows = Array.from(document.querySelectorAll("tr.BdT"));
-        return tableRows.map((row) => {
-            const cells = Array.from(row.querySelectorAll("td"));
-            return cells.map((cell) => cell.innerText);
+    try {        
+        const browser = await puppeteer.launch({
+            args: ["--no-sandbox", "--disable-setuid-sandbox"],
+            executablePath: process.env.NODE_ENV === 'production'
+                ? process.env.PUPPETEER_EXECUTABLE_PATH
+                : puppeteer.executablePath(),
         });
-    });
-
-    data.pop();
-    crawledBitcoinHistory = data;
-    // console.log(crawledBitcoinHistory)
-    await browser.close();
-
-    return data;
+        const page = await browser.newPage();
+        let retries = 0;
+    
+        await page.goto(url);
+    
+        await page.waitForSelector("table");
+    
+        while (retries < retryAmount) {
+            await page.keyboard.press("PageDown");
+    
+            await new Promise((resolve) => setTimeout(resolve, 1));
+            retries++;
+        }
+    
+        const data = await page.evaluate(() => {
+            const tableRows = Array.from(document.querySelectorAll("tr.BdT"));
+            return tableRows.map((row) => {
+                const cells = Array.from(row.querySelectorAll("td"));
+                return cells.map((cell) => cell.innerText);
+            });
+        });
+    
+        data.pop();
+        crawledBitcoinHistory = data;
+        // console.log(crawledBitcoinHistory)
+        await browser.close();
+    
+        return data;
+    } catch (error) {
+        console.log('Failed to crawl with puppeteer, trying again...');
+        console.log(error);
+        return crawlBitcoinHistory(from, until);
+    }
 }
 
 const clearWalletData = () => {
