@@ -6,7 +6,7 @@ interface InputDateProps {
 }
 
 const InputDate: React.FC<InputDateProps> = (props) => {
-  const [value, setValue] = useState<string>();
+  const [value, setValue] = useState<string>("");
   const onBlur = (dateString: string) => {
     let date = new Date(dateString);
     let minDate = new Date("2014-09-17");
