@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const fs = require('fs');
 const { crawledWalletData, crawlBitcoinWallets,
   crawledBitcoinHistory, crawlBitcoinHistory,
   clearWalletData, clearBitcoinData } = require('./crawl');
@@ -21,6 +22,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const cors = require('cors');
 app.use(cors({ origin: '*', allowedHeaders: '*', methods: '*' }));
+
+
+
+
+app.get('/api-doc', async (req, res) => {
+  res.send(JSON.parse(fs.readFileSync("swagger-output.json", "utf-8")));
+});
 app.get('/', async (req, res) => {
   res.send("<h1>Hello World</h1>");
 });
@@ -70,7 +78,7 @@ app.use(function (err, req, res, next) {
 });
 
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 3001, () => {
   console.log(`Server is running on port ${process.env.PORT || 3000}`);
 });
 
