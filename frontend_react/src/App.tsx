@@ -1,11 +1,12 @@
 import React from "react";
 import "./App.css";
+import Home from "./screens/Home";
 
 function App() {
   return (
-    <h1 className="text-3xl font-bold underline text-indigo-600 mt-10 text-end">
-      Simple React Typescript Tailwind Sample
-    </h1>
+    <div>
+      <Home></Home>
+    </div>
   );
 }
 
