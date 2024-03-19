@@ -26,7 +26,7 @@ app.use(cors({ origin: '*', allowedHeaders: '*', methods: '*' }));
 
 
 
-app.get('/api-doc', async (req, res) => {
+app.get('/api-docs', async (req, res) => {
   res.send(JSON.parse(fs.readFileSync("swagger-output.json", "utf-8")));
 });
 app.get('/', async (req, res) => {
