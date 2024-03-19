@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import Button from "./Button";
 import InputDate from "./InputDate";
 import Loading from "./Loading";
+import { Line } from "react-chartjs-2";
+import { useGetGetBitcoinHistoryQuery } from "../redux/Api";
 
 const Chart = () => {
   const [fromDate, setFromDate] = useState<Date>();
   const [untilDate, setUntilDate] = useState<Date>();
+  const { isLoading, data } = useGetGetBitcoinHistoryQuery({});
+  console.log(data);
+
   return (
     <main className="container mx-auto px-6 py-8 ">
       <section className="mx-auto">
@@ -31,8 +36,9 @@ const Chart = () => {
             ></Button>
           </div>
         </div>
-        <Loading></Loading>
+        <Loading isLoading={isLoading}></Loading>
 
+        {/* <Line data={[]}></Line> */}
         <canvas id="chart"></canvas>
       </section>
     </main>
