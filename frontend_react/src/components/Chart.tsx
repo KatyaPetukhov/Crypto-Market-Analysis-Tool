@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "./Button";
 import InputDate from "./InputDate";
+import Loading from "./Loading";
 
 const Chart = () => {
   const [fromDate, setFromDate] = useState<Date>();
@@ -30,34 +31,7 @@ const Chart = () => {
             ></Button>
           </div>
         </div>
-        <div className="w-full">
-          <svg
-            id="loading"
-            className="animate-spin h-10 w-1 text-gray-500 text-center invisible block mx-auto"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 26 26"
-          >
-            <circle
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="#9b9b9b"
-              stroke-width="3"
-            ></circle>
-            <clipPath id="cut-off-bottom">
-              <rect x="0" y="0" width="12" height="12" />
-            </clipPath>
-            <circle
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="#791bbd"
-              stroke-width="3"
-              clip-path="url(#cut-off-bottom)"
-            ></circle>
-          </svg>
-        </div>
+        <Loading></Loading>
 
         <canvas id="chart"></canvas>
       </section>
