@@ -1,13 +1,16 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
     <nav className="bg-white shadow-md">
-      <div className="container mx-auto px-6 py-3 flex justify-between items-center">
+      <div className="container mx-auto px-6 py-3 flex justify-between items-center w-full">
         <div className="container mx-auto flex items-center">
-          <a className="h-14 w-14 mr-4" href="index.html">
-            <img src="img/logo/logo.svg" alt="logo" />
-          </a>
+          <Link to="/">
+            <p className="text-gray-800 hover:text-gray-600 px-3">
+              <img className="h-14 w-14" src="img/logo/logo.svg" alt="logo" />
+            </p>
+          </Link>
 
           <a
             className="hidden md:block font-bold text-indigo-800 text-xl"
@@ -17,18 +20,14 @@ const Header = () => {
           </a>
         </div>
         <div className="flex">
-          <a
-            className="text-gray-800 hover:text-gray-600 px-3"
-            href="index.html"
-          >
-            Home
-          </a>
-          <a
-            className="text-gray-800 hover:text-gray-600 px-3"
-            href="wallets.html"
-          >
-            Wallets
-          </a>
+          <Link to="/">
+            <p className="text-gray-800 hover:text-gray-600 px-3">Home</p>
+          </Link>
+
+          <Link to="/wallet">
+            <p className="text-gray-800 hover:text-gray-600 px-3">Wallets</p>
+          </Link>
+
           <a className="text-gray-800 hover:text-gray-600 px-3" href="#">
             About
           </a>
