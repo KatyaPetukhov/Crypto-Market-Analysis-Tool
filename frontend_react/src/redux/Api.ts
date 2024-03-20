@@ -35,9 +35,9 @@ export type GetApiDocApiResponse = unknown;
 export type GetApiDocApiArg = void;
 export type $getApiResponse = unknown;
 export type $getApiArg = void;
-export type GetGetWalletDataApiResponse = unknown;
+export type GetGetWalletDataApiResponse = any[];
 export type GetGetWalletDataApiArg = void;
-export type GetGetBitcoinHistoryApiResponse = unknown;
+export type GetGetBitcoinHistoryApiResponse = any[];
 export type GetGetBitcoinHistoryApiArg = {
   from?: string;
   until?: string;
