@@ -18,8 +18,12 @@ const InputDate: React.FC<InputDateProps> = (props) => {
     } else if (date > untilDate) {
       date = untilDate;
     }
-    setValue(date.toISOString().split("T")[0]);
-    props.setDate(date);
+    if (date == undefined) {
+      setValue("");
+    } else {
+      setValue(date.toISOString().split("T")[0]);
+      props.setDate(date);
+    }
   };
 
   return (
