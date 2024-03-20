@@ -1,12 +1,11 @@
 import React from "react";
 import Header from "../components/Header";
-import Chart from "../components/Chart";
-import Prediction from "../components/Prediction";
+import Chart from "../features/Chart";
+import Prediction from "../features/Prediction";
 
 const Home = () => {
   return (
-    <div className="bg-gray-100">
-      <Header></Header>
+    <div>
       <Chart></Chart>
       <Prediction></Prediction>
 
