@@ -1,8 +1,31 @@
+//"Black Box" function, not implemented yet.
+//This block needs to get wallets history info and build Bitcoin predictions according
+// to this info by AI.
+//On this level we don't do implementation to this, so it creates random prediction.
+
 import React from "react";
+import { useGetGetWalletDataQuery } from "../redux/Api";
+
+function getRandomNumber() {
+  return Math.floor(Math.random() * 5);
+}
+
+interface PredictionCircleProps {
+  isHidden: boolean;
+}
 
 const Prediction = () => {
+  const { data } = useGetGetWalletDataQuery();
+  const circles: boolean[] = new Array(5).fill(true);
+  const setData = (data: any) => {
+    circles[getRandomNumber()] = false;
+    // TODO: Implement AI prediction...
+  };
+  setData(circles);
+
   return (
     <section className="bg-white py-8">
+      <h3 className="text-center">Prediction for today:</h3>
       <div className="flex flex-col items-center px-8 mt-10 ">
         <input
           disabled
@@ -14,41 +37,9 @@ const Prediction = () => {
           id="rate_circles"
           className="w-full flex justify-between text-xs mx-auto"
         >
-          <span className="mt-1 text-base w-24 text-center transform -translate-y-3">
-            <img
-              src="./img/circle-solid.svg"
-              alt=""
-              className="w-6 mx-auto hidden"
-            />
-          </span>
-          <span className="mt-1 text-base w-24 text-center transform -translate-y-3">
-            <img
-              src="./img/circle-solid.svg"
-              alt=""
-              className="w-6 mx-auto hidden"
-            />
-          </span>
-          <span className="mt-1 text-base w-24 text-center transform -translate-y-3 ">
-            <img
-              src="./img/circle-solid.svg"
-              alt=""
-              className="w-6 mx-auto hidden"
-            />
-          </span>
-          <span className="mt-1 text-base w-24 text-center transform -translate-y-3 ">
-            <img
-              src="./img/circle-solid.svg"
-              alt=""
-              className="w-6 mx-auto hidden"
-            />
-          </span>
-          <span className="mt-1 text-base w-24 text-center transform -translate-y-3">
-            <img
-              src="./img/circle-solid.svg"
-              alt=""
-              className="w-6 mx-auto hidden"
-            />
-          </span>
+          {circles.map((value) => {
+            return <PredictionCircle isHidden={value} />;
+          })}
         </div>
 
         <div id="rate_labels" className="w-full flex justify-between text-xs ">
@@ -60,6 +51,15 @@ const Prediction = () => {
         </div>
       </div>
     </section>
+  );
+};
+
+const PredictionCircle: React.FC<PredictionCircleProps> = (props) => {
+  const classes = props.isHidden ? "w-6 mx-auto hidden" : "w-6 mx-auto";
+  return (
+    <span className="mt-1 text-base w-24 text-center transform -translate-y-5">
+      <img src="./img/circle-solid.svg" alt="" className={classes} />
+    </span>
   );
 };
 
