@@ -1,24 +1,19 @@
+import { MongoClient, Db } from 'mongodb';
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://omeciano:rNcgSXyfsstDfLWZ@cluster0.neigmyc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-const collectionName = 'mails';
+const uri: string = "mongodb+srv://omeciano:rNcgSXyfsstDfLWZ@cluster0.neigmyc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const collectionName: string = 'mails';
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
+const client: MongoClient = new MongoClient(uri, {
     serverApi: {
-        version: ServerApiVersion.v1,
+        version: '1',
         strict: true,
         deprecationErrors: true,
     }
 });
 
-
-const connectDB = async () => {
-
+const connectDB = async (): Promise<void> => {
     try {
-        // Connect the client to the server
         await client.connect();
-        // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
         console.log(
             "Pinged your deployment. You successfully connected to MongoDB!"
@@ -26,18 +21,15 @@ const connectDB = async () => {
     } catch (err) {
         console.error(err);
     }
-
 }
 
-
-const getAllMails = async () => {
+const getAllMails = async (): Promise<any[]> => {
     let collection = await db.collection(collectionName);
     let results = await collection.find({}).toArray();
     return results;
 }
 
-
-const addMail = async (mail, name) => {
+const addMail = async (mail: string, name: string): Promise<any> => {
     try {
         let newDocument = {
             name: name,
@@ -45,13 +37,13 @@ const addMail = async (mail, name) => {
         };
         let collection = await db.collection(collectionName);
         let result = await collection.insertOne(newDocument);
-        // res.send(result).status(204);
         return result;
     } catch (err) {
         console.error(err);
         return null;
     }
 }
-let db = client.db("crypto-tool");
 
-module.exports = { db, connectDB, addMail };
+let db: Db = client.db("crypto-tool");
+
+export { db, connectDB, addMail };

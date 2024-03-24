@@ -11,7 +11,7 @@
     "http"
   ],
   "paths": {
-    "/api-doc": {
+    "/api-docs": {
       "get": {
         "description": "",
         "responses": {
@@ -54,6 +54,35 @@
             "name": "until",
             "in": "query",
             "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/add-subscriber": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "until",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
         "responses": {
