@@ -21,6 +21,7 @@ const Wallet = () => {
           return i + 1 + ". " + wallet.name;
         })
       : [];
+  const walletLink = wallet !== undefined ? wallet.link : "";
   return (
     <section className="mx-auto container px-6 py-8">
       <h2 className="text-2xl font-bold text-gray-800 my-6">
@@ -42,7 +43,7 @@ const Wallet = () => {
               <Button
                 name={"Link to Wallet"}
                 onClick={() => {
-                  window.open(wallet.link);
+                  window.open(walletLink);
                 }}
               ></Button>
             </div>

@@ -1,3 +1,4 @@
+import { WalletData } from "../screens/Wallet";
 import { emptySplitApi as api } from "./EmptyApi";
 export const addTagTypes = [] as const;
 const injectedRtkApi = api
@@ -6,8 +7,8 @@ const injectedRtkApi = api
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      getApiDoc: build.query<GetApiDocApiResponse, GetApiDocApiArg>({
-        query: () => ({ url: `/api-doc` }),
+      getApiDocs: build.query<GetApiDocsApiResponse, GetApiDocsApiArg>({
+        query: () => ({ url: `/api-docs` }),
       }),
       $get: build.query<$getApiResponse, $getApiArg>({
         query: () => ({ url: `/` }),
@@ -27,24 +28,43 @@ const injectedRtkApi = api
           params: { from: queryArg["from"], until: queryArg.until },
         }),
       }),
+      postAddSubscriber: build.mutation<
+        PostAddSubscriberApiResponse,
+        PostAddSubscriberApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/add-subscriber`,
+          method: "POST",
+          body: queryArg.body,
+          params: { until: queryArg.until },
+        }),
+      }),
     }),
     overrideExisting: false,
   });
 export { injectedRtkApi as api };
-export type GetApiDocApiResponse = unknown;
-export type GetApiDocApiArg = void;
+export type GetApiDocsApiResponse = unknown;
+export type GetApiDocsApiArg = void;
 export type $getApiResponse = unknown;
 export type $getApiArg = void;
-export type GetGetWalletDataApiResponse = any[];
+export type GetGetWalletDataApiResponse = WalletData[];
 export type GetGetWalletDataApiArg = void;
 export type GetGetBitcoinHistoryApiResponse = any[];
 export type GetGetBitcoinHistoryApiArg = {
   from?: string;
   until?: string;
 };
+export type PostAddSubscriberApiResponse = unknown;
+export type PostAddSubscriberApiArg = {
+  until?: string;
+  body: {
+    name?: any;
+  };
+};
 export const {
-  useGetApiDocQuery,
+  useGetApiDocsQuery,
   use$getQuery,
   useGetGetWalletDataQuery,
   useGetGetBitcoinHistoryQuery,
+  usePostAddSubscriberMutation,
 } = injectedRtkApi;
