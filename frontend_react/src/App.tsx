@@ -5,6 +5,7 @@ import Home from "./screens/Home";
 import Prediction from "./features/Prediction";
 import Header from "./components/Header";
 import Wallet from "./screens/Wallet";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/wallet" element={<Wallet />} />
         </Routes>
       </div>
+      <Footer />
     </Router>
   );
 }
