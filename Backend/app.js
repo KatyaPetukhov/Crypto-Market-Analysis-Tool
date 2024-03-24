@@ -1,3 +1,5 @@
+
+const { db, connectDB, addMail } = require("./database");
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -21,10 +23,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 const cors = require('cors');
+const { log } = require("console");
 app.use(cors({ origin: '*', allowedHeaders: '*', methods: '*' }));
 
-
-
+// connectDB();
+addMail('lala', 'nana');
 
 app.get('/api-docs', async (req, res) => {
   res.send(JSON.parse(fs.readFileSync("swagger-output.json", "utf-8")));
@@ -53,6 +56,16 @@ app.get('/get-bitcoin-history', async (req, res) => {
       .catch((err) => { console.log(err); res.send("ERROR"); return; })
   }
 });
+
+app.post('/add-subscriber', async (req, res) => {
+  console.log(req.body);
+
+  const name = req.body.name;
+  const mail = req.query.until;
+  res.send('200');
+
+});
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
