@@ -20,6 +20,11 @@
 
 `npm run build`
 
+When running the app locally, change the `homepage` field in `package.json` to: **`"homepage": "http://localhost:3000/"`**
+
+When building the app to deploy, change the `homepage` field in `package.json` to: **`"homepage": "https://hadidanial.github.io/Crypto-Market-Analysis-Tool/frontend_react/build/"`**
+
+
 ### Swagger
 
 To create swagger data backend `npm run swagger`
