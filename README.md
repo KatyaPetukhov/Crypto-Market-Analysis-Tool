@@ -1,4 +1,4 @@
-## [Hosting Link](https://hadidanial.github.io/Crypto-Market-Analysis-Tool/Frontend)
+## [Hosting Link](https://hadidanial.github.io/Crypto-Market-Analysis-Tool/frontend_react/build/)
 
 ## Backend hosted on [Heroku](https://crypto-market-analysis-tool-f12d66bb7184.herokuapp.com/) (Node.js + Express.js + Puppeteer.js)
 
