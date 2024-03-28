@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
-const BASE_URL = 'http://localhost:3001/';
+const BASE_URL = 'https://crypto-market-analysis-tool-f12d66bb7184.herokuapp.com/';
 
 // Generic GET function
 async function get<T>(url: string, params?: any): Promise<T> {
