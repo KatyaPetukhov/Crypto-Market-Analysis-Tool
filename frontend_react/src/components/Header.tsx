@@ -12,12 +12,11 @@ const Header = () => {
             </p>
           </Link>
 
-          <a
-            className="hidden md:block font-bold text-indigo-800 text-xl"
-            href="index.html"
-          >
-            Crypto Market Analysis Tool
-          </a>
+          <Link to="/">
+            <p className="hidden md:block font-bold text-indigo-800 text-xl">
+              Crypto Market Analysis Tool
+            </p>
+          </Link>
         </div>
         <div className="flex">
           <Link to="/">
@@ -28,9 +27,9 @@ const Header = () => {
             <p className="text-gray-800 hover:text-gray-600 px-3">Wallets</p>
           </Link>
 
-          <a className="text-gray-800 hover:text-gray-600 px-3" href="#">
-            About
-          </a>
+          <Link to="/about">
+            <p className="text-gray-800 hover:text-gray-600 px-3">About</p>
+          </Link>
         </div>
       </div>
     </nav>
