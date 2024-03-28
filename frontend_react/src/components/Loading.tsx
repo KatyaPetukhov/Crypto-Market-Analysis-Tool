@@ -9,7 +9,7 @@ const Loading: React.FC<LoadingProps> = (props) => {
       <svg
         id="loading"
         className={`animate-spin h-10 w-10 text-gray-500 text-center block mx-auto ${
-          props.isLoading ? "invisible" : ""
+          !props.isLoading ? "invisible" : ""
         }`}
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

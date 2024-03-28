@@ -1,32 +1,33 @@
-const Crawler = require('crawler');
-const puppeteer = require("puppeteer");
+import Crawler from 'crawler';
+import puppeteer, { Browser, Page } from "puppeteer";
+import { WalletData } from './types';
 
-const walletURLs = ['https://bitinfocharts.com/bitcoin/address/3EMVdMehEq5SFipQ5UfbsfMsH223sSz9A9',
+const walletURLs: string[] = [
+    'https://bitinfocharts.com/bitcoin/address/3EMVdMehEq5SFipQ5UfbsfMsH223sSz9A9',
     'https://bitinfocharts.com/bitcoin/address/1ucXXZQSEf4zny2HRwAQKtVpkLPTUKRtt',
     'https://bitinfocharts.com/bitcoin/address/19D5J8c59P2bAkWKvxSYw8scD3KUNWoZ1C',
 ]
 
-const bitcoinInfoURL = 'https://finance.yahoo.com/quote/BTC-USD/history';
-let crawledWalletData = [];
-let crawledBitcoinHistory = [];
+const bitcoinInfoURL: string = 'https://finance.yahoo.com/quote/BTC-USD/history';
+let crawledWalletData: WalletData[] = [];
+let crawledBitcoinHistory: any[] = [];
 
-const crawlBitcoinWallets = async () => {
+const crawlBitcoinWallets = async (): Promise<WalletData[]> => {
     console.log('Crawling...');
     return new Promise((resolve, reject) => {
         const crawler = new Crawler({
             maxConnections: 10,
-            // This will be called for each crawled page
-            callback: (error, res, done) => {
+            callback: (error: Error, res: any, done: Function) => {
                 if (error) {
                     console.log(error);
                     reject(error);
                 } else {
                     const $ = res.$;
-                    const walletData = []
-                    $('tr.trb').each(function () {
-                        const tdData = [];
+                    const walletData: any[] = []
+                    $('tr.trb').each(function (this: any) {
+                        const tdData: any[] = [];
                         let isFirst = true;
-                        $(this).find('td').each(function () {
+                        $(this).find('td').each(function (this: any) {
                             if (isFirst) {
                                 tdData.push($(this).text().split(' ')[0]);
                             } else {
@@ -51,40 +52,37 @@ const crawlBitcoinWallets = async () => {
     });
 }
 
-const crawlBitcoinHistory = async (from, until, tries) => {
+const crawlBitcoinHistory = async (from?: number, until?: number, tries: number = 0): Promise<any[]> => {
     let isSpecificPeriod = false;
     if (from && until) {
         isSpecificPeriod = true;
     }
-    // minimum - month: 2678400
-    // maximum - all time: 298512000
     const minimum = 2678400;
     const maximum = 298512000;
-    const value = isSpecificPeriod ? until - from : minimum;
+    const value = isSpecificPeriod ? ((until || maximum) - (from || minimum)) : minimum;
     const retryAmount = isSpecificPeriod
         ? Math.max(((value - minimum) * (700 - 100)) / (maximum - minimum), 0) + 100
         : 100;
 
     let interval = "1d";
-    // Calculate the interval such that the if the value is greater than 2 years, the interval is 1 month, if it is greater than 3 months the interval is 1 week, otherwise the interval is 1 day
     if (value > 63158400) {
         interval = "1mo";
     } else if (!isSpecificPeriod || value > 8035200) {
         interval = "1wk";
     }
-    url = isSpecificPeriod
+    let url = isSpecificPeriod
         ? `${bitcoinInfoURL}?period1=${from}&period2=${until}&interval=${interval}&filter=history&frequency=${interval}&includeAdjustedClose=true`
         : `${bitcoinInfoURL}?interval=${interval}&filter=history&frequency=${interval}&includeAdjustedClose=true`;
     console.log('Interval: ' + interval);
     console.log(url)
     try {        
-        const browser = await puppeteer.launch({
+        const browser: Browser = await puppeteer.launch({
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
             executablePath: process.env.NODE_ENV === 'production'
                 ? process.env.PUPPETEER_EXECUTABLE_PATH
                 : puppeteer.executablePath(),
         });
-        const page = await browser.newPage();
+        const page: Page = await browser.newPage();
         let retries = 0;
     
         await page.goto(url);
@@ -108,7 +106,6 @@ const crawlBitcoinHistory = async (from, until, tries) => {
     
         data.pop();
         crawledBitcoinHistory = data;
-        // console.log(crawledBitcoinHistory)
         await browser.close();
     
         return data;
@@ -116,16 +113,16 @@ const crawlBitcoinHistory = async (from, until, tries) => {
         console.log('Failed to crawl with puppeteer, trying again...');
         console.log(error);
         if(tries < 5)
-            return crawlBitcoinHistory(from, until, tries ? tries + 1 : 1);
+            return crawlBitcoinHistory(from, until, tries + 1);
         return [];
     }
 }
 
-const clearWalletData = () => {
+const clearWalletData = (): void => {
     crawledWalletData = [];
 }
-const clearBitcoinData = () => {
+const clearBitcoinData = (): void => {
     crawledBitcoinHistory = [];
 }
 
-module.exports = { crawledWalletData, crawlBitcoinWallets, crawledBitcoinHistory, crawlBitcoinHistory, clearWalletData, clearBitcoinData };
+export { crawledWalletData, crawlBitcoinWallets, crawledBitcoinHistory, crawlBitcoinHistory, clearWalletData, clearBitcoinData };

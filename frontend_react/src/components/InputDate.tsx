@@ -8,6 +8,7 @@ interface InputDateProps {
 const InputDate: React.FC<InputDateProps> = (props) => {
   const [value, setValue] = useState<string>("");
   const onBlur = (dateString: string) => {
+    if (dateString === "") return;
     let date = new Date(dateString);
     let minDate = new Date("2014-09-17");
     let now = new Date();
@@ -18,8 +19,12 @@ const InputDate: React.FC<InputDateProps> = (props) => {
     } else if (date > untilDate) {
       date = untilDate;
     }
-    setValue(date.toISOString().split("T")[0]);
-    props.setDate(date);
+    if (date === undefined) {
+      setValue("");
+    } else {
+      setValue(date.toISOString().split("T")[0]);
+      props.setDate(date);
+    }
   };
 
   return (
