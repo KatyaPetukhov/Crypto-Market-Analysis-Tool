@@ -37,8 +37,8 @@ const Prediction = () => {
           id="rate_circles"
           className="w-full flex justify-between text-xs mx-auto"
         >
-          {circles.map((value) => {
-            return <PredictionCircle isHidden={value} />;
+          {circles.map((value, index) => {
+            return <PredictionCircle isHidden={value} key={index}/>;
           })}
         </div>
 
@@ -58,7 +58,7 @@ const PredictionCircle: React.FC<PredictionCircleProps> = (props) => {
   const classes = props.isHidden ? "w-6 mx-auto hidden" : "w-6 mx-auto";
   return (
     <span className="mt-1 text-base w-24 text-center transform -translate-y-5">
-      <img src="./img/circle-solid.svg" alt="" className={classes} />
+      <img src="img/circle-solid.svg" alt="" className={classes} />
     </span>
   );
 };
