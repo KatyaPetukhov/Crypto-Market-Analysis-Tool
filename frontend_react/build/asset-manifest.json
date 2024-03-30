@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Crypto-Market-Analysis-Tool/frontend_react/build/static/css/main.a4c53938.css",
-    "main.js": "/Crypto-Market-Analysis-Tool/frontend_react/build/static/js/main.abc2a244.js",
+    "main.css": "/Crypto-Market-Analysis-Tool/frontend_react/build/static/css/main.6ac68a7e.css",
+    "main.js": "/Crypto-Market-Analysis-Tool/frontend_react/build/static/js/main.0b569cff.js",
     "static/js/453.f6713f7b.chunk.js": "/Crypto-Market-Analysis-Tool/frontend_react/build/static/js/453.f6713f7b.chunk.js",
     "index.html": "/Crypto-Market-Analysis-Tool/frontend_react/build/index.html",
-    "main.a4c53938.css.map": "/Crypto-Market-Analysis-Tool/frontend_react/build/static/css/main.a4c53938.css.map",
-    "main.abc2a244.js.map": "/Crypto-Market-Analysis-Tool/frontend_react/build/static/js/main.abc2a244.js.map",
+    "main.6ac68a7e.css.map": "/Crypto-Market-Analysis-Tool/frontend_react/build/static/css/main.6ac68a7e.css.map",
+    "main.0b569cff.js.map": "/Crypto-Market-Analysis-Tool/frontend_react/build/static/js/main.0b569cff.js.map",
     "453.f6713f7b.chunk.js.map": "/Crypto-Market-Analysis-Tool/frontend_react/build/static/js/453.f6713f7b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a4c53938.css",
-    "static/js/main.abc2a244.js"
+    "static/css/main.6ac68a7e.css",
+    "static/js/main.0b569cff.js"
   ]
 }
