@@ -57,7 +57,7 @@ const Wallet = () => {
         </form>
       </div>
 
-      <div className="mx-auto px-6 py-8 ">
+      <div className="mx-auto md:px-6 py-8 ">
         <Loading isLoading={isLoading}></Loading>
         <WalletTable Wallet={wallet} />
         <img
