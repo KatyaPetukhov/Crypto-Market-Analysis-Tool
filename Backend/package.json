@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {   
-    "start": "node dist/index.js",
+    "start": "npx ts-node ./app.ts",
+    "start-server": "node dist/index.js",
     "postinstall": "tsc",
     "watch-node": "nodemon dist/index.js",
     "watch-ts": "tsc -w",

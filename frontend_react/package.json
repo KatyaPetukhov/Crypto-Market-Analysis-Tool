@@ -2,7 +2,7 @@
   "name": "frontend_react",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://hadidanial.github.io/Crypto-Market-Analysis-Tool/frontend_react/build/",
+  "homepage": "http://localhost:3000/frontend_react/build/",
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.1",
     "@rtk-query/codegen-openapi": "^1.2.0",

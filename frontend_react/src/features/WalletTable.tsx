@@ -11,11 +11,11 @@ const WalletTable: React.FC<WalletTableProps> = (props) => {
       <thead>
         <tr className="text-left">
           <th className="p-2">Block</th>
-          <th className="p-2">Time</th>
+          <th className="p-2 hidden md:block">Time</th>
           <th className="p-2">Amount</th>
           <th className="p-2">Balance</th>
           <th className="p-2">Balance USD</th>
-          <th className="p-2">Profit</th>
+          <th className="p-2 hidden md:block">Profit</th>
         </tr>
       </thead>
       <tbody key={"TableBody"}>
@@ -31,7 +31,7 @@ const WalletTable: React.FC<WalletTableProps> = (props) => {
               <td className="w-auto p-2 align-top border-b border-gray-200">
                 {row[0]}
               </td>
-              <td className="w-auto p-2 align-top border-b border-gray-200">
+              <td className="w-auto p-2 align-top border-b border-gray-200 hidden md:block">
                 {row[1]}
               </td>
               <td className={classes}>{row[2]}</td>
@@ -41,7 +41,7 @@ const WalletTable: React.FC<WalletTableProps> = (props) => {
               <td className="w-auto p-2 align-top border-b border-gray-200">
                 {row[4]}
               </td>
-              <td className="w-auto p-2 align-top border-b border-gray-200">
+              <td className="w-auto p-2 align-top border-b border-gray-200 hidden md:block">
                 {row[5]}
               </td>
             </tr>
