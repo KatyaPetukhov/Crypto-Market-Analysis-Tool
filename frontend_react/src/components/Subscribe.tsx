@@ -9,16 +9,16 @@ const Subscribe = () => {
 
   return (
     <div className="container mx-auto px-6">
-      <h2 className="text-2xl font-bold text-center text-gray-800 mt-20 ">
+      <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mt-20 ">
         Stay Updated
       </h2>
-      <h3 className="text-xl text-center text-gray-600">
+      <h3 className="text-xl text-center text-gray-600 dark:text-gray-300">
         Subscribe for Latest Updates
       </h3>
 
       <form className="flex flex-col justify-center mt-8 max-w-md mx-auto">
         <input
-          className="border rounded-md py-2 px-4 w-full"
+          className="border dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 rounded-md py-2 px-4 w-full"
           type="text"
           placeholder="Your Name"
           value={name}
@@ -29,7 +29,7 @@ const Subscribe = () => {
           }}
         />
         <input
-          className="border rounded-md py-2 px-4 w-full mt-4"
+          className="border dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 rounded-md py-2 px-4 w-full mt-4"
           type="email"
           placeholder="Your Email"
           value={mail}

@@ -10,7 +10,7 @@ function App() {
   return (
     <Router>
       <Header />
-      <div className="bg-gray-100">
+      <div className="bg-gray-100 dark:bg-gray-900">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/wallet" element={<Wallet />} />

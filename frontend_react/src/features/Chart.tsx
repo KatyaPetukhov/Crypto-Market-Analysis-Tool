@@ -89,7 +89,6 @@ const Chart = () => {
           {
             label: "Bitcoin Price History",
             data: dataSet,
-            // borderColor: "#837ce9",
             backgroundColor: "#9721eb",
           },
         ],
@@ -101,16 +100,16 @@ const Chart = () => {
 
   return (
     <section className="container mx-auto px-6 py-8">
-      <h2 className="text-2xl font-bold text-gray-800 my-6">
+      <h2 className="text-2xl font-bold text-gray-800 my-6 dark:text-gray-200">
         Explore the Crypto World
       </h2>
       <div className="mx-auto flex flex-wrap items-end gap-6 mb-6">
-        <div>
+        <div className=" dark:text-gray-100">
           From:
           <InputDate setDate={setFromDate} maxDate={untilDate} />
         </div>
 
-        <div>
+        <div className=" dark:text-gray-100">
           Until:
           <InputDate setDate={setUntilDate} minDate={fromDate} />
         </div>
