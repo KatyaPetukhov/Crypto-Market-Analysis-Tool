@@ -9,11 +9,10 @@ import createError from 'http-errors';
 import {  } from 'swagger-autogen';
 const nodemailer = require('nodemailer');
 
-import { db, connectDB, addMail } from './database';
-import { crawledWalletData, crawlBitcoinWallets, crawledBitcoinHistory, crawlBitcoinHistory, clearWalletData, clearBitcoinData } from './crawl';
-import { WalletData } from './types';
+import { addMail } from './database';
+import { crawledWalletData, crawlBitcoinWallets, crawlBitcoinHistory, clearWalletData, clearBitcoinData } from './crawl';
+import { BitcoinHistory, WalletData } from './types';
 
-let defaultBitcoinHistory: any;
 const app = express();
 
 const transporter = nodemailer.createTransport({
@@ -36,9 +35,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors({ origin: '*', allowedHeaders: '*', methods: '*' }));
 
-// connectDB();
-addMail('lala', 'nana');
-
 app.get('/api-docs', async (req: Request, res: Response) => {
   res.send(JSON.parse(fs.readFileSync("swagger-output.json", "utf-8")));
 });
@@ -59,7 +55,7 @@ app.get('/get-bitcoin-history', async (req: Request, res: Response) => {
     console.log("Crawling bitcoin history")
     clearBitcoinData();
     crawlBitcoinHistory(from, until)
-      .then((data:any) => { res.send(data); return; })
+      .then((data:BitcoinHistory[]) => { res.send(data); return; })
       .catch((err:any) => { console.log(err); res.send("ERROR"); return; })
   }
   else {
