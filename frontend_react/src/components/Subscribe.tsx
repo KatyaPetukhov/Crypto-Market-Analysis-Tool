@@ -49,6 +49,7 @@ const Subscribe = () => {
             onClick={async (event) => {
               event.preventDefault();
               setIsLoading(true);
+              // Send a POST request to the backend to register a subscriber and wait until it is done before setting the loading state to false
               await post("add-subscriber", { name: name, mail: mail });
               setTimeout(() => {
                 setName("");

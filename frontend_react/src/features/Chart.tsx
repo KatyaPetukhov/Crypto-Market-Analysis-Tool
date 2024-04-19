@@ -79,7 +79,6 @@ const emptyData = {
       borderWidth: 1,
       pointBorderWidth: 0,
       pointRadius: 4,
-      // borderColor: isDarkMode ? "#919191" : "#ffffff",
     },
   ],
 };
@@ -90,10 +89,10 @@ const Chart = () => {
   const [apiArg, setApiArg] = useState<GetGetBitcoinHistoryApiArg>({});
   const [fromDate, setFromDate] = useState<Date>();
   const [untilDate, setUntilDate] = useState<Date>();
-  const { isLoading, data, refetch, isFetching } =
-    useGetGetBitcoinHistoryQuery(apiArg);
+  const { isLoading, data, refetch, isFetching } = useGetGetBitcoinHistoryQuery(apiArg);
   const [chartData, setChartData] = useState<any>(emptyData);
 
+  // Change the chart colors based on the theme
   useEffect(() => {
     if (isDarkMode) {
       setChartData((prevChartData: any) => ({
@@ -121,15 +120,13 @@ const Chart = () => {
     }
   }, [isDarkMode]);
   
+  // Whenever the bitcoin history data changes, update the chart data
   useEffect(() => {
     function createChart() {
       if (data === undefined) return;
-      console.log(data);
       const dataSet = data.map((row) =>
         parseFloat(row.Close.replace(",", ""))
       );
-      // console.log(dataSet, reversedData);
-
       const dataFinal = {
         labels: data.map((row) => row.Date),
         datasets: [

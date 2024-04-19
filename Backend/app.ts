@@ -10,7 +10,7 @@ import {  } from 'swagger-autogen';
 const nodemailer = require('nodemailer');
 
 import { addMail } from './database';
-import { crawledWalletData, crawlBitcoinWallets, crawlBitcoinHistory, clearWalletData, clearBitcoinData } from './crawl';
+import { crawledWalletData, crawlBitcoinWallets, crawlBitcoinHistory, clearWalletData } from './crawl';
 import { BitcoinHistory, WalletData } from './types';
 
 const app = express();
@@ -50,20 +50,10 @@ app.get('/get-wallet-data', (req: Request, res: Response <WalletData[]>) => {
 app.get('/get-bitcoin-history', async (req: Request, res: Response) => {
   const from: any= req.query.from;
   const until: any = req.query.until;
-  if (from && until) {
-    console.log(until - from)
-    console.log("Crawling bitcoin history")
-    clearBitcoinData();
-    crawlBitcoinHistory(from, until)
-      .then((data:BitcoinHistory[]) => { res.send(data); return; })
-      .catch((err:any) => { console.log(err); res.send("ERROR"); return; })
-  }
-  else {
-    console.log("Sending bitcoin history")
-    clearBitcoinData();
-    crawlBitcoinHistory().then((data:any) => { res.send(data); return; })
-      .catch((err:any) => { console.log(err); res.send("ERROR"); return; })
-  }
+  console.log("Crawling bitcoin history")
+  crawlBitcoinHistory(from, until)
+    .then((data:BitcoinHistory[]) => { res.send(data); return; })
+    .catch((err:any) => { console.log(err); res.send("ERROR"); return; });  
 });
 
 app.post('/add-subscriber', async (req: Request, res: Response) => {
