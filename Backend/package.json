@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "0.0.0",
   "private": true,
-  "scripts": {   
+  "scripts": {
     "start": "npx ts-node ./app.ts",
     "start-server": "node dist/index.js",
     "postinstall": "tsc",
@@ -27,6 +27,7 @@
     "jade": "~1.11.0",
     "mongodb": "^6.5.0",
     "morgan": "~1.9.1",
+    "nodemailer": "^6.9.13",
     "puppeteer": "^22.3.0"
   },
   "devDependencies": {

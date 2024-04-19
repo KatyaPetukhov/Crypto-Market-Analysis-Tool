@@ -1,3 +1,4 @@
+require('dotenv').config();
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
@@ -6,7 +7,7 @@ import fs from 'fs';
 import cors from 'cors';
 import createError from 'http-errors';
 import {  } from 'swagger-autogen';
-
+const nodemailer = require('nodemailer');
 
 import { db, connectDB, addMail } from './database';
 import { crawledWalletData, crawlBitcoinWallets, crawledBitcoinHistory, crawlBitcoinHistory, clearWalletData, clearBitcoinData } from './crawl';
@@ -14,6 +15,14 @@ import { WalletData } from './types';
 
 let defaultBitcoinHistory: any;
 const app = express();
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail', // Use your email service
+  auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORD
+  }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -66,7 +75,23 @@ app.post('/add-subscriber', async (req: Request, res: Response) => {
   const mail = req.body.mail;
  const result = await addMail(mail,name);
   if(result != null){
+    const mailOptions = {
+      from: process.env.EMAIL,
+      to: mail, // The email you want to send to
+      subject: `New Subscription To Crypto Market Analysis Tool`,
+      text: `Thank you for joining us, ${name}.\nTeam of Crypto Market Analysis Tool.`
+  };
+
+  transporter.sendMail(mailOptions, (error: any, info: any) => {
+      if (error) {
+          console.log(error);
+          res.status(500).send('Error sending email');
+      } else {
+          console.log('Email sent: ' + info.response);
+      }
+  });
     res.sendStatus(200);
+
   }
   else{
     res.sendStatus(404);
