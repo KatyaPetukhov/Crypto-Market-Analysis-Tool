@@ -17,6 +17,8 @@ import {
   GetGetBitcoinHistoryApiArg,
   useGetGetBitcoinHistoryQuery,
 } from "../redux/Api";
+import { useSelector } from "react-redux";
+import { getSelectedTheme } from "../redux/PreferencesSlice";
 
 ChartJS.register(
   CategoryScale,
@@ -53,6 +55,18 @@ export const options = {
       },
     },
   },
+  scales: {
+    x: {
+      grid: {
+        color: '#6161614b', // change as needed
+      },
+    },
+    y: {
+      grid: {
+        color: '#6161614b', // change as needed
+      },
+    },
+  },
 };
 
 const emptyData = {
@@ -62,11 +76,17 @@ const emptyData = {
       label: "Bitcoin Price History",
       data: [],
       backgroundColor: "#9721eb",
+      borderWidth: 1,
+      pointBorderWidth: 0,
+      pointRadius: 4,
+      // borderColor: isDarkMode ? "#919191" : "#ffffff",
     },
   ],
 };
-
 const Chart = () => {
+  
+  const isDarkMode = useSelector(getSelectedTheme);
+
   const [apiArg, setApiArg] = useState<GetGetBitcoinHistoryApiArg>({});
   const [fromDate, setFromDate] = useState<Date>();
   const [untilDate, setUntilDate] = useState<Date>();
@@ -75,21 +95,47 @@ const Chart = () => {
   const [chartData, setChartData] = useState<any>(emptyData);
 
   useEffect(() => {
+    if (isDarkMode) {
+      setChartData((prevChartData: any) => ({
+        ...prevChartData,
+        datasets: [
+          {
+            ...prevChartData.datasets[0],
+            backgroundColor: "#818cf8",
+            borderColor: "#bdbdbd",            
+            color: "#ff0a0a",
+          },
+        ],
+      }));
+    } else {
+      setChartData((prevChartData: any) => ({
+        ...prevChartData,
+        datasets: [
+          {
+            ...prevChartData.datasets[0],
+            backgroundColor: "#9721eb",
+            borderColor: "#9c9c9c",
+          },
+        ],
+      }));
+    }
+  }, [isDarkMode]);
+  
+  useEffect(() => {
     function createChart() {
       if (data === undefined) return;
-      const reversedData = Array.from(data).reverse();
-      const dataSet = reversedData.map((row) =>
-        parseFloat(row[4].replace(",", ""))
+      console.log(data);
+      const dataSet = data.map((row) =>
+        parseFloat(row.Close.replace(",", ""))
       );
-      console.log(dataSet, reversedData);
+      // console.log(dataSet, reversedData);
 
       const dataFinal = {
-        labels: reversedData.map((row) => row[0]),
+        labels: data.map((row) => row.Date),
         datasets: [
           {
             label: "Bitcoin Price History",
             data: dataSet,
-            backgroundColor: "#9721eb",
           },
         ],
       };

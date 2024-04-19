@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setTheme as setThemePreference } from "../redux/PreferencesSlice";
 
 interface ToggleSwitchProps {
   initialTheme?: "light" | "dark";
@@ -8,6 +10,7 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
   initialTheme = "light",
 }) => {
   const [theme, setTheme] = useState(initialTheme);
+  const dispatch = useDispatch();
 
   // Apply the theme to the body element
   useEffect(() => {
@@ -16,7 +19,10 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
 
   // Toggle theme function
   const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+    const newTheme = theme === "light" ? "dark" : "light";
+    const isDarkMode: boolean = newTheme === "dark";
+    setTheme(newTheme);
+    dispatch(setThemePreference(isDarkMode));
   };
 
   return (

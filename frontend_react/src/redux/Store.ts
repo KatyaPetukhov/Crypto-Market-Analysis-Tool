@@ -1,7 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import {api} from './Api'
+import PreferencesReducer from "./PreferencesSlice";
+
 export const Store = configureStore({
-  reducer: {[api.reducerPath]: api.reducer
+  reducer: {
+    preferences: PreferencesReducer,
+
+    [api.reducerPath]: api.reducer
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(api.middleware),
 })
