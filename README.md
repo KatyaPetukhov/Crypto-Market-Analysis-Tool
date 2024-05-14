@@ -1,6 +1,9 @@
+## Project Number: 24-1-D-27
 ## [Hosting Link](https://KatyaPetukhov.github.io/Crypto-Market-Analysis-Tool/frontend_react/build/)
 
 ## Backend hosted on [Heroku](https://crypto-market-analysis-tool-f12d66bb7184.herokuapp.com/) (Node.js + Express.js)
+
+## [Project Book](https://docs.google.com/document/d/1onFcRNV8pONN4h3xB_etXjv_3aBrxOotV_fql6p8RA4/edit?usp=sharing) 
 
 ## Final Submission File: [Word](https://github.com/KatyaPetukhov/Crypto-Market-Analysis-Tool/blob/main/%D7%93%D7%A3%20%D7%A9%D7%A2%D7%A8%20%D7%9C%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98.docx), Exercise 3 Questions: [Word](https://github.com/KatyaPetukhov/Crypto-Market-Analysis-Tool/blob/main/B3%20%D7%AA%D7%A8%D7%92%D7%99%D7%9C%20%D7%91%D7%99%D7%AA%203.docx)
 
