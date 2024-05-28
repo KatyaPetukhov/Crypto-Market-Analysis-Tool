@@ -1,3 +1,4 @@
+// Returns the table that containes  all the wallets.
 import React from "react";
 import { WalletData } from "../screens/Wallet";
 interface WalletTableProps {

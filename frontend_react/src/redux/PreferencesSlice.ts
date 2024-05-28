@@ -1,3 +1,4 @@
+// We save which theme we use here. The dark or light mode.
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 export interface PreferencesInitialState {

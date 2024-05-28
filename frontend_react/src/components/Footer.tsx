@@ -1,3 +1,4 @@
+// Returns a styled footer component.
 import React from "react";
 
 const Footer = () => {

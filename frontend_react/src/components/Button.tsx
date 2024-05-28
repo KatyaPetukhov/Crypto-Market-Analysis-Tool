@@ -1,3 +1,4 @@
+// Returns a styled button component.
 import React from "react";
 interface ButtonProps {
   name: string;

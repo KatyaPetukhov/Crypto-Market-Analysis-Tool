@@ -1,3 +1,4 @@
+//Manages the database connection with MongoDB.
 import { MongoClient, Db } from 'mongodb';
 
 const uri: string = "mongodb+srv://omeciano:rNcgSXyfsstDfLWZ@cluster0.neigmyc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
@@ -10,7 +11,7 @@ const client: MongoClient = new MongoClient(uri, {
         deprecationErrors: true,
     }
 });
-
+// Open the connection.
 const connectDB = async (): Promise<void> => {
     try {
         await client.connect();
@@ -22,13 +23,13 @@ const connectDB = async (): Promise<void> => {
         console.error(err);
     }
 }
-
+//  To get all the email from the DB.
 const getAllMails = async (): Promise<any[]> => {
     let collection = await db.collection(collectionName);
     let results = await collection.find({}).toArray();
     return results;
 }
-
+//To add the new subscriber to the DB. 
 const addMail = async (mail: string, name: string): Promise<any> => {
     try {
         let newDocument = {

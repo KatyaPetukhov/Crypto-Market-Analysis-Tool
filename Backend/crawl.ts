@@ -1,15 +1,21 @@
+// Gets data from different sources such as bitinfocharts and yahoofinance websites. 
+// Using the crawler NPM package.
 import Crawler from 'crawler';
 import { BitcoinHistory, WalletData } from './types';
 import Papa from 'papaparse';
 
+// The list of the sources for the wallets we use.
 const walletURLs: string[] = [
     'https://bitinfocharts.com/bitcoin/address/3EMVdMehEq5SFipQ5UfbsfMsH223sSz9A9',
     'https://bitinfocharts.com/bitcoin/address/1ucXXZQSEf4zny2HRwAQKtVpkLPTUKRtt',
     'https://bitinfocharts.com/bitcoin/address/19D5J8c59P2bAkWKvxSYw8scD3KUNWoZ1C',
 ]
 
+// The wallet data that was saved.
 let crawledWalletData: WalletData[] = [];
 
+//  Get bitcoin wallet data from the wallet list using the crawler by reading the HTML page and extracting data from it.
+//  Returns a promise with a result.
 const crawlBitcoinWallets = async (): Promise<WalletData[]> => {
     console.log('Crawling...');
     return new Promise((resolve, reject) => {
@@ -22,10 +28,13 @@ const crawlBitcoinWallets = async (): Promise<WalletData[]> => {
                 } else {
                     const $ = res.$;
                     const walletData: any[] = []
+                    //  The data saved in a table, so we use the apropriate classes to get the data. 
+                    //  Loop over the rows in the table.
                     $('tr.trb').each(function (this: any) {
                         const tdData: any[] = [];
                         let isFirst = true;
                         $(this).find('td').each(function (this: any) {
+                            //  The first cell in the row has hidden data that we don't need.
                             if (isFirst) {
                                 tdData.push($(this).text().split(' ')[0]);
                             } else {
@@ -43,7 +52,7 @@ const crawlBitcoinWallets = async (): Promise<WalletData[]> => {
                 done();
             }
         });
-
+        //  Add all the wallet URLs to the crawler queue.
         walletURLs.forEach(url => {
             crawler.queue(url);
         });
@@ -51,6 +60,7 @@ const crawlBitcoinWallets = async (): Promise<WalletData[]> => {
 }
 
 // Get the bitcoin history data from Yahoo Finance as a CSV file, parse the result and return it.
+// If the from and until are provided we use them, otherwise we use default values.
 const crawlBitcoinHistory = async (from?: number, until?: number): Promise<BitcoinHistory[]> => {
     let isSpecificPeriod = false;
     if (from && until) {
@@ -66,6 +76,9 @@ const crawlBitcoinHistory = async (from?: number, until?: number): Promise<Bitco
     until = until || untilTimestamp;
     const value = isSpecificPeriod ? ((until || maximum) - (from || minimum)) : minimum;
 
+    //  The API allows us to change the amount of points we get, either one point per day, one per week, one per month.
+    //  We choose based on the amount of time between the dates.
+
     let interval = "1d";
     if (value > 63158400) {
         interval = "1mo";
@@ -73,12 +86,19 @@ const crawlBitcoinHistory = async (from?: number, until?: number): Promise<Bitco
         interval = "1wk";
     }
 
+    // The URL to download the data as CSV file. 
+
     const yahooDownloadURL = `https://query1.finance.yahoo.com/v7/finance/download/BTC-USD?period1=${from}&period2=${until}&interval=${interval}&events=history&includeAdjustedClose=true`
     const result = await fetch(yahooDownloadURL);
     const data = await result.text();
+
+    // Use papa parse to parse the CSV file into bitcion history array.
+
     const parsedCSV = Papa.parse<BitcoinHistory>(data, { header: true });
     return parsedCSV.data;
 }
+
+//  Clear all the data from array.
 
 const clearWalletData = (): void => {
     crawledWalletData = [];

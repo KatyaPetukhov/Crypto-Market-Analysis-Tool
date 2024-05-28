@@ -1,3 +1,4 @@
+//  Returns a toggle switch for changing the theme mode.
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setTheme as setThemePreference } from "../redux/PreferencesSlice";

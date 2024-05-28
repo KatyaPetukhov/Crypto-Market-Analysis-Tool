@@ -1,3 +1,4 @@
+// Displays a select input with custom options and callback on the selection change.
 import React from "react";
 interface SelectProps {
   options: string[];

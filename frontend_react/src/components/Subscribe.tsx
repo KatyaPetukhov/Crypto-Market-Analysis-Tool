@@ -1,3 +1,4 @@
+// Returns the subscribe block
 import React, { useState } from "react";
 import { post } from "../services/api";
 import Loading from "./Loading";

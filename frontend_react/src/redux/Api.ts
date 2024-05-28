@@ -1,3 +1,4 @@
+// Automatically generated API using OpenAPI docs from the backend side.
 import { WalletData } from "../screens/Wallet";
 import { emptySplitApi as api } from "./EmptyApi";
 export const addTagTypes = [] as const;

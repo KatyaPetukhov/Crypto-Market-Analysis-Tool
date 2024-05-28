@@ -1,3 +1,4 @@
+// Returns loading cirlce component that can be set invisible.
 import React from "react";
 interface LoadingProps {
   isLoading?: boolean;

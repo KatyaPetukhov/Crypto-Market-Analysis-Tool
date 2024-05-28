@@ -1,3 +1,4 @@
+// Returns a line chart component for displaying the bitcoin price history.
 import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import InputDate from "../components/InputDate";
@@ -29,7 +30,7 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
+//  Default options for the chart:
 export const options = {
   responsive: true,
   plugins: {
@@ -58,12 +59,12 @@ export const options = {
   scales: {
     x: {
       grid: {
-        color: '#6161614b', // change as needed
+        color: "#6161614b", // change as needed
       },
     },
     y: {
       grid: {
-        color: '#6161614b', // change as needed
+        color: "#6161614b", // change as needed
       },
     },
   },
@@ -83,13 +84,13 @@ const emptyData = {
   ],
 };
 const Chart = () => {
-  
   const isDarkMode = useSelector(getSelectedTheme);
 
   const [apiArg, setApiArg] = useState<GetGetBitcoinHistoryApiArg>({});
   const [fromDate, setFromDate] = useState<Date>();
   const [untilDate, setUntilDate] = useState<Date>();
-  const { isLoading, data, refetch, isFetching } = useGetGetBitcoinHistoryQuery(apiArg);
+  const { isLoading, data, refetch, isFetching } =
+    useGetGetBitcoinHistoryQuery(apiArg);
   const [chartData, setChartData] = useState<any>(emptyData);
 
   // Change the chart colors based on the theme
@@ -101,7 +102,7 @@ const Chart = () => {
           {
             ...prevChartData.datasets[0],
             backgroundColor: "#818cf8",
-            borderColor: "#bdbdbd",            
+            borderColor: "#bdbdbd",
             color: "#ff0a0a",
           },
         ],
@@ -119,14 +120,12 @@ const Chart = () => {
       }));
     }
   }, [isDarkMode]);
-  
+
   // Whenever the bitcoin history data changes, update the chart data
   useEffect(() => {
     function createChart() {
       if (data === undefined) return;
-      const dataSet = data.map((row) =>
-        parseFloat(row.Close.replace(",", ""))
-      );
+      const dataSet = data.map((row) => parseFloat(row.Close.replace(",", "")));
       const dataFinal = {
         labels: data.map((row) => row.Date),
         datasets: [
@@ -160,6 +159,7 @@ const Chart = () => {
           <Button
             name={"Update Data"}
             disabled={fromDate === undefined || untilDate === undefined}
+            // Get the price history based on selected dates.
             onClick={() => {
               if (fromDate === undefined || untilDate === undefined) return;
               setApiArg({

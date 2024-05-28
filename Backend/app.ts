@@ -1,3 +1,7 @@
+//  The starting point for the server. 
+//  Defines API end points, using express, and initializes data gathering on a set time every
+//  15 minutes. 
+ 
 require('dotenv').config();
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
@@ -15,6 +19,7 @@ import { BitcoinHistory, WalletData } from './types';
 
 const app = express();
 
+//  Initialize a nodemailer transport to send emails 
 const transporter = nodemailer.createTransport({
   service: 'gmail', // Use your email service
   auth: {
@@ -23,7 +28,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// view engine setup
+//  View engine setup 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
@@ -32,9 +37,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+//  Allow access to the server from all origins/ websites
 app.use(cors({ origin: '*', allowedHeaders: '*', methods: '*' }));
 
+//  Returns a JSON file containing open API docs.
 app.get('/api-docs', async (req: Request, res: Response) => {
   res.send(JSON.parse(fs.readFileSync("swagger-output.json", "utf-8")));
 });
@@ -42,11 +48,12 @@ app.get('/api-docs', async (req: Request, res: Response) => {
 app.get('/', async (req: Request, res: Response) => {
   res.send("<h1>Hello World</h1>");
 });
-
+//  Returns an array of historical wallet data.
 app.get('/get-wallet-data', (req: Request, res: Response <WalletData[]>) => {
   res.send(crawledWalletData);
 });
-
+//  Returns an array of bitcion historical data between from and until dates, if provided, otherwise between 
+//  one year ago and today.
 app.get('/get-bitcoin-history', async (req: Request, res: Response) => {
   const from: any= req.query.from;
   const until: any = req.query.until;
@@ -56,6 +63,7 @@ app.get('/get-bitcoin-history', async (req: Request, res: Response) => {
     .catch((err:any) => { console.log(err); res.send("ERROR"); return; });  
 });
 
+//  Add a subscriber to the mailing list to the DB.
 app.post('/add-subscriber', async (req: Request, res: Response) => {
   const name = req.body.name;
   const mail = req.body.mail;
@@ -68,6 +76,7 @@ app.post('/add-subscriber', async (req: Request, res: Response) => {
       text: `Thank you for joining us, ${name}.\nTeam of Crypto Market Analysis Tool.`
   };
 
+  //  Send email to the user.
   transporter.sendMail(mailOptions, (error: any, info: any) => {
       if (error) {
           console.log(error);
@@ -85,7 +94,7 @@ app.post('/add-subscriber', async (req: Request, res: Response) => {
 
 });
 
-// catch 404 and forward to error handler
+// Catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {
   res.header("Access-Control-Allow-Origin", '*');
   res.header("Access-Control-Allow-Credentials", "true");
@@ -94,16 +103,17 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
   next(createError(404));
 });
 
+//  Get initial data and set a repeating interval to get updated data every 15 minutes.
 crawlBitcoinWallets();
 setInterval(() => { clearWalletData(); crawlBitcoinWallets(); }, 15 * 60 * 1000);
 
-// error handler
+// Error handler.
 app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
-  // set locals, only providing error in development
+  // Set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
+  // Render the error page
   res.status(err.status || 500);
   res.render('error');
 });

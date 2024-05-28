@@ -1,3 +1,4 @@
+//  Returns an input date component that support minimum and maximum dates.
 import React, { useState } from "react";
 interface InputDateProps {
   setDate: (date?: Date) => void;
@@ -7,6 +8,9 @@ interface InputDateProps {
 
 const InputDate: React.FC<InputDateProps> = (props) => {
   const [value, setValue] = useState<string>("");
+
+  //  Update the input state after the user finish modifying it if the input is valid.
+
   const onBlur = (dateString: string) => {
     if (dateString === "") return;
     let date = new Date(dateString);
