@@ -13,9 +13,10 @@ import createError from 'http-errors';
 import {  } from 'swagger-autogen';
 const nodemailer = require('nodemailer');
 
-import { addMail } from './database';
+import { addMail, addWallet, findByBlock, findByTimeRange, clearCollection} from './database';
 import { crawledWalletData, crawlBitcoinWallets, crawlBitcoinHistory, clearWalletData } from './crawl';
 import { BitcoinHistory, WalletData } from './types';
+import { log } from 'console';
 
 const app = express();
 
@@ -94,6 +95,19 @@ app.post('/add-subscriber', async (req: Request, res: Response) => {
 
 });
 
+app.get('/get-by-block', async (req: Request, res: Response) => {
+  const block:any = req.query.block ; 
+  res.send(await findByBlock(block));
+});
+
+
+app.get('/get-by-time', async (req: Request, res: Response) => {
+  const startTime:any = req.query.startTime ; 
+  const endTime:any = req.query.endTime ; 
+
+  res.send(await findByTimeRange(startTime, endTime));
+});
+
 // Catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {
   res.header("Access-Control-Allow-Origin", '*');
@@ -102,10 +116,23 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
   res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
   next(createError(404));
 });
+const saveWallets = async () => {
+  clearWalletData(); 
+  await crawlBitcoinWallets();
+  crawledWalletData.forEach(wallet => {
+    addWallet(wallet);
+  });
 
+
+}
 //  Get initial data and set a repeating interval to get updated data every 15 minutes.
-crawlBitcoinWallets();
-setInterval(() => { clearWalletData(); crawlBitcoinWallets(); }, 15 * 60 * 1000);
+saveWallets();
+setInterval(() => { 
+  saveWallets();
+ }, 15 * 60 * 1000);
+
+
+
 
 // Error handler.
 app.use(function (err: any, req: Request, res: Response, next: NextFunction) {

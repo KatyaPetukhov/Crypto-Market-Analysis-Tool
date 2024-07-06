@@ -3,12 +3,15 @@
 import Crawler from 'crawler';
 import { BitcoinHistory, WalletData } from './types';
 import Papa from 'papaparse';
+import { log } from 'console';
 
 // The list of the sources for the wallets we use.
 const walletURLs: string[] = [
-    'https://bitinfocharts.com/bitcoin/address/3EMVdMehEq5SFipQ5UfbsfMsH223sSz9A9',
-    'https://bitinfocharts.com/bitcoin/address/1ucXXZQSEf4zny2HRwAQKtVpkLPTUKRtt',
-    'https://bitinfocharts.com/bitcoin/address/19D5J8c59P2bAkWKvxSYw8scD3KUNWoZ1C',
+    'https://bitinfocharts.com/bitcoin/address/bc1qjasf9z3h7w3jspkhtgatgpyvvzgpa2wwd2lr0eh5tx44reyn2k7sfc27a4-full',
+    'https://bitinfocharts.com/bitcoin/address/1Ay8vMC7R1UbyCCZRVULMV7iQpHSAbguJP-full',
+    'https://bitinfocharts.com/bitcoin/address/3EMVdMehEq5SFipQ5UfbsfMsH223sSz9A9-full',
+    'https://bitinfocharts.com/bitcoin/address/39gUvGynQ7Re3i15G3J2gp9DEB9LnLFPMN-full',
+    'https://bitinfocharts.com/bitcoin/address/bc1qcdqj2smprre85c78d942wx5tauw5n7uw92r7wr-full',
 ]
 
 // The wallet data that was saved.
@@ -18,6 +21,7 @@ let crawledWalletData: WalletData[] = [];
 //  Returns a promise with a result.
 const crawlBitcoinWallets = async (): Promise<WalletData[]> => {
     console.log('Crawling...');
+    let count = 0;
     return new Promise((resolve, reject) => {
         const crawler = new Crawler({
             maxConnections: 10,
@@ -47,9 +51,16 @@ const crawlBitcoinWallets = async (): Promise<WalletData[]> => {
                     const link = res.request.uri.href;
                     const names = link.split('/');
                     crawledWalletData.push({ link: link, name: names[names.length - 1], data: walletData });
-                    resolve(crawledWalletData);
+                    count++;
+                    
+                    if ( count == walletURLs.length){
+                        resolve(crawledWalletData);
+                        
+                    }
+                   
                 }
                 done();
+
             }
         });
         //  Add all the wallet URLs to the crawler queue.
