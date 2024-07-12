@@ -13,7 +13,7 @@ import createError from 'http-errors';
 import {  } from 'swagger-autogen';
 const nodemailer = require('nodemailer');
 
-import { addMail, addWallet, findByBlock, findByTimeRange, clearCollection} from './database';
+import { addMail, addWallet, findByBlock, findByTimeRange, clearCollection, getAllWallets} from './database';
 import { crawledWalletData, crawlBitcoinWallets, crawlBitcoinHistory, clearWalletData } from './crawl';
 import { BitcoinHistory, WalletData } from './types';
 import { log } from 'console';
@@ -63,6 +63,14 @@ app.get('/get-bitcoin-history', async (req: Request, res: Response) => {
     .then((data:BitcoinHistory[]) => { res.send(data); return; })
     .catch((err:any) => { console.log(err); res.send("ERROR"); return; });  
 });
+
+
+app.get('/get-wallet-data-from-db', async(req: Request, res: Response ) => { 
+  res.send(await getAllWallets());
+});
+
+
+
 
 //  Add a subscriber to the mailing list to the DB.
 app.post('/add-subscriber', async (req: Request, res: Response) => {
