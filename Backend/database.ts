@@ -1,6 +1,7 @@
 //Manages the database connection with MongoDB.
 import { MongoClient, Db } from 'mongodb';
 import { WalletData } from './types';
+import { log } from 'console';
 
 const uri: string = "mongodb+srv://omeciano:rNcgSXyfsstDfLWZ@cluster0.neigmyc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const collectionMails: string = 'mails';
@@ -92,15 +93,26 @@ function generateTransactions(wallet:WalletData) {
     return transactions;
 }
 
+const getAllWallets = async () => {
+    try{
+        const collection = await db.collection(collectionWallets);
+        const result = await collection.find({}).toArray();
+        console.log(result);
+        return result;
+    } catch(err) {
+        console.log(err);
+        return null;
+    }
+
+}
+
 const findByBlock = async (block: string) => {
     try {
       const collection = await db.collection(collectionWallets);
       const result = await collection.find({
         "data": { $elemMatch: { block: block } }
       }).toArray();
-  
-      console.log(result);
-      return result;
+        return result;
     } catch (err) {
       console.error(err);
       return null;
@@ -143,4 +155,4 @@ async function clearCollection() {
 
 let db: Db = client.db("crypto-tool");
 
-export { db, connectDB, addMail, addWallet, findByBlock,findByTimeRange, clearCollection };
+export { db, connectDB, addMail, addWallet, findByBlock,findByTimeRange, clearCollection, getAllWallets };
