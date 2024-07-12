@@ -5,21 +5,21 @@ interface Phenotype {
     daysBefore:number,
     daysAfter:number,
     bitcoinThreshold:number,
-    percentThreshold:number
+    percentThreshold:number,
 }
 
 const minimum:Phenotype = {
     daysBefore: 1,
     daysAfter: 1,
     bitcoinThreshold: 0.001,
-    percentThreshold: 0.05
+    percentThreshold: 0.05,
 }
 
 const maximum:Phenotype = {
     daysBefore: 30,
     daysAfter: 10,
     bitcoinThreshold: 1,
-    percentThreshold: 5
+    percentThreshold: 5,
 }
 const populationSize = 100;
 const population:Phenotype[] = repeatFunction(populationSize);
@@ -29,7 +29,7 @@ const config = {
     crossoverFunction: crossoverFunction,
     fitnessFunction: fitnessFunction,
     doesABeatBFunction: doesABeatBFunction,
-    population: [ /* one or more phenotypes */ ],
+    population:population,
     populationSize: populationSize 	// defaults to 100
 }
 
@@ -73,9 +73,22 @@ function mutationFunction (oldPhenotype:Phenotype) {
 }
 
 function crossoverFunction(phenoTypeA:Phenotype, phenoTypeB:Phenotype) {
-	let result1 = {} , result2 = {}
-	// use phenoTypeA and B to create phenotype result 1 and 2
-	return [result1,result2]
+	let child1:Phenotype = {
+        daysBefore: Math.random() > 0.5 ? phenoTypeA.daysBefore : phenoTypeB.daysBefore,
+        daysAfter: Math.random() > 0.5 ? phenoTypeA.daysAfter : phenoTypeB.daysAfter,
+        bitcoinThreshold: Math.random() > 0.5 ? phenoTypeA.bitcoinThreshold : phenoTypeB.bitcoinThreshold,
+        percentThreshold: Math.random() > 0.5 ? phenoTypeA.percentThreshold : phenoTypeB.percentThreshold,
+    }
+    let child2:Phenotype = {
+        daysBefore: Math.random() > 0.5 ? phenoTypeA.daysBefore : phenoTypeB.daysBefore,
+        daysAfter: Math.random() > 0.5 ? phenoTypeA.daysAfter : phenoTypeB.daysAfter,
+        bitcoinThreshold: Math.random() > 0.5 ? phenoTypeA.bitcoinThreshold : phenoTypeB.bitcoinThreshold,
+        percentThreshold: Math.random() > 0.5 ? phenoTypeA.percentThreshold : phenoTypeB.percentThreshold,
+    }
+    child1
+
+	
+	return [child1,child2]
 }
 
 function fitnessFunction(phenotype:Phenotype) {
