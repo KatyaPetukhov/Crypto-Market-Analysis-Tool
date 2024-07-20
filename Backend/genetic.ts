@@ -1,4 +1,7 @@
 const GeneticAlgorithmConstructor = require("geneticalgorithm");
+import { getAllWallets } from "./database";
+import { WalletData } from "./types";
+let allWallets = null;
 
 const clamp = (val: number, min = 0, max = 1) =>
   Math.max(min, Math.min(max, val));
@@ -202,11 +205,46 @@ function fitnessFunction(phenotype: Phenotype) {
   let fitness = 0;
   // use phenotype and possibly some other information
   // to determine the fitness number.  Higher is better, lower is worse.
+
   return fitness;
 }
+// MAP Doesn't wotk with Date as key! TODO convert to srting and then to date? 
+function preprocessWallers(wallets: WalletData[]){
+    const transactionsByDate = new Map<Date, number>();
+    wallets.forEach(wallet => {
+        wallet.data.forEach(transaction => {
+            const thedate = transaction.time;
+            thedate.setHours(0,0,0,0);
+            const amountToAdd = fromStringToNum(transaction.amount.split(' ')[0].replace(',',''));
+            if(transactionsByDate.has(thedate)){
+                let amount = transactionsByDate.get(thedate) || 0;
+                amount += amountToAdd;
+                transactionsByDate.set(thedate, amount);
+            }
+            else{
+                transactionsByDate.set(thedate, amountToAdd);
+            }
+        });
+    });
+    allWallets = transactionsByDate;
+    allWallets.forEach((value, key) => {
+      console.log('Key ' + key + ' Value ' + value);
+        
+    });
+    return transactionsByDate;
+}
+
+function fromStringToNum(amount: string){
+    const num: number = +amount;
+    return num;
+}
+
+
 
 function doesABeatBFunction(phenoTypeA: Phenotype, phenoTypeB: Phenotype) {
   return fitnessFunction(phenoTypeA) >= fitnessFunction(phenoTypeB);
 }
+
+export { preprocessWallers };
 //TODO
 // get the sum from all the wallets for each day.

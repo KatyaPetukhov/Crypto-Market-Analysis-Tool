@@ -17,6 +17,7 @@ import { addMail, addWallet, findByBlock, findByTimeRange, clearCollection, getA
 import { crawledWalletData, crawlBitcoinWallets, crawlBitcoinHistory, clearWalletData } from './crawl';
 import { BitcoinHistory, WalletData } from './types';
 import { log } from 'console';
+import { preprocessWallers } from './genetic';
 
 const app = express();
 
@@ -69,6 +70,10 @@ app.get('/get-wallet-data-from-db', async(req: Request, res: Response ) => {
   res.send(await getAllWallets());
 });
 
+
+app.get('/get-allwallet-genetic', (req: Request, res: Response ) => {
+  res.send(preprocessWallers(crawledWalletData));
+});
 
 
 
