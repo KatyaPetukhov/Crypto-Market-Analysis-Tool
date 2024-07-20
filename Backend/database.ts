@@ -53,18 +53,16 @@ const addWallet = async (wallet: WalletData): Promise<any> => {
         let collection = await db.collection(collectionWallets);
         const savedWallet =  await collection.findOne<WalletData>({ name: wallet.name });
         if(savedWallet === null){
-            let transactions: any[] = generateTransactions(wallet);
             let newDocument = {
                 name: wallet.name,
                 link: wallet.link,
-                data: transactions,
+                data: wallet.data,
             };
             result = await collection.insertOne(newDocument);
 
         }
         else{
-            let transactions: any[] = generateTransactions(wallet);
-            collection.updateOne({name: savedWallet.name}, {$set:{data:transactions}});
+            collection.updateOne({name: savedWallet.name}, {$set:{data:wallet.data}});
         }
         return result;
 
@@ -77,31 +75,17 @@ const addWallet = async (wallet: WalletData): Promise<any> => {
 
 }
 
-function generateTransactions(wallet:WalletData) {
-    let transactions: any[] = [];
-    wallet.data.forEach(transaction => {
-        let t = {
-            block: transaction[0],
-            time: new Date(transaction[1]),
-            amount: transaction[2],
-            balance: transaction[3],
-            balanceUSD: transaction[4],
-            profit: transaction[5],
-        };
-        transactions.push(t);
-    });
-    return transactions;
-}
 
-const getAllWallets = async () => {
+
+const getAllWallets = async () : Promise<WalletData[]> => {
     try{
         const collection = await db.collection(collectionWallets);
-        const result = await collection.find({}).toArray();
+        const result = await collection.find({}).toArray() as unknown as WalletData[];
         console.log(result);
         return result;
     } catch(err) {
         console.log(err);
-        return null;
+        return [];
     }
 
 }

@@ -1,7 +1,7 @@
 // Gets data from different sources such as bitinfocharts and yahoofinance websites. 
 // Using the crawler NPM package.
 import Crawler from 'crawler';
-import { BitcoinHistory, WalletData } from './types';
+import { BitcoinHistory, Transaction, WalletData } from './types';
 import Papa from 'papaparse';
 import { log } from 'console';
 
@@ -50,7 +50,7 @@ const crawlBitcoinWallets = async (): Promise<WalletData[]> => {
                     });
                     const link = res.request.uri.href;
                     const names = link.split('/');
-                    crawledWalletData.push({ link: link, name: names[names.length - 1], data: walletData });
+                    crawledWalletData.push({ link: link, name: names[names.length - 1], data: generateTransactions(walletData) });
                     count++;
                     
                     if ( count == walletURLs.length){
@@ -68,6 +68,23 @@ const crawlBitcoinWallets = async (): Promise<WalletData[]> => {
             crawler.queue(url);
         });
     });
+}
+
+
+function generateTransactions(data:string[][]) : Transaction[] {
+    let transactions: Transaction[] = [];
+    data.forEach(transaction => {
+        let t = {
+            block: transaction[0],
+            time: new Date(transaction[1]),
+            amount: transaction[2],
+            balance: transaction[3],
+            balanceUSD: transaction[4],
+            profit: transaction[5],
+        };
+        transactions.push(t);
+    });
+    return transactions;
 }
 
 // Get the bitcoin history data from Yahoo Finance as a CSV file, parse the result and return it.
