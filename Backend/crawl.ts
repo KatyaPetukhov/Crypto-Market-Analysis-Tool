@@ -76,7 +76,7 @@ function generateTransactions(data:string[][]) : Transaction[] {
     data.forEach(transaction => {
         let t = {
             block: transaction[0],
-            time: new Date(transaction[1]),
+            time: createTimezoneDate(transaction[1]),
             amount: transaction[2],
             balance: transaction[3],
             balanceUSD: transaction[4],
@@ -85,6 +85,13 @@ function generateTransactions(data:string[][]) : Transaction[] {
         transactions.push(t);
     });
     return transactions;
+}
+
+
+function createTimezoneDate(dateOld: string){
+    const date = new Date(dateOld)
+    const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+    return new Date(date.getTime() + userTimezoneOffset * Math.sign(userTimezoneOffset));
 }
 
 // Get the bitcoin history data from Yahoo Finance as a CSV file, parse the result and return it.

@@ -21,3 +21,19 @@ export interface BitcoinHistory {
     AdjClose: string;
     Volume: string;
 }
+
+export class Event {
+    constructor(
+       private amount: number, 
+       private percent: number
+    ){}
+
+    isSuccesfulEvent (minPercentThreshold: number){
+        const difPercent = 100 - this.percent;
+        if(Math.abs(difPercent)<minPercentThreshold){
+            return false;
+        }
+        return (Math.sign(this.amount) !== Math.sign(difPercent));
+    }
+
+}

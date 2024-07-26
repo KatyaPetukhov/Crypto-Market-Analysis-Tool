@@ -17,7 +17,7 @@ import { addMail, addWallet, findByBlock, findByTimeRange, clearCollection, getA
 import { crawledWalletData, crawlBitcoinWallets, crawlBitcoinHistory, clearWalletData } from './crawl';
 import { BitcoinHistory, WalletData } from './types';
 import { log } from 'console';
-import { preprocessWallers } from './genetic';
+import { preprocessBitcoinHistory, preprocessWallers } from './genetic';
 
 const app = express();
 
@@ -75,6 +75,11 @@ app.get('/get-allwallet-genetic', (req: Request, res: Response ) => {
   res.send(preprocessWallers(crawledWalletData));
 });
 
+app.get('/get-bitcoinhistory-genetic', (req: Request, res: Response ) => {
+  const currentDate = new Date();
+  const oneYearAgo = new Date(currentDate.getFullYear() - 1, currentDate.getMonth(), currentDate.getDate());
+  res.send(preprocessBitcoinHistory(oneYearAgo));
+});
 
 
 //  Add a subscriber to the mailing list to the DB.

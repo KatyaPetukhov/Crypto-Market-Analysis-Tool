@@ -1,7 +1,11 @@
 const GeneticAlgorithmConstructor = require("geneticalgorithm");
+import { crawlBitcoinHistory } from "./crawl";
 import { getAllWallets } from "./database";
-import { WalletData } from "./types";
-let allWallets = null;
+import { BitcoinHistory, WalletData } from "./types";
+let allWallets: Map<string, number> = new Map();
+let bitcoinHistory: Map<string, number> = new Map();
+let minDate = new Date();
+const testDays = 50;
 
 const clamp = (val: number, min = 0, max = 1) =>
   Math.max(min, Math.min(max, val));
@@ -19,7 +23,7 @@ const minimum: Phenotype = {
   daysBefore: 1,
   daysAfter: 1,
   bitcoinThreshold: 0.001,
-  percentThreshold: 0.05,
+  percentThreshold: 0.05,   
 };
 
 const maximum: Phenotype = {
@@ -201,21 +205,41 @@ function crossoverFunction(phenoTypeA: Phenotype, phenoTypeB: Phenotype) {
   return [child1, child2];
 }
 
+// TO DO LOOP over days before and calculate ...
 function fitnessFunction(phenotype: Phenotype) {
   let fitness = 0;
+  let currentDate = minDate;
+  currentDate.setDate(minDate.getDate() + phenotype.daysBefore);   
   // use phenotype and possibly some other information
   // to determine the fitness number.  Higher is better, lower is worse.
+  let eventMap = new Map<string, Event>();
+
+  
+
+  allWallets.forEach((amount, day) => {
+
+  
+  });
+
 
   return fitness;
 }
-// MAP Doesn't wotk with Date as key! TODO convert to srting and then to date? 
+
+
+
+
+// MAP Doesn't wotk with Date as key! TODO convert to srting and then to date? DONE
 function preprocessWallers(wallets: WalletData[]){
-    const transactionsByDate = new Map<Date, number>();
+    const transactionsByDate = new Map<string, number>();
+    minDate = new Date();
     wallets.forEach(wallet => {
         wallet.data.forEach(transaction => {
-            const thedate = transaction.time;
-            thedate.setHours(0,0,0,0);
+            if(transaction.time < minDate){
+              minDate = transaction.time;
+            }
+            const thedate = fromDateToString(transaction.time);
             const amountToAdd = fromStringToNum(transaction.amount.split(' ')[0].replace(',',''));
+
             if(transactionsByDate.has(thedate)){
                 let amount = transactionsByDate.get(thedate) || 0;
                 amount += amountToAdd;
@@ -224,14 +248,30 @@ function preprocessWallers(wallets: WalletData[]){
             else{
                 transactionsByDate.set(thedate, amountToAdd);
             }
+
         });
     });
     allWallets = transactionsByDate;
-    allWallets.forEach((value, key) => {
-      console.log('Key ' + key + ' Value ' + value);
-        
-    });
     return transactionsByDate;
+}
+
+async function preprocessBitcoinHistory(from: Date){
+  const fromDate = Math.floor(from.getTime() / 1000);
+  const history = await crawlBitcoinHistory(fromDate);
+  bitcoinHistory = new Map<string, number>();
+  history.forEach(day => {
+    bitcoinHistory.set(day.Date, fromStringToNum(day.Close));
+    // console.log("Key " + day.Date + " Value " + fromStringToNum(day.Close));
+  });
+}
+
+
+function fromDateToString(date: Date){
+  return date.toISOString().split('T')[0];
+}
+
+function fromStringToDate(date: string){
+  return  new Date(date);
 }
 
 function fromStringToNum(amount: string){
@@ -245,6 +285,6 @@ function doesABeatBFunction(phenoTypeA: Phenotype, phenoTypeB: Phenotype) {
   return fitnessFunction(phenoTypeA) >= fitnessFunction(phenoTypeB);
 }
 
-export { preprocessWallers };
+export { preprocessWallers, preprocessBitcoinHistory };
 //TODO
 // get the sum from all the wallets for each day.
