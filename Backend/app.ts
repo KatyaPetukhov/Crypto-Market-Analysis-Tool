@@ -14,10 +14,10 @@ import {  } from 'swagger-autogen';
 const nodemailer = require('nodemailer');
 
 import { addMail, addWallet, findByBlock, findByTimeRange, clearCollection, getAllWallets} from './database';
-import { crawledWalletData, crawlBitcoinWallets, crawlBitcoinHistory, clearWalletData } from './crawl';
+import {crawlBitcoinHistory } from './crawlBitcoinHistory';
 import { BitcoinHistory, WalletData } from './types';
-import { log } from 'console';
-import { preprocessBitcoinHistory, preprocessWallers } from './genetic';
+import { executeAlgorithm, fitnessFunction, preprocessBitcoinHistory, preprocessWallers } from './genetic';
+import { createBitcoinWallets } from './getWalletData';
 
 const app = express();
 
@@ -51,9 +51,10 @@ app.get('/', async (req: Request, res: Response) => {
   res.send("<h1>Hello World</h1>");
 });
 //  Returns an array of historical wallet data.
-app.get('/get-wallet-data', (req: Request, res: Response <WalletData[]>) => {
-  res.send(crawledWalletData);
-});
+// app.get('/get-wallet-data', (req: Request, res: Response <WalletData[]>) => {
+//   res.send(crawledWalletData);
+// });
+
 //  Returns an array of bitcion historical data between from and until dates, if provided, otherwise between 
 //  one year ago and today.
 app.get('/get-bitcoin-history', async (req: Request, res: Response) => {
@@ -71,15 +72,29 @@ app.get('/get-wallet-data-from-db', async(req: Request, res: Response ) => {
 });
 
 
-app.get('/get-allwallet-genetic', (req: Request, res: Response ) => {
-  res.send(preprocessWallers(crawledWalletData));
-});
-
 app.get('/get-bitcoinhistory-genetic', (req: Request, res: Response ) => {
   const currentDate = new Date();
   const oneYearAgo = new Date(currentDate.getFullYear() - 1, currentDate.getMonth(), currentDate.getDate());
   res.send(preprocessBitcoinHistory(oneYearAgo));
 });
+
+executeAlgorithm();
+
+
+
+
+app.get('/get-fitness', (req: Request, res: Response ) => {
+  // res.send(crawlWalletDataP());
+  preprocessWallers(createBitcoinWallets());
+  res.send(fitnessFunction(
+    {
+      daysAfter:3, 
+      daysBefore:5,
+      percentThreshold: 0.005,
+      bitcoinThreshold: 5,
+    }));
+});
+
 
 
 //  Add a subscriber to the mailing list to the DB.
@@ -134,12 +149,16 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
   res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
   next(createError(404));
 });
+
 const saveWallets = async () => {
-  clearWalletData(); 
-  await crawlBitcoinWallets();
-  crawledWalletData.forEach(wallet => {
+  // await crawlBitcoinWallets();
+  // crawledWalletData.forEach(wallet => {
+  //   addWallet(wallet);
+  // });
+  const bitcoinWallets = createBitcoinWallets();
+  bitcoinWallets.forEach(wallet =>{
     addWallet(wallet);
-  });
+  })
 
 
 }

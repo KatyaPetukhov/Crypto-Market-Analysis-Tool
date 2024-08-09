@@ -1,7 +1,6 @@
 //Manages the database connection with MongoDB.
 import { MongoClient, Db } from 'mongodb';
 import { WalletData } from './types';
-import { log } from 'console';
 
 const uri: string = "mongodb+srv://omeciano:rNcgSXyfsstDfLWZ@cluster0.neigmyc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const collectionMails: string = 'mails';
@@ -48,6 +47,9 @@ const addMail = async (mail: string, name: string): Promise<any> => {
     }
 }
 const addWallet = async (wallet: WalletData): Promise<any> => {
+
+  
+  
     try {
         let result;
         let collection = await db.collection(collectionWallets);
