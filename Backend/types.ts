@@ -29,7 +29,7 @@ export class Event {
     ){}
 
     isSuccesfulEvent (minPercentThreshold: number){
-        const difPercent = 100 - this.percent;
+        const difPercent = 1 - this.percent;
         if(Math.abs(difPercent)<minPercentThreshold){
             return false;
         }
