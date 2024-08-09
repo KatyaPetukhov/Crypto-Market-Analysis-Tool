@@ -1,7 +1,7 @@
 const GeneticAlgorithmConstructor = require("geneticalgorithm");
-import { crawlBitcoinHistory } from "./crawl";
-import { getAllWallets } from "./database";
-import { BitcoinHistory, WalletData } from "./types";
+import { crawlBitcoinHistory } from "./crawlBitcoinHistory";
+import { Event, WalletData } from "./types";
+import { createBitcoinWallets } from "./getWalletData";
 let allWallets: Map<string, number> = new Map();
 let bitcoinHistory: Map<string, number> = new Map();
 let minDate = new Date();
@@ -10,7 +10,8 @@ const testDays = 50;
 const clamp = (val: number, min = 0, max = 1) =>
   Math.max(min, Math.min(max, val));
 
-const completelyRandomMutationChance = 0.1;
+//Probability that a mutation will happen
+const completelyRandomMutationChance = 0.5;
 
 interface Phenotype {
   daysBefore: number;
@@ -23,28 +24,30 @@ const minimum: Phenotype = {
   daysBefore: 1,
   daysAfter: 1,
   bitcoinThreshold: 0.001,
-  percentThreshold: 0.05,   
+  percentThreshold: 0.001,
 };
 
 const maximum: Phenotype = {
-  daysBefore: 30,
+  daysBefore: 20,
   daysAfter: 10,
   bitcoinThreshold: 1,
-  percentThreshold: 5,
+  percentThreshold: 0.01,
 };
 
+//Probability that each variable will change if the mutation happens
 const mutateProbablity = {
-  daysBeforeProbablity: 0.35,
-  daysAfterProbablity: 0.35,
-  bitcionThresholdProbablity: 0.1,
-  percentThresholdProbablity: 0.2,
+  daysBeforeProbablity: 0.5,
+  daysAfterProbablity: 0.5,
+  bitcionThresholdProbablity: 0.5,
+  percentThresholdProbablity: 0.5,
 };
 
+//How much a variable can change from a mutation
 const mutateRange = {
   daysBeforeRange: 5,
   daysAfterRange: 3,
-  bitcionThresholdRange: 0.00005,
-  percentThresholdRange: 0.01,
+  bitcionThresholdRange: 0.25,
+  percentThresholdRange: 0.25,
 };
 
 const populationSize = 100;
@@ -60,6 +63,23 @@ const config = {
 };
 
 const geneticalgorithm = GeneticAlgorithmConstructor(config);
+
+async function executeAlgorithm() {
+  preprocessWallets(createBitcoinWallets());
+  await preprocessBitcoinHistory(minDate);
+  geneticalgorithm.evolve();
+  let best = geneticalgorithm.bestScore();
+  let bestP = geneticalgorithm.best();
+  while(best<0.6){
+    geneticalgorithm.evolve();
+    bestP = geneticalgorithm.best()
+    best = geneticalgorithm.bestScore();
+    console.log("Best score: " + best);
+    console.log("Best P Days Before: " + bestP.daysBefore + " Days After: " + bestP.daysAfter + " Bitcoin: " + bestP.bitcoinThreshold + " Percent: " + bestP.percentThreshold );
+  }
+  let scoreList = geneticalgorithm.scoredPopulation();
+  
+}
 
 function createRandomPhenotype() {
   const phenotype: Phenotype = {
@@ -125,8 +145,8 @@ function mutationFunction(oldPhenotype: Phenotype) {
     if (Math.random() < mutateProbablity.bitcionThresholdProbablity) {
       resultPhenotype.bitcoinThreshold = clamp(
         randomNumFloat(
-          oldPhenotype.bitcoinThreshold - mutateRange.bitcionThresholdRange,
-          oldPhenotype.bitcoinThreshold + mutateRange.bitcionThresholdRange
+          oldPhenotype.bitcoinThreshold - (oldPhenotype.bitcoinThreshold * mutateRange.bitcionThresholdRange) ,
+          oldPhenotype.bitcoinThreshold + (mutateRange.bitcionThresholdRange * oldPhenotype.bitcoinThreshold)
         ),
         minimum.bitcoinThreshold,
         maximum.bitcoinThreshold
@@ -135,8 +155,8 @@ function mutationFunction(oldPhenotype: Phenotype) {
     if (Math.random() < mutateProbablity.percentThresholdProbablity) {
       resultPhenotype.percentThreshold = clamp(
         randomNumFloat(
-          oldPhenotype.percentThreshold - mutateRange.percentThresholdRange,
-          oldPhenotype.percentThreshold + mutateRange.percentThresholdRange
+          oldPhenotype.percentThreshold - (oldPhenotype.percentThreshold * mutateRange.percentThresholdRange),
+          oldPhenotype.percentThreshold +(oldPhenotype.percentThreshold * mutateRange.percentThresholdRange) 
         ),
         minimum.percentThreshold,
         maximum.percentThreshold
@@ -168,7 +188,6 @@ function mutationFunction(oldPhenotype: Phenotype) {
       );
     }
   }
-
 
   return resultPhenotype;
 }
@@ -208,83 +227,127 @@ function crossoverFunction(phenoTypeA: Phenotype, phenoTypeB: Phenotype) {
 // TO DO LOOP over days before and calculate ...
 function fitnessFunction(phenotype: Phenotype) {
   let fitness = 0;
-  let currentDate = minDate;
-  currentDate.setDate(minDate.getDate() + phenotype.daysBefore);   
+  let currentDate = new Date(minDate);
+  let maxDate = new Date();
+  maxDate.setDate(maxDate.getDate() - testDays);
+  currentDate.setDate(minDate.getDate() + phenotype.daysBefore);
   // use phenotype and possibly some other information
   // to determine the fitness number.  Higher is better, lower is worse.
   let eventMap = new Map<string, Event>();
 
-  
+  for (let i = currentDate; i < maxDate; i.setDate(i.getDate() + 1)) {
+    checkDay(phenotype, i, eventMap);
+  }
 
-  allWallets.forEach((amount, day) => {
+  const totalEvents = eventMap.size;
+  if (totalEvents === 0) {
 
-  
+    fitness = 0;
+    return fitness;
+  }
+  let succesfulEvents = 0;
+  eventMap.forEach((event, day) => {
+    if (event.isSuccesfulEvent(phenotype.percentThreshold)) {
+      succesfulEvents++;
+    }
   });
 
+  fitness = succesfulEvents / totalEvents;
 
+  
   return fitness;
 }
 
+function checkDay(
+  phenotype: Phenotype,
+  day: Date,
+  eventMap: Map<string, Event>
+) {
+  let startDay = new Date(day);
+  startDay.setDate(day.getDate() - phenotype.daysBefore);
+  let countBitcoin = 0;
+  for (let i = startDay; i <= day; i.setDate(i.getDate() + 1)) {
+    countBitcoin += allWallets.get(fromDateToString(i)) || 0;
+  }
 
+  if (Math.abs(countBitcoin) > phenotype.bitcoinThreshold) {
+    const percentDay = new Date(day);
+    percentDay.setDate(day.getDate() + phenotype.daysAfter);
+    const priceThisDay = bitcoinHistory.get(fromDateToString(day));
+    const priceAfter = bitcoinHistory.get(fromDateToString(percentDay));
+    if (priceThisDay === undefined || priceAfter === undefined) {
+      throw new Error("Undefined percent.");
+    }
 
-
-// MAP Doesn't wotk with Date as key! TODO convert to srting and then to date? DONE
-function preprocessWallers(wallets: WalletData[]){
-    const transactionsByDate = new Map<string, number>();
-    minDate = new Date();
-    wallets.forEach(wallet => {
-        wallet.data.forEach(transaction => {
-            if(transaction.time < minDate){
-              minDate = transaction.time;
-            }
-            const thedate = fromDateToString(transaction.time);
-            const amountToAdd = fromStringToNum(transaction.amount.split(' ')[0].replace(',',''));
-
-            if(transactionsByDate.has(thedate)){
-                let amount = transactionsByDate.get(thedate) || 0;
-                amount += amountToAdd;
-                transactionsByDate.set(thedate, amount);
-            }
-            else{
-                transactionsByDate.set(thedate, amountToAdd);
-            }
-
-        });
-    });
-    allWallets = transactionsByDate;
-    return transactionsByDate;
+    const percent = (priceAfter / priceThisDay);
+    const event = new Event(countBitcoin, percent);
+    eventMap.set(fromDateToString(day), event);
+  }
 }
 
-async function preprocessBitcoinHistory(from: Date){
+function preprocessWallets(wallets: WalletData[]) {
+  const transactionsByDate = new Map<string, number>();
+  minDate = new Date();
+  wallets.forEach((wallet) => {
+    wallet.data.forEach((transaction) => {
+      if (transaction.time < minDate) {
+        minDate = transaction.time;
+      }
+      const thedate = fromDateToString(transaction.time);
+      const amountToAdd = fromStringToNum(
+        transaction.amount.split(" ")[0].replace(",", "")
+      );
+
+      if (transactionsByDate.has(thedate)) {
+        let amount = transactionsByDate.get(thedate) || 0;
+        amount += amountToAdd;
+        transactionsByDate.set(thedate, amount);
+      } else {
+        transactionsByDate.set(thedate, amountToAdd);
+      }
+    });
+  });
+  allWallets = transactionsByDate;
+  return transactionsByDate;
+}
+
+async function preprocessBitcoinHistory(from: Date) {
   const fromDate = Math.floor(from.getTime() / 1000);
-  const history = await crawlBitcoinHistory(fromDate);
+  const history = await crawlBitcoinHistory(fromDate, undefined, true);
   bitcoinHistory = new Map<string, number>();
-  history.forEach(day => {
+  history.forEach((day) => {
     bitcoinHistory.set(day.Date, fromStringToNum(day.Close));
     // console.log("Key " + day.Date + " Value " + fromStringToNum(day.Close));
   });
 }
 
-
-function fromDateToString(date: Date){
-  return date.toISOString().split('T')[0];
+function fromDateToString(date: Date) {
+  try {
+    return date.toISOString().split("T")[0];
+  } catch (error) {
+    console.log(error);
+    return "";
+  }
 }
 
-function fromStringToDate(date: string){
-  return  new Date(date);
+function fromStringToDate(date: string) {
+  return new Date(date);
 }
 
-function fromStringToNum(amount: string){
-    const num: number = +amount;
-    return num;
+function fromStringToNum(amount: string) {
+  const num: number = +amount;
+  return num;
 }
-
-
 
 function doesABeatBFunction(phenoTypeA: Phenotype, phenoTypeB: Phenotype) {
   return fitnessFunction(phenoTypeA) >= fitnessFunction(phenoTypeB);
 }
 
-export { preprocessWallers, preprocessBitcoinHistory };
+export {
+  preprocessWallets as preprocessWallers,
+  preprocessBitcoinHistory,
+  fitnessFunction,
+  executeAlgorithm,
+};
 //TODO
 // get the sum from all the wallets for each day.
