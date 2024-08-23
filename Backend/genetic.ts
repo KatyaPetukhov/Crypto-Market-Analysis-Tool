@@ -2,10 +2,15 @@ const GeneticAlgorithmConstructor = require("geneticalgorithm");
 import { crawlBitcoinHistory } from "./crawlBitcoinHistory";
 import { Event, WalletData } from "./types";
 import { createBitcoinWallets } from "./getWalletData";
+const random = require("random");
 let allWallets: Map<string, number> = new Map();
 let bitcoinHistory: Map<string, number> = new Map();
 let minDate = new Date();
 const testDays = 50;
+const populationSize = 100;
+let mutationCount = Math.floor(populationSize * 0.2);
+let numOfEvolutions = 20;
+let predictionForToday: number | undefined = undefined;
 
 const clamp = (val: number, min = 0, max = 1) =>
   Math.max(min, Math.min(max, val));
@@ -23,15 +28,15 @@ interface Phenotype {
 const minimum: Phenotype = {
   daysBefore: 1,
   daysAfter: 1,
-  bitcoinThreshold: 0.001,
-  percentThreshold: 0.001,
+  bitcoinThreshold: 50,
+  percentThreshold: 0.01,
 };
 
 const maximum: Phenotype = {
-  daysBefore: 20,
-  daysAfter: 10,
-  bitcoinThreshold: 1,
-  percentThreshold: 0.01,
+  daysBefore: 3,
+  daysAfter: 3,
+  bitcoinThreshold: 500,
+  percentThreshold: 0.05,
 };
 
 //Probability that each variable will change if the mutation happens
@@ -49,8 +54,6 @@ const mutateRange = {
   bitcionThresholdRange: 0.25,
   percentThresholdRange: 0.25,
 };
-
-const populationSize = 100;
 const population: Phenotype[] = repeatFunction(populationSize);
 
 const config = {
@@ -70,26 +73,52 @@ async function executeAlgorithm() {
   geneticalgorithm.evolve();
   let best = geneticalgorithm.bestScore();
   let bestP = geneticalgorithm.best();
-  while(best<0.6){
+  while (best < 0.6 && numOfEvolutions > 0) {
     geneticalgorithm.evolve();
-    bestP = geneticalgorithm.best()
+    bestP = geneticalgorithm.best();
     best = geneticalgorithm.bestScore();
-    console.log("Best score: " + best);
-    console.log("Best P Days Before: " + bestP.daysBefore + " Days After: " + bestP.daysAfter + " Bitcoin: " + bestP.bitcoinThreshold + " Percent: " + bestP.percentThreshold );
+    console.log(numOfEvolutions + " Best score: " + best);
+    console.log(
+      "Best Days Before: " +
+        bestP.daysBefore +
+        " Days After: " +
+        bestP.daysAfter +
+        " Bitcoin: " +
+        bestP.bitcoinThreshold +
+        " Percent: " +
+        bestP.percentThreshold
+    );
+    numOfEvolutions--;
   }
-  let scoreList = geneticalgorithm.scoredPopulation();
-  
+  console.log("AFTER TESTING THE SCORE IS: " + testingDays(bestP));
+  predictionForToday = createPrediction(bestP);
+  return predictionForToday;
+}
+
+function createPrediction(phenotype: Phenotype) {
+  //-1 to sell 0 to hold 1 to buy
+  let countBitcoin = 0;
+  let currentDate = new Date();
+  let startCountDay = new Date();
+  startCountDay.setDate(startCountDay.getTime() - phenotype.daysBefore);
+  for (let i = startCountDay; i < currentDate; i.setDate(i.getDate() + 1)) {
+    countBitcoin += allWallets.get(fromDateToString(i)) || 0;
+  }
+  if (Math.abs(countBitcoin) > phenotype.bitcoinThreshold) {
+    return Math.sign(countBitcoin);
+  }
+  return 0;
 }
 
 function createRandomPhenotype() {
   const phenotype: Phenotype = {
-    daysBefore: randomNumInt(minimum.daysBefore, maximum.daysBefore),
-    daysAfter: randomNumInt(minimum.daysAfter, maximum.daysAfter),
-    bitcoinThreshold: randomNumFloat(
+    daysBefore: random.int(minimum.daysBefore, maximum.daysBefore),
+    daysAfter: random.int(minimum.daysAfter, maximum.daysAfter),
+    bitcoinThreshold: random.int(
       minimum.bitcoinThreshold,
       maximum.bitcoinThreshold
     ),
-    percentThreshold: randomNumFloat(
+    percentThreshold: random.float(
       minimum.percentThreshold,
       maximum.percentThreshold
     ),
@@ -115,124 +144,163 @@ function randomNumInt(min: number, max: number) {
 
 function mutationFunction(oldPhenotype: Phenotype) {
   // to create random func that says if of the mutation is completely random or based on probability plus last value
+
   let resultPhenotype: Phenotype = {
     daysAfter: oldPhenotype.daysAfter,
     daysBefore: oldPhenotype.daysBefore,
     bitcoinThreshold: oldPhenotype.bitcoinThreshold,
     percentThreshold: oldPhenotype.percentThreshold,
   };
-  if (Math.random() > completelyRandomMutationChance) {
-    if (Math.random() < mutateProbablity.daysAfterProbablity) {
-      resultPhenotype.daysAfter = clamp(
-        randomNumInt(
-          oldPhenotype.daysAfter - mutateRange.daysAfterRange,
-          oldPhenotype.daysAfter + mutateRange.daysAfterRange
-        ),
-        minimum.daysAfter,
-        maximum.daysAfter
-      );
+
+  if (mutationCount > 0) {
+    let randomGene = random.int(1, 4);
+    switch (randomGene) {
+      case 1: {
+        resultPhenotype.daysAfter = random.int(
+          minimum.daysAfter,
+          maximum.daysAfter
+        );
+        break;
+      }
+      case 2: {
+        resultPhenotype.daysBefore = random.int(
+          minimum.daysBefore,
+          maximum.daysBefore
+        );
+        break;
+      }
+      case 3: {
+        resultPhenotype.bitcoinThreshold = random.int(
+          minimum.bitcoinThreshold,
+          maximum.bitcoinThreshold
+        );
+        break;
+      }
+      case 4: {
+        resultPhenotype.percentThreshold = random.float(
+          minimum.percentThreshold,
+          maximum.percentThreshold
+        );
+        break;
+      }
+
+      default:
+        break;
     }
-    if (Math.random() < mutateProbablity.daysBeforeProbablity) {
-      resultPhenotype.daysBefore = clamp(
-        randomNumInt(
-          oldPhenotype.daysBefore - mutateRange.daysBeforeRange,
-          oldPhenotype.daysBefore + mutateRange.daysBeforeRange
-        ),
-        minimum.daysBefore,
-        maximum.daysBefore
-      );
-    }
-    if (Math.random() < mutateProbablity.bitcionThresholdProbablity) {
-      resultPhenotype.bitcoinThreshold = clamp(
-        randomNumFloat(
-          oldPhenotype.bitcoinThreshold - (oldPhenotype.bitcoinThreshold * mutateRange.bitcionThresholdRange) ,
-          oldPhenotype.bitcoinThreshold + (mutateRange.bitcionThresholdRange * oldPhenotype.bitcoinThreshold)
-        ),
-        minimum.bitcoinThreshold,
-        maximum.bitcoinThreshold
-      );
-    }
-    if (Math.random() < mutateProbablity.percentThresholdProbablity) {
-      resultPhenotype.percentThreshold = clamp(
-        randomNumFloat(
-          oldPhenotype.percentThreshold - (oldPhenotype.percentThreshold * mutateRange.percentThresholdRange),
-          oldPhenotype.percentThreshold +(oldPhenotype.percentThreshold * mutateRange.percentThresholdRange) 
-        ),
-        minimum.percentThreshold,
-        maximum.percentThreshold
-      );
-    }
-  } else {
-    if (Math.random() < mutateProbablity.daysAfterProbablity) {
-      resultPhenotype.daysAfter = randomNumInt(
-        minimum.daysAfter,
-        maximum.daysAfter
-      );
-    }
-    if (Math.random() < mutateProbablity.daysBeforeProbablity) {
-      resultPhenotype.daysBefore = randomNumInt(
-        minimum.daysBefore,
-        maximum.daysBefore
-      );
-    }
-    if (Math.random() < mutateProbablity.bitcionThresholdProbablity) {
-      resultPhenotype.bitcoinThreshold = randomNumFloat(
-        minimum.bitcoinThreshold,
-        maximum.bitcoinThreshold
-      );
-    }
-    if (Math.random() < mutateProbablity.percentThresholdProbablity) {
-      resultPhenotype.percentThreshold = randomNumFloat(
-        minimum.percentThreshold,
-        maximum.percentThreshold
-      );
-    }
+
+    mutationCount--;
   }
+  // if (Math.random() > completelyRandomMutationChance) {
+  //   if (Math.random() < mutateProbablity.daysAfterProbablity) {
+  //     resultPhenotype.daysAfter = clamp(
+  //       randomNumInt(
+  //         oldPhenotype.daysAfter - mutateRange.daysAfterRange,
+  //         oldPhenotype.daysAfter + mutateRange.daysAfterRange
+  //       ),
+  //       minimum.daysAfter,
+  //       maximum.daysAfter
+  //     );
+  //   }
+  //   if (Math.random() < mutateProbablity.daysBeforeProbablity) {
+  //     resultPhenotype.daysBefore = clamp(
+  //       randomNumInt(
+  //         oldPhenotype.daysBefore - mutateRange.daysBeforeRange,
+  //         oldPhenotype.daysBefore + mutateRange.daysBeforeRange
+  //       ),
+  //       minimum.daysBefore,
+  //       maximum.daysBefore
+  //     );
+  //   }
+  //   if (Math.random() < mutateProbablity.bitcionThresholdProbablity) {
+  //     resultPhenotype.bitcoinThreshold = clamp(
+  //       randomNumFloat(
+  //         oldPhenotype.bitcoinThreshold - (oldPhenotype.bitcoinThreshold * mutateRange.bitcionThresholdRange) ,
+  //         oldPhenotype.bitcoinThreshold + (mutateRange.bitcionThresholdRange * oldPhenotype.bitcoinThreshold)
+  //       ),
+  //       minimum.bitcoinThreshold,
+  //       maximum.bitcoinThreshold
+  //     );
+  //   }
+  //   if (Math.random() < mutateProbablity.percentThresholdProbablity) {
+  //     resultPhenotype.percentThreshold = clamp(
+  //       randomNumFloat(
+  //         oldPhenotype.percentThreshold - (oldPhenotype.percentThreshold * mutateRange.percentThresholdRange),
+  //         oldPhenotype.percentThreshold +(oldPhenotype.percentThreshold * mutateRange.percentThresholdRange)
+  //       ),
+  //       minimum.percentThreshold,
+  //       maximum.percentThreshold
+  //     );
+  //   }
+  // } else {
+  //   if (Math.random() < mutateProbablity.daysAfterProbablity) {
+  //     resultPhenotype.daysAfter = randomNumInt(
+  //       minimum.daysAfter,
+  //       maximum.daysAfter
+  //     );
+  //   }
+  //   if (Math.random() < mutateProbablity.daysBeforeProbablity) {
+  //     resultPhenotype.daysBefore = randomNumInt(
+  //       minimum.daysBefore,
+  //       maximum.daysBefore
+  //     );
+  //   }
+  //   if (Math.random() < mutateProbablity.bitcionThresholdProbablity) {
+  //     resultPhenotype.bitcoinThreshold = randomNumFloat(
+  //       minimum.bitcoinThreshold,
+  //       maximum.bitcoinThreshold
+  //     );
+  //   }
+  //   if (Math.random() < mutateProbablity.percentThresholdProbablity) {
+  //     resultPhenotype.percentThreshold = randomNumFloat(
+  //       minimum.percentThreshold,
+  //       maximum.percentThreshold
+  //     );
+  //   }
+  // }
 
   return resultPhenotype;
 }
 
 function crossoverFunction(phenoTypeA: Phenotype, phenoTypeB: Phenotype) {
   let child1: Phenotype = {
-    daysBefore:
-      Math.random() > 0.5 ? phenoTypeA.daysBefore : phenoTypeB.daysBefore,
-    daysAfter:
-      Math.random() > 0.5 ? phenoTypeA.daysAfter : phenoTypeB.daysAfter,
-    bitcoinThreshold:
-      Math.random() > 0.5
-        ? phenoTypeA.bitcoinThreshold
-        : phenoTypeB.bitcoinThreshold,
-    percentThreshold:
-      Math.random() > 0.5
-        ? phenoTypeA.percentThreshold
-        : phenoTypeB.percentThreshold,
+    daysBefore: random.boolean()
+      ? phenoTypeA.daysBefore
+      : phenoTypeB.daysBefore,
+    daysAfter: random.boolean() ? phenoTypeA.daysAfter : phenoTypeB.daysAfter,
+    bitcoinThreshold: random.boolean()
+      ? phenoTypeA.bitcoinThreshold
+      : phenoTypeB.bitcoinThreshold,
+    percentThreshold: random.boolean()
+      ? phenoTypeA.percentThreshold
+      : phenoTypeB.percentThreshold,
   };
   let child2: Phenotype = {
-    daysBefore:
-      Math.random() > 0.5 ? phenoTypeA.daysBefore : phenoTypeB.daysBefore,
-    daysAfter:
-      Math.random() > 0.5 ? phenoTypeA.daysAfter : phenoTypeB.daysAfter,
-    bitcoinThreshold:
-      Math.random() > 0.5
-        ? phenoTypeA.bitcoinThreshold
-        : phenoTypeB.bitcoinThreshold,
-    percentThreshold:
-      Math.random() > 0.5
-        ? phenoTypeA.percentThreshold
-        : phenoTypeB.percentThreshold,
+    daysBefore: random.boolean()
+      ? phenoTypeA.daysBefore
+      : phenoTypeB.daysBefore,
+    daysAfter: random.boolean() ? phenoTypeA.daysAfter : phenoTypeB.daysAfter,
+    bitcoinThreshold: random.boolean()
+      ? phenoTypeA.bitcoinThreshold
+      : phenoTypeB.bitcoinThreshold,
+    percentThreshold: random.boolean()
+      ? phenoTypeA.percentThreshold
+      : phenoTypeB.percentThreshold,
   };
   return [child1, child2];
 }
 
-// TO DO LOOP over days before and calculate ...
 function fitnessFunction(phenotype: Phenotype) {
-  let fitness = 0;
   let currentDate = new Date(minDate);
   let maxDate = new Date();
   maxDate.setDate(maxDate.getDate() - testDays);
   currentDate.setDate(minDate.getDate() + phenotype.daysBefore);
   // use phenotype and possibly some other information
   // to determine the fitness number.  Higher is better, lower is worse.
+  return fitness(phenotype, currentDate, maxDate);
+}
+
+function fitness(phenotype: Phenotype, currentDate: Date, maxDate: Date) {
+  let fitness = 0;
   let eventMap = new Map<string, Event>();
 
   for (let i = currentDate; i < maxDate; i.setDate(i.getDate() + 1)) {
@@ -241,7 +309,6 @@ function fitnessFunction(phenotype: Phenotype) {
 
   const totalEvents = eventMap.size;
   if (totalEvents === 0) {
-
     fitness = 0;
     return fitness;
   }
@@ -253,8 +320,6 @@ function fitnessFunction(phenotype: Phenotype) {
   });
 
   fitness = succesfulEvents / totalEvents;
-
-  
   return fitness;
 }
 
@@ -279,7 +344,7 @@ function checkDay(
       throw new Error("Undefined percent.");
     }
 
-    const percent = (priceAfter / priceThisDay);
+    const percent = priceAfter / priceThisDay;
     const event = new Event(countBitcoin, percent);
     eventMap.set(fromDateToString(day), event);
   }
@@ -343,11 +408,17 @@ function doesABeatBFunction(phenoTypeA: Phenotype, phenoTypeB: Phenotype) {
   return fitnessFunction(phenoTypeA) >= fitnessFunction(phenoTypeB);
 }
 
+function testingDays(phenotype: Phenotype) {
+  let currentDate = new Date();
+  let maxDate = new Date();
+  currentDate.setDate(currentDate.getDate() - testDays);
+  return fitness(phenotype, currentDate, maxDate);
+}
+
 export {
   preprocessWallets as preprocessWallers,
   preprocessBitcoinHistory,
   fitnessFunction,
   executeAlgorithm,
+  predictionForToday,
 };
-//TODO
-// get the sum from all the wallets for each day.

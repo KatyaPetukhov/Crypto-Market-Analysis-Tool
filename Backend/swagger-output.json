@@ -31,16 +31,6 @@
         }
       }
     },
-    "/get-wallet-data": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/get-bitcoin-history": {
       "get": {
         "description": "",
@@ -63,15 +53,30 @@
         }
       }
     },
+    "/get-wallet-data": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/get-prediction": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/add-subscriber": {
       "post": {
         "description": "",
         "parameters": [
-          {
-            "name": "until",
-            "in": "query",
-            "type": "string"
-          },
           {
             "name": "body",
             "in": "body",
@@ -79,6 +84,9 @@
               "type": "object",
               "properties": {
                 "name": {
+                  "example": "any"
+                },
+                "mail": {
                   "example": "any"
                 }
               }
@@ -88,6 +96,12 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
