@@ -1,4 +1,3 @@
-// Automatically generated API using OpenAPI docs from the backend side.
 import { WalletData } from "../screens/Wallet";
 import { emptySplitApi as api } from "./EmptyApi";
 export const addTagTypes = [] as const;
@@ -14,12 +13,6 @@ const injectedRtkApi = api
       $get: build.query<$getApiResponse, $getApiArg>({
         query: () => ({ url: `/` }),
       }),
-      getGetWalletData: build.query<
-        GetGetWalletDataApiResponse,
-        GetGetWalletDataApiArg
-      >({
-        query: () => ({ url: `/get-wallet-data` }),
-      }),
       getGetBitcoinHistory: build.query<
         GetGetBitcoinHistoryApiResponse,
         GetGetBitcoinHistoryApiArg
@@ -29,6 +22,18 @@ const injectedRtkApi = api
           params: { from: queryArg["from"], until: queryArg.until },
         }),
       }),
+      getGetWalletData: build.query<
+        GetGetWalletDataApiResponse,
+        GetGetWalletDataApiArg
+      >({
+        query: () => ({ url: `/get-wallet-data` }),
+      }),
+      getGetPrediction: build.query<
+        GetGetPredictionApiResponse,
+        GetGetPredictionApiArg
+      >({
+        query: () => ({ url: `/get-prediction` }),
+      }),
       postAddSubscriber: build.mutation<
         PostAddSubscriberApiResponse,
         PostAddSubscriberApiArg
@@ -37,7 +42,6 @@ const injectedRtkApi = api
           url: `/add-subscriber`,
           method: "POST",
           body: queryArg.body,
-          params: { until: queryArg.until },
         }),
       }),
     }),
@@ -48,24 +52,27 @@ export type GetApiDocsApiResponse = unknown;
 export type GetApiDocsApiArg = void;
 export type $getApiResponse = unknown;
 export type $getApiArg = void;
-export type GetGetWalletDataApiResponse = WalletData[];
-export type GetGetWalletDataApiArg = void;
 export type GetGetBitcoinHistoryApiResponse = any[];
 export type GetGetBitcoinHistoryApiArg = {
   from?: string;
   until?: string;
 };
+export type GetGetWalletDataApiResponse = WalletData[];
+export type GetGetWalletDataApiArg = void;
+export type GetGetPredictionApiResponse = any;
+export type GetGetPredictionApiArg = void;
 export type PostAddSubscriberApiResponse = unknown;
 export type PostAddSubscriberApiArg = {
-  until?: string;
   body: {
     name?: any;
+    mail?: any;
   };
 };
 export const {
   useGetApiDocsQuery,
   use$getQuery,
-  useGetGetWalletDataQuery,
   useGetGetBitcoinHistoryQuery,
+  useGetGetWalletDataQuery,
+  useGetGetPredictionQuery,
   usePostAddSubscriberMutation,
 } = injectedRtkApi;
