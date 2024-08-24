@@ -6,18 +6,10 @@ import ReactSpeedometer, {
   CustomSegmentLabelPosition,
 } from "react-d3-speedometer";
 import React, { useEffect, useState } from "react";
-import {
-  useGetGetPredictionQuery,
-  useGetGetWalletDataQuery,
-} from "../redux/Api";
-import { log } from "console";
+import { useGetGetPredictionQuery } from "../redux/Api";
 
 function getRandomNumber() {
   return Math.floor(Math.random() * 5);
-}
-
-interface PredictionCircleProps {
-  isHidden: boolean;
 }
 
 const Prediction = () => {
