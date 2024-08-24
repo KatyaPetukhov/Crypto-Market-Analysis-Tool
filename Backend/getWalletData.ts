@@ -1,10 +1,10 @@
 // Getting wallet data from CSV.
 
-import { Transaction, WalletData } from './types';
-import Papa from 'papaparse';
+import { Transaction, WalletData } from "./types";
+import Papa from "papaparse";
 //import Crawler from 'crawler';
 
-const fs = require('fs');
+const fs = require("fs");
 
 // // The list of the sources for the wallets we use.
 // const walletURLs: string[] = [
@@ -15,66 +15,63 @@ const fs = require('fs');
 //     'https://bitinfocharts.com/bitcoin/address/39gUvGynQ7Re3i15G3J2gp9DEB9LnLFPMN-full',
 
 // ]
-const createBitcoinWallets = (): WalletData[] => {
-    const savedCsvNames = getFiles('./walletsCSV');
-    const walletData: WalletData[] = [];
-    for (let i = 0; i < savedCsvNames.length; i++) {
-        const csvFile = fs.readFileSync(savedCsvNames[i], 'utf8');
-        const parsedCSV = Papa.parse<Transaction>(csvFile, { header: true, delimiter: "|" });
-        const name = savedCsvNames[i].split('/')[2].split('.')[0];
-        walletData.push({
-            name: name,
-            link: `https://bitinfocharts.com/bitcoin/address/${name}-full`,
-            data: generateTransactions(parsedCSV.data),
-        });
-    }
+const createBitcoinWallets = (dir: string = "./walletsCSV"): WalletData[] => {
+  const savedCsvNames = getFiles(dir);
+  const walletData: WalletData[] = [];
+  for (let i = 0; i < savedCsvNames.length; i++) {
+    const csvFile = fs.readFileSync(savedCsvNames[i], "utf8");
+    const parsedCSV = Papa.parse<Transaction>(csvFile, {
+      header: true,
+      delimiter: "|",
+    });
+    const name = savedCsvNames[i].split("/")[2].split(".")[0];
+    walletData.push({
+      name: name,
+      link: `https://bitinfocharts.com/bitcoin/address/${name}-full`,
+      data: generateTransactions(parsedCSV.data),
+    });
+  }
 
-
-    return walletData;
-}
+  return walletData;
+};
 
 function getFiles(dir: string, files: string[] = []) {
-    // Get an array of all files and directories in the passed directory using fs.readdirSync
-    const fileList = fs.readdirSync(dir)
-    // Create the full path of the file/directory by concatenating the passed directory and file/directory name
-    for (const file of fileList) {
-        const name = `${dir}/${file}`
-        // Check if the current file/directory is a directory using fs.statSync
-        files.push(name)
-    }
-    return files
+  // Get an array of all files and directories in the passed directory using fs.readdirSync
+  const fileList = fs.readdirSync(dir);
+  // Create the full path of the file/directory by concatenating the passed directory and file/directory name
+  for (const file of fileList) {
+    const name = `${dir}/${file}`;
+    // Check if the current file/directory is a directory using fs.statSync
+    files.push(name);
+  }
+  return files;
 }
-
-
 
 function generateTransactions(data: Transaction[]): Transaction[] {
-    let transactions: Transaction[] = [];
-    data.forEach(transaction => {
-        let t = {
-            block: transaction.block,
-            time: createTimezoneDate(transaction.time),
-            amount: transaction.amount,
-            balance: transaction.balance,
-            balanceUSD: transaction.balanceUSD,
-            profit: transaction.profit,
-        };
-        transactions.push(t);
-    });
-    return transactions;
+  let transactions: Transaction[] = [];
+  data.forEach((transaction) => {
+    let t = {
+      block: transaction.block,
+      time: createTimezoneDate(transaction.time),
+      amount: transaction.amount,
+      balance: transaction.balance,
+      balanceUSD: transaction.balanceUSD,
+      profit: transaction.profit,
+    };
+    transactions.push(t);
+  });
+  return transactions;
 }
-
 
 function createTimezoneDate(dateOld: Date) {
-    const newDate = new Date(dateOld);
-    const userTimezoneOffset = newDate.getTimezoneOffset() * 60000;
-    return new Date(newDate.getTime() + userTimezoneOffset * Math.sign(userTimezoneOffset));
+  const newDate = new Date(dateOld);
+  const userTimezoneOffset = newDate.getTimezoneOffset() * 60000;
+  return new Date(
+    newDate.getTime() + userTimezoneOffset * Math.sign(userTimezoneOffset)
+  );
 }
 
-
 //The WebSite BitInfoCharts added the capcha. We can not use the code below.
-
-
-
 
 // The wallet data that was saved.
 // let crawledWalletData: WalletData[] = [];
@@ -95,7 +92,7 @@ function createTimezoneDate(dateOld: Date) {
 //                     const $ = res.$;
 
 //                     const walletData: any[] = []
-//                     //  The data saved in a table, so we use the apropriate classes to get the data. 
+//                     //  The data saved in a table, so we use the apropriate classes to get the data.
 //                     //  Loop over the rows in the table.
 //                     const row = $('tr.trb')
 //                     $('tr.trb').each(function (this: any) {
@@ -116,7 +113,7 @@ function createTimezoneDate(dateOld: Date) {
 //                     const names = link.split('/');
 //                     let walletTest = { link: link, name: names[names.length - 1], data: generateTransactions(walletData) };
 //                     crawledWalletData.push({ link: link, name: names[names.length - 1], data: generateTransactions(walletData) });
-//                     count++;                    
+//                     count++;
 
 //                     if ( count == walletURLs.length){
 //                         resolve(crawledWalletData);
@@ -135,7 +132,6 @@ function createTimezoneDate(dateOld: Date) {
 //     });
 // }
 
-
 // function generateTransactions(data:string[][]) : Transaction[] {
 //     let transactions: Transaction[] = [];
 //     data.forEach(transaction => {
@@ -151,7 +147,6 @@ function createTimezoneDate(dateOld: Date) {
 //     });
 //     return transactions;
 // }
-
 
 // function createTimezoneDate(dateOld: string){
 //     const date = new Date(dateOld)
