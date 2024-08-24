@@ -1,7 +1,8 @@
 const GeneticAlgorithmConstructor = require("geneticalgorithm");
-import { crawlBitcoinHistory } from "./crawlBitcoinHistory";
-import { Event, WalletData } from "./types";
+import { crawlBitcoinHistory, readBitcoinHistory } from "./crawlBitcoinHistory";
+import { BitcoinHistory, Event, WalletData } from "./types";
 import { createBitcoinWallets } from "./getWalletData";
+import { log } from "console";
 const random = require("random");
 let allWallets: Map<string, number> = new Map();
 let bitcoinHistory: Map<string, number> = new Map();
@@ -67,9 +68,14 @@ const config = {
 
 const geneticalgorithm = GeneticAlgorithmConstructor(config);
 
-async function executeAlgorithm() {
-  preprocessWallets(createBitcoinWallets());
-  await preprocessBitcoinHistory(minDate);
+async function executeAlgorithm(walletDir?: string, historyFile?: string) {
+  if (walletDir) {
+    preprocessWallets(createBitcoinWallets(walletDir));
+  } else {
+    preprocessWallets(createBitcoinWallets());
+  }
+
+  await preprocessBitcoinHistory(minDate, historyFile);
   geneticalgorithm.evolve();
   let best = geneticalgorithm.bestScore();
   let bestP = geneticalgorithm.best();
@@ -91,6 +97,7 @@ async function executeAlgorithm() {
     numOfEvolutions--;
   }
   console.log("AFTER TESTING THE SCORE IS: " + testingDays(bestP));
+
   predictionForToday = createPrediction(bestP);
   return predictionForToday;
 }
@@ -100,10 +107,11 @@ function createPrediction(phenotype: Phenotype) {
   let countBitcoin = 0;
   let currentDate = new Date();
   let startCountDay = new Date();
-  startCountDay.setDate(startCountDay.getTime() - phenotype.daysBefore);
+  startCountDay.setDate(startCountDay.getDate() - phenotype.daysBefore);
   for (let i = startCountDay; i < currentDate; i.setDate(i.getDate() + 1)) {
     countBitcoin += allWallets.get(fromDateToString(i)) || 0;
   }
+
   if (Math.abs(countBitcoin) > phenotype.bitcoinThreshold) {
     return Math.sign(countBitcoin);
   }
@@ -318,8 +326,8 @@ function fitness(phenotype: Phenotype, currentDate: Date, maxDate: Date) {
       succesfulEvents++;
     }
   });
-
   fitness = succesfulEvents / totalEvents;
+
   return fitness;
 }
 
@@ -340,12 +348,14 @@ function checkDay(
     percentDay.setDate(day.getDate() + phenotype.daysAfter);
     const priceThisDay = bitcoinHistory.get(fromDateToString(day));
     const priceAfter = bitcoinHistory.get(fromDateToString(percentDay));
+
     if (priceThisDay === undefined || priceAfter === undefined) {
       throw new Error("Undefined percent.");
     }
 
     const percent = priceAfter / priceThisDay;
     const event = new Event(countBitcoin, percent);
+
     eventMap.set(fromDateToString(day), event);
   }
 }
@@ -376,9 +386,15 @@ function preprocessWallets(wallets: WalletData[]) {
   return transactionsByDate;
 }
 
-async function preprocessBitcoinHistory(from: Date) {
+async function preprocessBitcoinHistory(from: Date, fileName?: string) {
   const fromDate = Math.floor(from.getTime() / 1000);
-  const history = await crawlBitcoinHistory(fromDate, undefined, true);
+  let history;
+  if (fileName) {
+    history = readBitcoinHistory(fileName);
+  } else {
+    history = await crawlBitcoinHistory(fromDate, undefined, true);
+  }
+
   bitcoinHistory = new Map<string, number>();
   history.forEach((day) => {
     bitcoinHistory.set(day.Date, fromStringToNum(day.Close));
@@ -412,13 +428,15 @@ function testingDays(phenotype: Phenotype) {
   let currentDate = new Date();
   let maxDate = new Date();
   currentDate.setDate(currentDate.getDate() - testDays);
+  maxDate.setDate(maxDate.getDate() - phenotype.daysAfter);
   return fitness(phenotype, currentDate, maxDate);
 }
 
 export {
-  preprocessWallets as preprocessWallers,
+  preprocessWallets,
   preprocessBitcoinHistory,
   fitnessFunction,
   executeAlgorithm,
+  testingDays,
   predictionForToday,
 };
