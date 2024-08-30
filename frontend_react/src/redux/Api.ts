@@ -44,6 +44,16 @@ const injectedRtkApi = api
           body: queryArg.body,
         }),
       }),
+      postRemoveSubscriber: build.mutation<
+        PostRemoveSubscriberApiResponse,
+        PostRemoveSubscriberApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/remove-subscriber`,
+          method: "POST",
+          params: { mail: queryArg.mail },
+        }),
+      }),
     }),
     overrideExisting: false,
   });
@@ -68,6 +78,10 @@ export type PostAddSubscriberApiArg = {
     mail?: any;
   };
 };
+export type PostRemoveSubscriberApiResponse = unknown;
+export type PostRemoveSubscriberApiArg = {
+  mail?: string;
+};
 export const {
   useGetApiDocsQuery,
   use$getQuery,
@@ -75,4 +89,5 @@ export const {
   useGetGetWalletDataQuery,
   useGetGetPredictionQuery,
   usePostAddSubscriberMutation,
+  usePostRemoveSubscriberMutation,
 } = injectedRtkApi;

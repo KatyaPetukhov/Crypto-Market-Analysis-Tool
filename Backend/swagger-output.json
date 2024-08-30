@@ -105,6 +105,23 @@
           }
         }
       }
+    },
+    "/remove-subscriber": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "mail",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   }
 }
