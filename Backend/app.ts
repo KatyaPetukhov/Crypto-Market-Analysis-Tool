@@ -3,7 +3,7 @@
 //  15 minutes.
 
 require("dotenv").config();
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response, NextFunction, response } from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
@@ -20,11 +20,16 @@ import {
   findByTimeRange,
   clearCollection,
   getAllWallets,
+  getLastPrediction,
+  getAllMails,
+  deleteMail,
 } from "./database";
 import { crawlBitcoinHistory } from "./crawlBitcoinHistory";
 import { BitcoinHistory, WalletData } from "./types";
 import { createBitcoinWallets } from "./getWalletData";
 import { log } from "console";
+import { string } from "random-js";
+import { env } from "process";
 const app = express();
 let predictionForToday: number | undefined = undefined;
 
@@ -100,26 +105,26 @@ app.post("/add-subscriber", async (req: Request, res: Response) => {
   const mail = req.body.mail;
   const result = await addMail(mail, name);
   if (result != null) {
-    const mailOptions = {
-      from: process.env.EMAIL,
-      to: mail, // The email you want to send to
-      subject: `New Subscription To Crypto Market Analysis Tool`,
-      text: `Thank you for joining us, ${name}.\nTeam of Crypto Market Analysis Tool.`,
-    };
-
-    //  Send email to the user.
-    transporter.sendMail(mailOptions, (error: any, info: any) => {
-      if (error) {
-        console.log(error);
-        res.status(500).send("Error sending email");
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    });
+    try {
+      sendMail(
+        mail,
+        `New Subscription To Crypto Market Analysis Tool`,
+        `Thank you for joining us, ${name}.\nTeam of Crypto Market Analysis Tool.`
+      );
+    } catch (e) {
+      res.status(500).send("Error sending email");
+      return;
+    }
     res.sendStatus(200);
   } else {
     res.sendStatus(404);
   }
+});
+
+app.post("/remove-subscriber", async (req: Request, res: Response) => {
+  const mail: any = req.query.mail;
+  await deleteMail(mail);
+  res.send({});
 });
 
 // Catch 404 and forward to error handler
@@ -160,21 +165,53 @@ app.listen(process.env.PORT || 3001, () => {
   console.log(`Server is running on port ${process.env.PORT || 3001}`);
 });
 
-//  Get initial data and set a repeating interval to get updated data every 15 minutes.
-// clearCollection();
-// saveWallets();
-// setInterval(() => {
-//   saveWallets();
-// }, 15 * 60 * 1000);
-function startWorker() {
+function sendMail(mail: string, subject: string, text: string) {
+  const mailOptions = {
+    from: process.env.EMAIL,
+    to: mail, // The email you want to send to
+    subject: subject,
+    text: text,
+  };
+
+  //  Send email to the user.
+  transporter.sendMail(mailOptions, (error: any, info: any) => {
+    if (error) {
+      console.log(error);
+      throw new Error("Failed to send mail.");
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
+}
+
+async function startWorker() {
   const worker = new Worker(path.resolve(__dirname, "./genetic-thread.js"));
   worker.on("error", (e: any) => {
     console.log("error is : " + e.message);
   });
-  worker.on("message", (prediction: number) => {
+  worker.on("message", async (prediction: number) => {
     predictionForToday = prediction;
+    const lastPrediction = await getLastPrediction();
+    const mails = await getAllMails();
+    let predictionText = convertPredictionToText(predictionForToday);
+    const url = process.env.URL + "unsubscribe";
+    if (predictionForToday != lastPrediction?.prediction) {
+      for (let i = 0; i < mails.length; i++) {
+        let mail = mails[i].mail;
+        sendMail(
+          mail,
+          "Crypto Market Analysis Tool - New prediction for today!",
+          `Hello, ${mails[i].name}\nThe prediction was changed from yesterday. The new prediction for today is to: ${predictionText}.\n\n\nTo unsubscribe, click here: ${url}/${mail}`
+        );
+      }
+    }
+
     console.log("The prediction is : " + predictionForToday);
   });
+}
+
+function convertPredictionToText(prediction: number) {
+  return prediction == 0 ? "Hold" : prediction > 0 ? "Buy" : "Sell";
 }
 
 export default app;
