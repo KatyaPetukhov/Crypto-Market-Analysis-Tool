@@ -22,6 +22,11 @@ export interface BitcoinHistory {
   Volume: string;
 }
 
+export interface Prediction {
+  date: string;
+  prediction: number;
+}
+
 export class Event {
   constructor(private amount: number, private percent: number) {}
   isSuccesful: boolean = false;
