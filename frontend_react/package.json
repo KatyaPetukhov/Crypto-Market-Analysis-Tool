@@ -4,6 +4,8 @@
   "private": true,
   "homepage": "https://hadidanial.github.io/Crypto-Market-Analysis-Tool/frontend_react/build/",
   "dependencies": {
+    "@headlessui/react": "^2.1.3",
+    "@heroicons/react": "^2.1.5",
     "@reduxjs/toolkit": "^2.2.1",
     "@rtk-query/codegen-openapi": "^1.2.0",
     "@testing-library/jest-dom": "^5.17.0",
