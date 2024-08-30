@@ -2,12 +2,13 @@ const GeneticAlgorithmConstructor = require("geneticalgorithm");
 import { crawlBitcoinHistory, readBitcoinHistory } from "./crawlBitcoinHistory";
 import { BitcoinHistory, Event, WalletData } from "./types";
 import { createBitcoinWallets } from "./getWalletData";
-import { log } from "console";
+import { addPrediction } from "./database";
 const random = require("random");
 let allWallets: Map<string, number> = new Map();
 let bitcoinHistory: Map<string, number> = new Map();
 let minDate = new Date();
-const testDays = 50;
+const testDays = 15;
+const isTestMode = false;
 const populationSize = 100;
 let mutationCount = Math.floor(populationSize * 0.2);
 let numOfEvolutions = 20;
@@ -15,9 +16,6 @@ let predictionForToday: number | undefined = undefined;
 
 const clamp = (val: number, min = 0, max = 1) =>
   Math.max(min, Math.min(max, val));
-
-//Probability that a mutation will happen
-const completelyRandomMutationChance = 0.5;
 
 interface Phenotype {
   daysBefore: number;
@@ -98,11 +96,17 @@ async function executeAlgorithm(walletDir?: string, historyFile?: string) {
   }
   console.log("AFTER TESTING THE SCORE IS: " + testingDays(bestP));
 
-  predictionForToday = createPrediction(bestP);
+  predictionForToday = createPrediction(bestP, best);
+  if (!isTestMode) {
+    addPrediction(predictionForToday.toString(), fromDateToString(new Date()));
+  }
   return predictionForToday;
 }
 
-function createPrediction(phenotype: Phenotype) {
+function createPrediction(phenotype: Phenotype, fitnessScore: number) {
+  if (fitnessScore == 0) {
+    return 0;
+  }
   //-1 to sell 0 to hold 1 to buy
   let countBitcoin = 0;
   let currentDate = new Date();
@@ -111,6 +115,12 @@ function createPrediction(phenotype: Phenotype) {
   for (let i = startCountDay; i < currentDate; i.setDate(i.getDate() + 1)) {
     countBitcoin += allWallets.get(fromDateToString(i)) || 0;
   }
+  console.log(
+    "countBitcoin " +
+      countBitcoin +
+      " bitcoinThreshold " +
+      phenotype.bitcoinThreshold
+  );
 
   if (Math.abs(countBitcoin) > phenotype.bitcoinThreshold) {
     return Math.sign(countBitcoin);
