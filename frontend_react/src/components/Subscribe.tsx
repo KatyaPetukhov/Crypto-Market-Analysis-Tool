@@ -3,13 +3,44 @@ import React, { useState } from "react";
 import { post } from "../services/api";
 import Loading from "./Loading";
 import Alert from "./Alert";
-import Button from "./Button";
 
 const Subscribe = () => {
   const [name, setName] = useState("");
   const [mail, setMail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [error, setError] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(false);
+
+  // const handleSubmit = async (event: React.FormEvent) => {
+  //   event.preventDefault();
+  //   if (!mail) {
+  //     setError("Email is required");
+  //   } else if (!/\S+@\S+\.\S+/.test(mail)) {
+  //     setError("Email address is invalid");
+  //   } else {
+  //     setError("");
+  //     setIsLoading(true);
+  //     try {
+  //       await post("add-subscriber", { name: name, mail: mail });
+  //       setName("");
+  //       setMail("");
+  //       setIsAlertOpen(true);
+  //     } catch (err) {
+  //       setError("Failed to subscribe. Please try again.");
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   }
+  // };
+  //TO ADDD <form
+  //     onSubmit={handleSubmit}
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const email = event.target.value;
+    setMail(email);
+    setIsEmailValid(/\S+@\S+\.\S+/.test(email));
+  };
 
   return (
     <div className="container mx-auto px-6">
@@ -52,10 +83,9 @@ const Subscribe = () => {
           value={mail}
           aria-label="Email"
           required
-          onChange={(event) => {
-            setMail(event.target.value);
-          }}
+          onChange={handleEmailChange}
         />
+        {/* {error && <p className="text-red-500">{error}</p>} */}
 
         {isLoading ? (
           <Loading isLoading={true}></Loading>
@@ -63,7 +93,7 @@ const Subscribe = () => {
           <button
             className="bg-blue-500 hover:bg-blue-700 disabled:bg-gray-300 dark:disabled:bg-gray-800 text-white font-bold py-2 px-4 rounded mt-8 mb-20"
             type="submit"
-            disabled={mail.length === 0 || name.length === 0}
+            disabled={!isEmailValid || name.length === 0}
             onClick={async (event) => {
               event.preventDefault();
               setIsLoading(true);

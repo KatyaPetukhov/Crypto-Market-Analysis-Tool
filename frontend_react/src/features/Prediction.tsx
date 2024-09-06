@@ -10,13 +10,9 @@ import { useGetGetPredictionQuery } from "../redux/Api";
 import { getSelectedTheme } from "../redux/PreferencesSlice";
 import { useSelector } from "react-redux";
 
-function getRandomNumber() {
-  return Math.floor(Math.random() * 5);
-}
-
 const Prediction = () => {
   const isDarkMode = useSelector(getSelectedTheme);
-  const { data, isFetching, refetch, isLoading } = useGetGetPredictionQuery();
+  const { data, refetch, isLoading } = useGetGetPredictionQuery();
   const [value, setValue] = useState(1000);
   const [prediction, setPrediction] = useState(data?.predictionForToday);
 

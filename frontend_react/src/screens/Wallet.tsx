@@ -5,10 +5,19 @@ import Select from "../components/Select";
 import { useGetGetWalletDataQuery } from "../redux/Api";
 import Loading from "../components/Loading";
 import WalletTable from "../features/WalletTable";
+
 export interface WalletData {
   name: string;
   link: string;
-  data: string[];
+  data: Transaction[];
+}
+export interface Transaction {
+  block: string;
+  time: Date;
+  amount: string;
+  balance: string;
+  balanceUSD: string;
+  profit: string;
 }
 
 const Wallet = () => {
