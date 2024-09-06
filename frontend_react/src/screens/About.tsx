@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "../components/Header";
 import Subscribe from "../components/Subscribe";
+import Alert from "../components/Alert";
 
 const Home = () => {
   return (

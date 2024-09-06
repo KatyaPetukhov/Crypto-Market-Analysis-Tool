@@ -2,73 +2,102 @@
 //This block needs to get wallets history info and build Bitcoin predictions according
 // to this info by AI.
 //On this level we don't do implementation to this, so it creates random prediction.
-
-import React from "react";
-import { useGetGetWalletDataQuery } from "../redux/Api";
-
-function getRandomNumber() {
-  return Math.floor(Math.random() * 5);
-}
-
-interface PredictionCircleProps {
-  isHidden: boolean;
-}
+import ReactSpeedometer, {
+  CustomSegmentLabelPosition,
+} from "react-d3-speedometer";
+import React, { useEffect, useState } from "react";
+import { useGetGetPredictionQuery } from "../redux/Api";
+import { getSelectedTheme } from "../redux/PreferencesSlice";
+import { useSelector } from "react-redux";
 
 const Prediction = () => {
-  const { data } = useGetGetWalletDataQuery();
-  const circles: boolean[] = new Array(5).fill(true);
-  const setData = (data: any) => {
-    circles[getRandomNumber()] = false;
-    // TODO: Implement AI prediction...
+  const isDarkMode = useSelector(getSelectedTheme);
+  const { data, refetch, isLoading } = useGetGetPredictionQuery();
+  const [value, setValue] = useState(1000);
+  const [prediction, setPrediction] = useState(data?.predictionForToday);
+
+  const darkColors = {
+    segment_one: "#818cf8",
+    segment_two: "#6366F1",
+    segment_three: "#3730A3",
+    text: "#7c7c7c",
+    needle: "#bdbdbd",
+    key: "darkPrediction",
   };
-  setData(circles);
+  const whiteColors = {
+    segment_one: "#370D67",
+    segment_two: "#9059CF",
+    segment_three: "#A179CF",
+    text: "#424242",
+    needle: "#424242",
+    key: "whitePrediction",
+  };
 
-  return (
-    <section className="bg-white dark:bg-gray-800 py-8">
-      <h3 className="text-center text-gray-900 dark:text-gray-100">
-        Prediction for today:
-      </h3>
-      <div className="flex flex-col items-center px-8 mt-10 ">
-        <input
-          disabled
-          max="5"
-          step="1"
-          className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-not-allowed "
-        />
-        <div
-          id="rate_circles"
-          className="w-full flex justify-between text-xs mx-auto"
-        >
-          {circles.map((value, index) => {
-            return <PredictionCircle isHidden={value} key={index} />;
-          })}
-        </div>
-
-        <div id="rate_labels" className="w-full flex justify-between text-xs ">
-          <span className="mt-1 text-base w-24 text-center text-gray-900 dark:text-gray-100">
-            Sell
-          </span>
-          <span className="mt-1 text-base w-24 text-center"></span>
-          <span className="mt-1 text-base w-24 text-center text-gray-900 dark:text-gray-100">
-            Hold
-          </span>
-          <span className="mt-1 text-base w-24 text-center"></span>
-          <span className="mt-1 text-base w-24 text-center text-gray-900 dark:text-gray-100">
-            Buy
-          </span>
-        </div>
-      </div>
-    </section>
-  );
+  useEffect(() => {
+    setPrediction(data?.predictionForToday);
+    if (prediction === undefined) {
+      setTimeout(() => {
+        setValue(Math.abs(1000 - value));
+        if (!isLoading) {
+          refetch();
+        }
+      }, 3000);
+    } else {
+      setValue(prediction === -1 ? 125 : prediction === 1 ? 875 : 500);
+    }
+  }, [data?.predictionForToday, prediction, value, isLoading, refetch]);
+  if (isDarkMode) {
+    return PredictionSpeedometer(
+      value,
+      prediction === undefined ? "Calculating..." : "Prediction",
+      darkColors
+    );
+  } else {
+    return PredictionSpeedometer(
+      value,
+      prediction === undefined ? "Calculating..." : "Prediction",
+      whiteColors
+    );
+  }
 };
 
-const PredictionCircle: React.FC<PredictionCircleProps> = (props) => {
-  const classes = props.isHidden ? "w-6 mx-auto hidden" : "w-6 mx-auto";
-  return (
-    <span className="mt-1 text-base w-24 text-center transform -translate-y-5">
-      <img src="img/circle-solid.svg" alt="" className={classes} />
-    </span>
-  );
-};
+const PredictionSpeedometer = (value: number, text: string, colors: any) => (
+  <div key={colors.key} className="flex flex-col items-center px-8 mt-10 ">
+    <ReactSpeedometer
+      width={500}
+      needleHeightRatio={0.7}
+      value={value}
+      customSegmentStops={[0, 250, 750, 1000]}
+      segmentColors={[
+        colors.segment_one,
+        colors.segment_two,
+        colors.segment_three,
+      ]}
+      currentValueText={text}
+      customSegmentLabels={[
+        {
+          text: "Sell",
+          position: "OUTSIDE" as CustomSegmentLabelPosition,
+          color: colors.text,
+        },
+        {
+          text: "Hold",
+          position: "OUTSIDE" as CustomSegmentLabelPosition,
+          color: colors.text,
+        },
+        {
+          text: "Buy",
+          position: "OUTSIDE" as CustomSegmentLabelPosition,
+          color: colors.text,
+        },
+      ]}
+      ringWidth={47}
+      needleTransitionDuration={2500}
+      // needleTransition="easeElastic"
+      needleColor={colors.needle}
+      textColor={colors.text}
+    />
+  </div>
+);
 
 export default Prediction;
