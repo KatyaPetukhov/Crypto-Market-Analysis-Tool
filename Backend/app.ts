@@ -15,11 +15,6 @@ const nodemailer = require("nodemailer");
 import { Worker } from "worker_threads";
 import {
   addMail,
-  addWallet,
-  findByBlock,
-  findByTimeRange,
-  clearCollection,
-  getAllWallets,
   getLastPrediction,
   getAllMails,
   deleteMail,
@@ -27,9 +22,6 @@ import {
 import { crawlBitcoinHistory } from "./crawlBitcoinHistory";
 import { BitcoinHistory, WalletData } from "./types";
 import { createBitcoinWallets } from "./getWalletData";
-import { log } from "console";
-import { string } from "random-js";
-import { env } from "process";
 const app = express();
 let predictionForToday: number | undefined = undefined;
 
@@ -69,7 +61,7 @@ app.get("/", async (req: Request, res: Response) => {
 });
 //  Returns an array of historical wallet data.
 
-//  Returns an array of bitcion historical data between from and until dates, if provided, otherwise between
+//  Returns an array of bitcoin historical data between from and until dates, if provided, otherwise between
 //  one year ago and today.
 app.get("/get-bitcoin-history", async (req: Request, res: Response) => {
   const from: any = req.query.from;
@@ -94,7 +86,6 @@ app.get("/get-wallet-data", async (req: Request, res: Response) => {
 app.get("/get-prediction", async (req: Request, res: Response) => {
   res.send({
     statusCode: 200,
-
     predictionForToday: predictionForToday,
   });
 });
@@ -138,6 +129,10 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
   );
   next(createError(404));
 });
+
+//Automatically get bitcoin price history and Wallet Transactions
+//By scraping and downloading info.
+//Disabled due to CAPCHA
 
 // const saveWallets = async () => {
 //   // await crawlBitcoinWallets();
@@ -184,6 +179,8 @@ function sendMail(mail: string, subject: string, text: string) {
   });
 }
 
+// Create a new thread to run the genetic algorithm and
+// calculate a prediction without blocking the main server.
 async function startWorker() {
   const worker = new Worker(path.resolve(__dirname, "./genetic-thread.js"));
   worker.on("error", (e: any) => {

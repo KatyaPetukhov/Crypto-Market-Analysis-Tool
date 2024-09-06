@@ -11,9 +11,9 @@ const fs = require("fs");
 //     'https://bitinfocharts.com/bitcoin/address/bc1qjasf9z3h7w3jspkhtgatgpyvvzgpa2wwd2lr0eh5tx44reyn2k7sfc27a4-full',
 //     'https://bitinfocharts.com/bitcoin/address/1Ay8vMC7R1UbyCCZRVULMV7iQpHSAbguJP-full',
 //     'https://bitinfocharts.com/bitcoin/address/3EMVdMehEq5SFipQ5UfbsfMsH223sSz9A9-full',
-//    // 'https://bitinfocharts.com/bitcoin/address/bc1qcdqj2smprre85c78d942wx5tauw5n7uw92r7wr-full',
+//     'https://bitinfocharts.com/bitcoin/address/bc1qcdqj2smprre85c78d942wx5tauw5n7uw92r7wr-full',
 //     'https://bitinfocharts.com/bitcoin/address/39gUvGynQ7Re3i15G3J2gp9DEB9LnLFPMN-full',
-//     'https://bitinfocharts.com/bitcoin/address/15cHRgVrGKz7qp2JL2N5mkB2MCFGLcnHxv-full,
+//       'https://bitinfocharts.com/bitcoin/address/15cHRgVrGKz7qp2JL2N5mkB2MCFGLcnHxv-full,
 // ]
 const createBitcoinWallets = (dir: string = "./walletsCSV"): WalletData[] => {
   const savedCsvNames = getFiles(dir);
@@ -71,7 +71,8 @@ function createTimezoneDate(dateOld: Date) {
   );
 }
 
-//The WebSite BitInfoCharts added the capcha. We can not use the code below.
+//-------------------The WebSite BitInfoCharts added the capcha.
+//------------------- We can not use the code below.
 
 // The wallet data that was saved.
 // let crawledWalletData: WalletData[] = [];

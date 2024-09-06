@@ -60,6 +60,7 @@ const addMail = async (mail: string, name: string): Promise<any> => {
   }
 };
 
+//To remove the subbscriber from the mailing list by mail.
 const deleteMail = async (mail: string) => {
   try {
     const collection = await db.collection(collectionMails);
@@ -72,6 +73,8 @@ const deleteMail = async (mail: string) => {
     return null;
   }
 };
+
+//To add the wallet to the MongoDB.
 
 const addWallet = async (wallet: WalletData): Promise<any> => {
   try {
@@ -100,6 +103,7 @@ const addWallet = async (wallet: WalletData): Promise<any> => {
   }
 };
 
+//To get all the wallets from the DB.
 const getAllWallets = async (): Promise<WalletData[]> => {
   try {
     const collection = await db.collection(collectionWallets);
@@ -114,6 +118,7 @@ const getAllWallets = async (): Promise<WalletData[]> => {
   }
 };
 
+//To find the  wallet by block number.
 const findByBlock = async (block: string) => {
   try {
     const collection = await db.collection(collectionWallets);
@@ -129,6 +134,7 @@ const findByBlock = async (block: string) => {
   }
 };
 
+//To find the  wallet by time range.
 const findByTimeRange = async (startTime: string, endTime: string) => {
   try {
     const collection = await db.collection(collectionWallets);
@@ -150,6 +156,7 @@ const findByTimeRange = async (startTime: string, endTime: string) => {
   }
 };
 
+//To add prediction and its time to the DB.
 const addPrediction = async (
   prediction: string,
   date: string
@@ -179,6 +186,7 @@ const addPrediction = async (
   }
 };
 
+//To get the last prediction from the DB.
 const getLastPrediction = async () => {
   try {
     const collection = await db.collection(collectionPredictions);
@@ -196,6 +204,7 @@ const getLastPrediction = async () => {
   }
 };
 
+//To clear the collection by its name.
 async function clearCollection(collectionName: string) {
   try {
     const collection = await db.collection(collectionName);

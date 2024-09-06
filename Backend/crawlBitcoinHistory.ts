@@ -16,7 +16,6 @@ const crawlBitcoinHistory = async (
     isSpecificPeriod = true;
   }
   const minimum = 2678400;
-  const maximum = 298512000;
   const currentDate = new Date();
   const oneYearAgo = new Date(
     currentDate.getFullYear() - 1,
@@ -27,9 +26,7 @@ const crawlBitcoinHistory = async (
   const untilTimestamp = Math.floor(currentDate.getTime() / 1000);
   from = from || fromTimestamp;
   until = until || untilTimestamp;
-  const value = isSpecificPeriod
-    ? (until || maximum) - (from || minimum)
-    : minimum;
+  const value = isSpecificPeriod ? until - (from || minimum) : minimum;
 
   //  The API allows us to change the amount of points we get, either one point per day, one per week, one per month.
   //  We choose based on the amount of time between the dates.

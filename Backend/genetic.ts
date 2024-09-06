@@ -14,9 +14,6 @@ let mutationCount = Math.floor(populationSize * 0.2);
 let numOfEvolutions = 20;
 let predictionForToday: number | undefined = undefined;
 
-const clamp = (val: number, min = 0, max = 1) =>
-  Math.max(min, Math.min(max, val));
-
 interface Phenotype {
   daysBefore: number;
   daysAfter: number;
@@ -24,6 +21,7 @@ interface Phenotype {
   percentThreshold: number;
 }
 
+//The minimum and maximum parameters for phenotypes.
 const minimum: Phenotype = {
   daysBefore: 1,
   daysAfter: 1,
@@ -38,22 +36,8 @@ const maximum: Phenotype = {
   percentThreshold: 0.05,
 };
 
-//Probability that each variable will change if the mutation happens
-const mutateProbablity = {
-  daysBeforeProbablity: 0.5,
-  daysAfterProbablity: 0.5,
-  bitcionThresholdProbablity: 0.5,
-  percentThresholdProbablity: 0.5,
-};
-
-//How much a variable can change from a mutation
-const mutateRange = {
-  daysBeforeRange: 5,
-  daysAfterRange: 3,
-  bitcionThresholdRange: 0.25,
-  percentThresholdRange: 0.25,
-};
-const population: Phenotype[] = repeatFunction(populationSize);
+//Initialize the first population.
+const population: Phenotype[] = generateRandomPopulation(populationSize);
 
 const config = {
   mutationFunction: mutationFunction,
@@ -72,8 +56,8 @@ async function executeAlgorithm(walletDir?: string, historyFile?: string) {
   } else {
     preprocessWallets(createBitcoinWallets());
   }
-
   await preprocessBitcoinHistory(minDate, historyFile);
+
   geneticalgorithm.evolve();
   let best = geneticalgorithm.bestScore();
   let bestP = geneticalgorithm.best();
@@ -94,7 +78,7 @@ async function executeAlgorithm(walletDir?: string, historyFile?: string) {
     );
     numOfEvolutions--;
   }
-  console.log("AFTER TESTING THE SCORE IS: " + testingDays(bestP));
+  console.log("After the testing the score is: " + testingDays(bestP));
 
   predictionForToday = createPrediction(bestP, best);
   if (!isTestMode) {
@@ -103,6 +87,7 @@ async function executeAlgorithm(walletDir?: string, historyFile?: string) {
   return predictionForToday;
 }
 
+//According to the best phenotype and wallets history create a prediction for today.
 function createPrediction(phenotype: Phenotype, fitnessScore: number) {
   if (fitnessScore == 0) {
     return 0;
@@ -115,12 +100,6 @@ function createPrediction(phenotype: Phenotype, fitnessScore: number) {
   for (let i = startCountDay; i < currentDate; i.setDate(i.getDate() + 1)) {
     countBitcoin += allWallets.get(fromDateToString(i)) || 0;
   }
-  console.log(
-    "countBitcoin " +
-      countBitcoin +
-      " bitcoinThreshold " +
-      phenotype.bitcoinThreshold
-  );
 
   if (Math.abs(countBitcoin) > phenotype.bitcoinThreshold) {
     return Math.sign(countBitcoin);
@@ -128,6 +107,7 @@ function createPrediction(phenotype: Phenotype, fitnessScore: number) {
   return 0;
 }
 
+//Create a one phenotype randomally.
 function createRandomPhenotype() {
   const phenotype: Phenotype = {
     daysBefore: random.int(minimum.daysBefore, maximum.daysBefore),
@@ -144,7 +124,8 @@ function createRandomPhenotype() {
   return phenotype;
 }
 
-function repeatFunction(count: number) {
+//Create a a set of phenotypes randomally.
+function generateRandomPopulation(count: number) {
   const result = [];
   for (let i = 0; i < count; i++) {
     result.push(createRandomPhenotype());
@@ -160,6 +141,7 @@ function randomNumInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
+//Mutate a phenotype by changing one of the genes.
 function mutationFunction(oldPhenotype: Phenotype) {
   // to create random func that says if of the mutation is completely random or based on probability plus last value
 
@@ -279,6 +261,7 @@ function mutationFunction(oldPhenotype: Phenotype) {
   return resultPhenotype;
 }
 
+//Create a new phenotype by mixing between two other phenotypes.
 function crossoverFunction(phenoTypeA: Phenotype, phenoTypeB: Phenotype) {
   let child1: Phenotype = {
     daysBefore: random.boolean()
@@ -307,6 +290,8 @@ function crossoverFunction(phenoTypeA: Phenotype, phenoTypeB: Phenotype) {
   return [child1, child2];
 }
 
+// Calculate the fitness of the phenotype,
+// between from the min date to the current date.
 function fitnessFunction(phenotype: Phenotype) {
   let currentDate = new Date(minDate);
   let maxDate = new Date();
@@ -317,6 +302,8 @@ function fitnessFunction(phenotype: Phenotype) {
   return fitness(phenotype, currentDate, maxDate);
 }
 
+// Calculate the fitness score between two dates by counting the number
+// of succesful events.
 function fitness(phenotype: Phenotype, currentDate: Date, maxDate: Date) {
   let fitness = 0;
   let eventMap = new Map<string, Event>();
@@ -341,6 +328,8 @@ function fitness(phenotype: Phenotype, currentDate: Date, maxDate: Date) {
   return fitness;
 }
 
+// Checks if an event happened on this day? (If the absolute amount of bitcoins
+// bigger than bitcoin threshold of the phenotype and the percent is bigger).
 function checkDay(
   phenotype: Phenotype,
   day: Date,
@@ -370,6 +359,8 @@ function checkDay(
   }
 }
 
+// Get all the wallets and prepare creates a map with all the transactins
+// from all the wallets by date.
 function preprocessWallets(wallets: WalletData[]) {
   const transactionsByDate = new Map<string, number>();
   minDate = new Date();
@@ -396,6 +387,7 @@ function preprocessWallets(wallets: WalletData[]) {
   return transactionsByDate;
 }
 
+// Creates a map with the day and bitcion price.
 async function preprocessBitcoinHistory(from: Date, fileName?: string) {
   const fromDate = Math.floor(from.getTime() / 1000);
   let history;
@@ -434,6 +426,7 @@ function doesABeatBFunction(phenoTypeA: Phenotype, phenoTypeB: Phenotype) {
   return fitnessFunction(phenoTypeA) >= fitnessFunction(phenoTypeB);
 }
 
+//Run the fitness func on amount of the testing days.
 function testingDays(phenotype: Phenotype) {
   let currentDate = new Date();
   let maxDate = new Date();

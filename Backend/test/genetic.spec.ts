@@ -7,8 +7,7 @@ import {
   testingDays,
   predictionForToday,
 } from "../genetic";
-import { log } from "console";
-// REMEMBER TO CHANGE THE NUMBER OF TESTING DAYS!!!!!!
+// REMEMBER TO CHANGE THE NUMBER OF TESTING DAYS AND TESTING MODE IS TRUE IN GENETIC!!!!!!
 
 describe("Prediction test increase and buy", () => {
   it("should return 1 when the price increases and the wallet buy everytime", async () => {
@@ -39,7 +38,6 @@ describe("Prediction test increase and sell", () => {
       "./test/testing_wallet_sell",
       "./test/testing_history/price_increases.csv"
     );
-    console.log("PREDICTION FOR TODAY : " + result);
 
     assert.equal(result, 0);
   });
