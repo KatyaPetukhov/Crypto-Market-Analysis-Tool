@@ -28,7 +28,7 @@ const WalletTable: React.FC<WalletTableProps> = (props) => {
         </thead>
         <tbody key={"TableBody"}>
           {props.Wallet.data.map((row, index) => {
-            const classes = row[2].startsWith("+")
+            const classes = row.amount.startsWith("+")
               ? "text-green-800 dark:text-green-300 w-auto p-2 align-top border-b border-gray-200 dark:border-gray-700"
               : "text-red-800 dark:text-red-300 w-auto p-2 align-top border-b border-gray-200 dark:border-gray-700";
 
@@ -37,20 +37,20 @@ const WalletTable: React.FC<WalletTableProps> = (props) => {
             return (
               <tr key={key} className="text-left">
                 <td className="w-auto p-2 align-top border-b border-gray-200 dark:border-gray-700 dark:text-gray-200">
-                  {row[0]}
+                  {row.block}
                 </td>
                 <td className="w-auto p-2 align-top border-b border-gray-200 hidden md:table-cell dark:border-gray-700 dark:text-gray-200">
-                  {row[1]}
+                  {row.time.toString().split("T")[0]}
                 </td>
-                <td className={classes}>{row[2]}</td>
+                <td className={classes}>{row.amount}</td>
                 <td className="w-auto p-2 align-top border-b border-gray-200 dark:border-gray-700 dark:text-gray-200">
-                  {row[3]}
+                  {row.balance}
                 </td>
                 <td className="w-auto p-2 align-top border-b border-gray-200 hidden md:table-cell dark:border-gray-700 dark:text-gray-200">
-                  {row[4]}
+                  {row.balanceUSD}
                 </td>
                 <td className="w-auto p-2 align-top border-b border-gray-200 hidden md:table-cell dark:border-gray-700 dark:text-gray-200">
-                  {row[5]}
+                  {row.profit}
                 </td>
               </tr>
             );

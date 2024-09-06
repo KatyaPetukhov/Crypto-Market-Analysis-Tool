@@ -15,6 +15,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/about" element={<About />} />
+          <Route path="/unsubscribe/:mail" element={<Home />} />
         </Routes>
       </div>
       <Footer />
