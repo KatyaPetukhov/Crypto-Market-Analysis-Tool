@@ -22,6 +22,13 @@ export interface BitcoinHistory {
   Volume: string;
 }
 
+export interface PricesHistory {
+  snapped_at: string;
+  price: string;
+  market_cap: string;
+  total_volume: string;
+}
+
 export interface Prediction {
   date: string;
   prediction: number;
