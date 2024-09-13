@@ -10,7 +10,7 @@ import { usePostRemoveSubscriberMutation } from "../redux/Api";
 const Home = () => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const { mail } = useParams();
-  console.log("THE MAIL IS : " + mail);
+  //console.log("THE MAIL IS : " + mail);
   useEffect(() => {
     if (mail !== undefined) setIsAlertOpen(true);
   }, [mail]);
