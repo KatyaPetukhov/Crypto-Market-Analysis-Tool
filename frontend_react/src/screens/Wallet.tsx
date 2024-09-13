@@ -73,7 +73,7 @@ const Wallet = () => {
         <WalletTable Wallet={wallet} />
         <img
           className="my-4 mx-auto px-6 py-8"
-          src="https://source.unsplash.com/featured/?cryptocurrency"
+          src="../img/bg.jpg"
           alt="Crypto Analysis"
         />
         <a

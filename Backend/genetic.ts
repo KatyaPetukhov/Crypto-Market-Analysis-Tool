@@ -11,7 +11,7 @@ const testDays = 30;
 const isTestMode = false;
 const populationSize = 100;
 let mutationCount = Math.floor(populationSize * 0.2);
-let numOfEvolutions = 20;
+let numOfEvolutions = 30;
 let predictionForToday: number | undefined = undefined;
 
 interface Phenotype {
@@ -25,7 +25,7 @@ interface Phenotype {
 const minimum: Phenotype = {
   daysBefore: 1,
   daysAfter: 1,
-  bitcoinThreshold: 50,
+  bitcoinThreshold: 100,
   percentThreshold: 0.01,
 };
 
