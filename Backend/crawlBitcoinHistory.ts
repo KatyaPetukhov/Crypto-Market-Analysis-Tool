@@ -55,7 +55,7 @@ const crawlBitcoinHistory = async (
   const parsedCSV = Papa.parse<PricesHistory>(data, { header: true });
   const bitcoinHistory: BitcoinHistory[] = [];
   const filteredRows = [];
-  for (let i = parsedCSV.data.length - 1; i >= 0; i--) {
+  for (let i = 0; i < parsedCSV.data.length; i++) {
     let date =
       new Date(parsedCSV.data[i].snapped_at.split(" ")[0]).getTime() / 1000;
     if (date >= from && date <= until) {
