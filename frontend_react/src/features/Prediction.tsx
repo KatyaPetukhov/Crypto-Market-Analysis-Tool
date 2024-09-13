@@ -62,42 +62,44 @@ const Prediction = () => {
 };
 
 const PredictionSpeedometer = (value: number, text: string, colors: any) => (
-  <div key={colors.key} className="flex flex-col items-center px-8 mt-10 ">
-    <ReactSpeedometer
-      width={500}
-      needleHeightRatio={0.7}
-      value={value}
-      customSegmentStops={[0, 250, 750, 1000]}
-      segmentColors={[
-        colors.segment_one,
-        colors.segment_two,
-        colors.segment_three,
-      ]}
-      currentValueText={text}
-      customSegmentLabels={[
-        {
-          text: "Sell",
-          position: "OUTSIDE" as CustomSegmentLabelPosition,
-          color: colors.text,
-        },
-        {
-          text: "Hold",
-          position: "OUTSIDE" as CustomSegmentLabelPosition,
-          color: colors.text,
-        },
-        {
-          text: "Buy",
-          position: "OUTSIDE" as CustomSegmentLabelPosition,
-          color: colors.text,
-        },
-      ]}
-      ringWidth={47}
-      needleTransitionDuration={2500}
-      // needleTransition="easeElastic"
-      needleColor={colors.needle}
-      textColor={colors.text}
-    />
-  </div>
+  <section className="container mx-auto px-6 py-8">
+    <div key={colors.key} className="flex flex-col items-center px-8 mt-10 ">
+      <ReactSpeedometer
+        width={500}
+        needleHeightRatio={0.7}
+        value={value}
+        customSegmentStops={[0, 250, 750, 1000]}
+        segmentColors={[
+          colors.segment_one,
+          colors.segment_two,
+          colors.segment_three,
+        ]}
+        currentValueText={text}
+        customSegmentLabels={[
+          {
+            text: "Sell",
+            position: "OUTSIDE" as CustomSegmentLabelPosition,
+            color: colors.text,
+          },
+          {
+            text: "Hold",
+            position: "OUTSIDE" as CustomSegmentLabelPosition,
+            color: colors.text,
+          },
+          {
+            text: "Buy",
+            position: "OUTSIDE" as CustomSegmentLabelPosition,
+            color: colors.text,
+          },
+        ]}
+        ringWidth={47}
+        needleTransitionDuration={2500}
+        // needleTransition="easeElastic"
+        needleColor={colors.needle}
+        textColor={colors.text}
+      />
+    </div>
+  </section>
 );
 
 export default Prediction;
