@@ -2,7 +2,7 @@
   "name": "frontend_react",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://hadidanial.github.io/Crypto-Market-Analysis-Tool/frontend_react/build/",
+  "homepage": "https://KatyaPetukhov.github.io/Crypto-Market-Analysis-Tool/frontend_react/build/",
   "dependencies": {
     "@headlessui/react": "^2.1.3",
     "@heroicons/react": "^2.1.5",
