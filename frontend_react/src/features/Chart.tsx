@@ -125,7 +125,9 @@ const Chart = () => {
   useEffect(() => {
     function createChart() {
       if (data === undefined) return;
-      const dataSet = data.map((row) => parseFloat(row.Close.replace(",", "")));
+      // const dataSet = data.map((row) => parseFloat(row.Close.replace(",", "")));
+      const dataSet = data.map((row) => parseFloat(row.Close));
+
       const dataFinal = {
         labels: data.map((row) => row.Date),
         datasets: [

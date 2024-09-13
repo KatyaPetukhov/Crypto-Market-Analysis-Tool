@@ -68,7 +68,7 @@ const crawlBitcoinHistory = async (
   }
 
   //return parsedCSV.data;
-  return bitcoinHistory;
+  return bitcoinHistory.reverse();
 };
 
 function readBitcoinHistory(fileName: string) {
