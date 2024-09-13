@@ -54,13 +54,21 @@ const crawlBitcoinHistory = async (
 
   const parsedCSV = Papa.parse<PricesHistory>(data, { header: true });
   const bitcoinHistory: BitcoinHistory[] = [];
-  for (let i = parsedCSV.data.length - 1; i >= 0; i -= intervalNum) {
+  const filteredRows = [];
+  for (let i = parsedCSV.data.length - 1; i >= 0; i--) {
+    let date = new Date(parsedCSV.data[i].snapped_at.split(" ")[0]).getTime();
+    if (date >= from && date <= until) {
+      filteredRows.push(parsedCSV.data[i]);
+    }
+  }
+
+  for (let i = filteredRows.length - 1; i >= 0; i -= intervalNum) {
     const row: BitcoinHistory = {
-      Date: parsedCSV.data[i].snapped_at.split(" ")[0],
+      Date: filteredRows[i].snapped_at.split(" ")[0],
       Open: "",
       High: "",
       Low: "",
-      Close: parsedCSV.data[i].price,
+      Close: filteredRows[i].price,
       AdjClose: "",
       Volume: "",
     };
