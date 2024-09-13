@@ -56,7 +56,8 @@ const crawlBitcoinHistory = async (
   const bitcoinHistory: BitcoinHistory[] = [];
   const filteredRows = [];
   for (let i = parsedCSV.data.length - 1; i >= 0; i--) {
-    let date = new Date(parsedCSV.data[i].snapped_at.split(" ")[0]).getTime();
+    let date =
+      new Date(parsedCSV.data[i].snapped_at.split(" ")[0]).getTime() / 1000;
     if (date >= from && date <= until) {
       filteredRows.push(parsedCSV.data[i]);
     }
