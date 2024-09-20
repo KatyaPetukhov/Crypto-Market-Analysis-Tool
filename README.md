@@ -6,6 +6,8 @@
 ## [Project Book Phase A](https://docs.google.com/document/d/1onFcRNV8pONN4h3xB_etXjv_3aBrxOotV_fql6p8RA4/edit?usp=sharing) 
 ## [Presentation Phase A](https://ebraude-my.sharepoint.com/:p:/g/personal/ekateryna_petukhov_e_braude_ac_il/Ed_F39xPIR5ElD9p-zZhsicB87ceT1P820i9uAAW7mm3jw?e=Ht83Hn) 
 
+## [Project Book Phase B](https://docs.google.com/document/d/1cuthBdclnCoFxYYJwCEDm6qSBseQPiR6e1uuJC7Zvn4/edit?usp=sharing) 
+
 
 # Crypto Market Analysis Tool
 
