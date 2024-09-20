@@ -9,6 +9,9 @@
 ## [Project Book Phase B](https://docs.google.com/document/d/1cuthBdclnCoFxYYJwCEDm6qSBseQPiR6e1uuJC7Zvn4/edit?usp=sharing) 
 
 
+## [User Guide](https://docs.google.com/document/d/1FgUQwCN_jq-mKYynE5IpqQcqogi78e3LYbS6njR6Vqc/edit?usp=sharing) 
+
+
 # Crypto Market Analysis Tool
 
  This is the final project for the Advanced Web Technologies course at Braude College of Engineering, by Katya and Aharon, using React w/ Tailwind and TypeScript for the front end, and Node.js and Express.js w/ TypeScript for the back end.
