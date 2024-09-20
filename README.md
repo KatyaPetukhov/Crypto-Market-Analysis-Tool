@@ -7,6 +7,7 @@
 ## [Presentation Phase A](https://ebraude-my.sharepoint.com/:p:/g/personal/ekateryna_petukhov_e_braude_ac_il/Ed_F39xPIR5ElD9p-zZhsicB87ceT1P820i9uAAW7mm3jw?e=Ht83Hn) 
 
 ## [Project Book Phase B](https://docs.google.com/document/d/1cuthBdclnCoFxYYJwCEDm6qSBseQPiR6e1uuJC7Zvn4/edit?usp=sharing) 
+## [Presentation Phase B](https://ebraude-my.sharepoint.com/:p:/g/personal/ekateryna_petukhov_e_braude_ac_il/EVHlpP3qNkFImf6Hn6okEl4Bus9kWtn3Vgb1JWGtJzpsug?e=MKGDUn) 
 
 
 ## [User Guide](https://docs.google.com/document/d/1FgUQwCN_jq-mKYynE5IpqQcqogi78e3LYbS6njR6Vqc/edit?usp=sharing) 
