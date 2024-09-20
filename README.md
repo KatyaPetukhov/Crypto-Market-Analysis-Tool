@@ -10,6 +10,7 @@
 
 
 ## [User Guide](https://docs.google.com/document/d/1FgUQwCN_jq-mKYynE5IpqQcqogi78e3LYbS6njR6Vqc/edit?usp=sharing) 
+## [Maintenance Guide](https://docs.google.com/document/d/1M1q0wT9an3KqwdyO84KF-m2d358TDZasr0o9Ot8VZIs/edit?usp=sharing) 
 
 
 # Crypto Market Analysis Tool
